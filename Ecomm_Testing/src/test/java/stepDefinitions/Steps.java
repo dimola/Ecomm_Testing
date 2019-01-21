@@ -21,7 +21,7 @@ public class Steps {
 
 	@Given("^Login page is loaded$")
 	public void Login_page_is_loaded() throws Throwable {
-		System.setProperty("webdriver.chrome.driver","D:\\chromedriver_win32\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver","D:\\Java\\chromedriver_win32\\chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		 driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
