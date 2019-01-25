@@ -11,11 +11,16 @@ public class LoginPage {
 WebDriver driver;
 ConfigFileReader configFileReader;
 
+
+private String pageUrl;
+
 public LoginPage(WebDriver driver) {
 	this.driver = driver;
 	PageFactory.initElements(driver,  this);
 	configFileReader = new ConfigFileReader();
-}	
+	pageUrl = configFileReader.getApplicationUrl() + configFileReader.getLoginUrl();
+}
+	
 
 
 @FindBy(xpath="//*[@id='username']")
@@ -29,11 +34,11 @@ private WebElement txtbxPassword;
 private WebElement buttonLogin;
 
 
-
-
 public void getLoginPage(WebDriver driver) {
-	driver.get("http://acme.qualityhouse.bg/build3/index.php?page=login");
+	String loginUrl = configFileReader.getLoginUrl();
+	driver.get(loginUrl);
 }
+
 
 
 public void enterUserName(String username) {

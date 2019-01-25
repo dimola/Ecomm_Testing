@@ -9,7 +9,7 @@ import java.util.Properties;
 public class ConfigFileReader {
 	
 	private Properties properties;
-	private final String propertyFilePath= "configs//Configuration.properties";
+	private final String propertyFilePath= "configs/Configuration.properties";
 
 	
 	public ConfigFileReader(){
@@ -42,5 +42,14 @@ public class ConfigFileReader {
 		else throw new RuntimeException("url not specified in the Configuration.properties file.");
 	}
 
+
+	public String getLoginUrl() {
+		String loginUrl = properties.getProperty("loginUrl");
+		if(loginUrl != null) {
+			return loginUrl;
+		} else {
+			throw new RuntimeException("login url not specified in the Configuration.properties file.");
+		}
+	}
 }
 
