@@ -18,16 +18,14 @@ public LoginPage(WebDriver driver) {
 }	
 
 
-@FindBy(xpath="//*[@id='username']")
+@FindBy(id = "username") //id
 private WebElement txtbxUserName;
 
-
-@FindBy(xpath="//*[@id='main-big-col']/form/input[2]")                                              
+@FindBy(css = "input[name='userpass']") //css                                            
 private WebElement txtbxPassword;
 
-@FindBy(xpath="//*[@id='main-big-col']/form/input[3]")
+@FindBy(css = "input[name='ses_login']") //css
 private WebElement buttonLogin;
-
 
 
 
