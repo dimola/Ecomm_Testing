@@ -27,7 +27,7 @@ public class Steps {
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		pageObjectManager = new PageObjectManager(driver);
 		login = pageObjectManager.getLoginPage();
-		login.getLoginPage(driver);
+		login.open(driver);
 	}
 
 	@When("^I type valid username$")

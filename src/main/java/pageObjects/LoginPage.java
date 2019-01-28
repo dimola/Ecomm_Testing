@@ -18,18 +18,18 @@ public LoginPage(WebDriver driver) {
 }	
 
 
-@FindBy(id = "username") //id
+@FindBy(id = "username")
 private WebElement txtbxUserName;
 
-@FindBy(css = "input[name='userpass']") //css                                            
+@FindBy(css = "input[name='userpass']")                                          
 private WebElement txtbxPassword;
 
-@FindBy(css = "input[name='ses_login']") //css
+@FindBy(css = "input[name='ses_login']")
 private WebElement buttonLogin;
 
 
 
-public void getLoginPage(WebDriver driver) {
+public void open(WebDriver driver) {
 	driver.get("http://acme.qualityhouse.bg/build3/index.php?page=login");
 }
 
