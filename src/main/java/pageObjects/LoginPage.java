@@ -18,21 +18,19 @@ public LoginPage(WebDriver driver) {
 }	
 
 
-@FindBy(xpath="//*[@id='username']")
+@FindBy(id = "username")
 private WebElement txtbxUserName;
 
-
-@FindBy(xpath="//*[@id='main-big-col']/form/input[2]")                                              
+@FindBy(css = "input[name='userpass']")                                          
 private WebElement txtbxPassword;
 
-@FindBy(xpath="//*[@id='main-big-col']/form/input[3]")
+@FindBy(css = "input[name='ses_login']")
 private WebElement buttonLogin;
 
 
 
-
-public void getLoginPage(WebDriver driver) {
-	driver.get("http://acme.qualityhouse.bg/build3/index.php?page=login");
+public void open() {
+	this.driver.get("http://acme.qualityhouse.bg/build3/index.php?page=login");
 }
 
 
