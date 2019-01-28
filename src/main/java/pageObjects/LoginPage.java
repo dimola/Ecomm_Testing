@@ -29,8 +29,8 @@ private WebElement buttonLogin;
 
 
 
-public void open(WebDriver driver) {
-	driver.get("http://acme.qualityhouse.bg/build3/index.php?page=login");
+public void open() {
+	this.driver.get("http://acme.qualityhouse.bg/build3/index.php?page=login");
 }
 
 
