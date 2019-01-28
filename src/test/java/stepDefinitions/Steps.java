@@ -14,60 +14,51 @@ import pageObjects.LoginPage;
 
 public class Steps {
 	WebDriver driver;
-	LoginPage login;
+	LoginPage loginPage;
 	PageObjectManager pageObjectManager;
 	ConfigFileReader configFileReader;
 
 	@Given("^Login page is loaded$")
 	public void Login_page_is_loaded() throws Throwable {
-		
+
 		configFileReader = new ConfigFileReader();
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		pageObjectManager = new PageObjectManager(driver);
-		login = pageObjectManager.getLoginPage();
-		login.open();
+		pageObjectManager.getLoginPage().open();
 	}
 
-	@When("^I type valid username$")
-	public void I_type_valid_username() throws Throwable {
-		login = new LoginPage(driver);
-		String username = null;
-		login.enterUserName(username);
-			 
+	@When("^I type valid username \"(.*)\"$")
+	public void I_type_valid_username(String username) throws Throwable {
+		loginPage = new LoginPage(driver);
+		loginPage.enterUserName(username);
+
 	}
 
-	@And("^I type valid password$")
-	public void I_type_valid_password() throws Throwable {
-		login = new LoginPage(driver);
-		String password = null;
-		login.enterPassword(password);
+	@And("^I type valid password \"(.*)\"$")
+	public void I_type_valid_password(String password) throws Throwable {
+		loginPage = new LoginPage(driver);
+		loginPage.enterPassword(password);
 	}
 
 	@And("^I click on Login button$")
 	public void I_click_on_Login_button() throws Throwable {
-		login = new LoginPage(driver);
-		login.clickLogIn();
+		loginPage = new LoginPage(driver);
+		loginPage.clickLogIn();
 	}
 
 	@Then("^I should be successfully logged in$")
 	public void I_should_be_successfully_logged_in() throws Throwable {
-	
-		if(driver.findElements(By.xpath("//*[@id=\"main-menu\"]/a[6]")).size() != 0){
+
+		if (driver.findElements(By.xpath("//*[@id=\"main-menu\"]/a[6]")).size() != 0) {
 			System.out.println("Logout button is Present and user is successfully logged in");
-			}else{
+		} else {
 			System.out.println("Login button is Absent and user is not logged in ");
-			
-			}
-		
-		driver.quit();
+
 		}
-	
+
+		driver.quit();
 	}
 
-
-
-
-
-
+}

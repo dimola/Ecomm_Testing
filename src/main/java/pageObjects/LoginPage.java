@@ -35,12 +35,12 @@ public class LoginPage {
 	}
 
 	public LoginPage enterUserName(String username) {
-		txtbxUserName.sendKeys("student1");
+		txtbxUserName.sendKeys(username);
 		return this;
 	}
 
 	public LoginPage enterPassword(String password) {
-		txtbxPassword.sendKeys("stpass1");
+		txtbxPassword.sendKeys(password);
 		return this;
 	}
 
