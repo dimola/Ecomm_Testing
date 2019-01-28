@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.openqa.selenium.NotFoundException;
+
 public class ConfigFileReader {
 	
 	private Properties properties;
@@ -24,7 +26,7 @@ public class ConfigFileReader {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Configuration.properties not found at " + propertyFilePath);
+			throw new NotFoundException("Configuration.properties not found at " + propertyFilePath);
 		}		
 	}
 	
@@ -33,13 +35,13 @@ public class ConfigFileReader {
 	public long getImplicitlyWait() {		
 		String implicitlyWait = properties.getProperty("implicitlyWait");
 		if(implicitlyWait != null) return Long.parseLong(implicitlyWait);
-		else throw new RuntimeException("implicitlyWait not specified in the Configuration.properties file.");		
+		else throw new NotFoundException("implicitlyWait not specified in the Configuration.properties file.");		
 	}
 	
 	public String getHost() {
 		String url = properties.getProperty("url");
 		if(url != null) return url;
-		else throw new RuntimeException("url not specified in the Configuration.properties file.");
+		else throw new NotFoundException("url not specified in the Configuration.properties file.");
 	}
 
 
@@ -48,7 +50,7 @@ public class ConfigFileReader {
 		if(loginPageUrl != null) {
 			return loginPageUrl;
 		} else {
-			throw new RuntimeException("login url not specified in the Configuration.properties file.");
+			throw new NotFoundException("login url not specified in the Configuration.properties file.");
 		}
 		
 		

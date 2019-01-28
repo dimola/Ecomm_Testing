@@ -8,49 +8,44 @@ import org.openqa.selenium.support.PageFactory;
 import dataProviders.ConfigFileReader;
 
 public class LoginPage {
-WebDriver driver;
-ConfigFileReader configFileReader;
+	WebDriver driver;
+	ConfigFileReader configFileReader;
 
+	private String pageUrl;
 
-private String pageUrl;
+	public LoginPage(WebDriver driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+		configFileReader = new ConfigFileReader();
+		this.pageUrl = configFileReader.getHost() + configFileReader.getLoginPagePath();
+	}
 
-public LoginPage(WebDriver driver) {
-	this.driver = driver;
-	PageFactory.initElements(driver,  this);
-	configFileReader = new ConfigFileReader();
-	this.pageUrl = configFileReader.getHost() + configFileReader.getLoginPagePath();
-}
-	
+	@FindBy(id = "username")
+	private WebElement txtbxUserName;
 
+	@FindBy(css = "input[name='userpass']")
+	private WebElement txtbxPassword;
 
-@FindBy(xpath="//*[@id='username']")
-private WebElement txtbxUserName;
+	@FindBy(css = "input[name='ses_login']")
+	private WebElement buttonLogin;
 
+	public LoginPage open() {
+		driver.get(pageUrl);
+		return this;
+	}
 
-@FindBy(xpath="//*[@id='main-big-col']/form/input[2]")                                              
-private WebElement txtbxPassword;
+	public LoginPage enterUserName(String username) {
+		txtbxUserName.sendKeys("student1");
+		return this;
+	}
 
-@FindBy(xpath="//*[@id='main-big-col']/form/input[3]")
-private WebElement buttonLogin;
+	public LoginPage enterPassword(String password) {
+		txtbxPassword.sendKeys("stpass1");
+		return this;
+	}
 
-
-public void getLoginPage(WebDriver driver) {
-	this.pageUrl = configFileReader.getHost() + configFileReader.getLoginPagePath();
-	driver.get(pageUrl);
-}
-
-
-public void enterUserName(String username) {
-	txtbxUserName.sendKeys("student1");
-}
-
-public void enterPassword(String password) {
-	txtbxPassword.sendKeys("stpass1");
-}
-
-public void clickLogIn() {
-	buttonLogin.click();
-}
+	public void clickLogIn() {
+		buttonLogin.click();
+	}
 
 }
-
