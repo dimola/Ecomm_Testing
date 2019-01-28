@@ -18,7 +18,7 @@ public LoginPage(WebDriver driver) {
 	this.driver = driver;
 	PageFactory.initElements(driver,  this);
 	configFileReader = new ConfigFileReader();
-	pageUrl = configFileReader.getApplicationUrl() + configFileReader.getLoginUrl();
+	this.pageUrl = configFileReader.getHost() + configFileReader.getLoginPagePath();
 }
 	
 
@@ -35,10 +35,9 @@ private WebElement buttonLogin;
 
 
 public void getLoginPage(WebDriver driver) {
-	String loginUrl = configFileReader.getLoginUrl();
-	driver.get(loginUrl);
+	this.pageUrl = configFileReader.getHost() + configFileReader.getLoginPagePath();
+	driver.get(pageUrl);
 }
-
 
 
 public void enterUserName(String username) {

@@ -36,20 +36,28 @@ public class ConfigFileReader {
 		else throw new RuntimeException("implicitlyWait not specified in the Configuration.properties file.");		
 	}
 	
-	public String getApplicationUrl() {
+	public String getHost() {
 		String url = properties.getProperty("url");
 		if(url != null) return url;
 		else throw new RuntimeException("url not specified in the Configuration.properties file.");
 	}
 
 
-	public String getLoginUrl() {
-		String loginUrl = properties.getProperty("loginUrl");
-		if(loginUrl != null) {
-			return loginUrl;
+	public String getLoginPagePath() {
+		String loginPageUrl = properties.getProperty("login-page-path");
+		if(loginPageUrl != null) {
+			return loginPageUrl;
 		} else {
 			throw new RuntimeException("login url not specified in the Configuration.properties file.");
 		}
+		
+		
 	}
 }
+
+
+
+
+
+
 
