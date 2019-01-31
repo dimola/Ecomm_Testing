@@ -1,5 +1,6 @@
 package pageObjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -28,6 +29,9 @@ public class LoginPage {
 
 	@FindBy(css = "input[name='ses_login']")
 	private WebElement buttonLogin;
+	
+	@FindBy(id = "login-timer")
+	private WebElement timerMessage;
 
 	public LoginPage open() {
 		driver.get(pageUrl);
@@ -48,4 +52,29 @@ public class LoginPage {
 		buttonLogin.click();
 	}
 
+	public void enterUsernameAndPassword(String username, String password) {
+		int counter = 0;
+		do {
+			enterUserName(username);
+			enterPassword(password);
+			clickLogIn();
+			counter++;
+		} while (counter < 3);
+	}
+
+	public void isLoginPageOnFocus() {
+		if (driver.findElements(By.id("username")).size() != 0) {
+			System.out.println("User is not logged in when using invalid data");
+		} else {
+			System.out.println("User is logged in successfully");
+		}
+	}
+
+	public void timerIsDisplayed() {
+		if (driver.findElements(By.id("login-timer")).size() != 0) {
+			System.out.println("Too many unsuccessful login attempts! Please try again in 0:30!");
+		} else {
+			System.out.println("Login timer is not displayed and user is not logged in ");
+		}
+	}
 }
