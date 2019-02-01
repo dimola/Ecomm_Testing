@@ -1,10 +1,10 @@
 package pageObjects;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
 import dataProviders.ConfigFileReader;
 
 public class HomePage {
@@ -19,15 +19,19 @@ public class HomePage {
 		this.pageUrl = configFileReader.getHost() + configFileReader.getHomePagePath();
 	}
 
-	@FindBy(xpath = "//*[@id='product-list']/div")
-	private WebElement bookCategoryOption;
+	@FindBy(css = "#main-big-col h3")
+	private WebElement pageHeadingTitle;
 
-	public void isHomePageOnFocus() {
-		if (driver.findElements(By.xpath("//*[@id=\"main-big-col\"]/h3")).size() != 0) {
-			System.out.println("User is not logged in when using invalid data");
-		} else {
-			System.out.println("User is logged in successfully");
-
+	public boolean isHomePageOnFocus() {
+		boolean result = false;
+		try {
+			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Home");
+		} catch (Throwable e) {
+			System.err.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage()); 
+																												
 		}
+
+		return result;
 	}
+
 }

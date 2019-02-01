@@ -49,13 +49,14 @@ public class LoginPage {
 
 	}
 
-	public void isLoginPageOnFocus() {
-		if (driver.findElements(By.id("username")).size() != 0) {
-			System.out.println("User is not logged in when using invalid data");
-		} else {
-			System.out.println("User is logged in successfully");
+	public boolean isLoginPageOnFocus() {
+		boolean result = false;
+		try {
+			result = this.txtbxUserName.isDisplayed();
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage());
 
 		}
-
+		return result;
 	}
 }
