@@ -7,14 +7,19 @@ import cucumber.api.java.en.When;
 import dataProviders.ConfigFileReader;
 import managers.PageObjectManager;
 import java.util.concurrent.TimeUnit;
+
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import pageObjects.BooksPage;
 import pageObjects.LoginPage;
 
 public class Steps {
 	WebDriver driver;
 	LoginPage loginPage;
+	BooksPage booksPage;
 	PageObjectManager pageObjectManager;
 	ConfigFileReader configFileReader;
 
@@ -59,6 +64,25 @@ public class Steps {
 		}
 
 		driver.quit();
+	}
+
+	@Test
+
+	@When("^I redirect to books page$")
+	public void I_redirect_to_books_page() throws Throwable {
+		configFileReader = new ConfigFileReader();
+		driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		pageObjectManager = new PageObjectManager(driver);
+		pageObjectManager.getBooksPage().open();
+	}
+
+	@Then("^The header the books categories and the search field are displayed$")
+	public void The_header_the_books_categories_and_the_search_field_are_displayed() throws Throwable {
+		booksPage = new BooksPage(driver);
+		booksPage.checkData();
+
 	}
 
 }
