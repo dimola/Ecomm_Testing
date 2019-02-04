@@ -59,4 +59,10 @@ public class LoginPage {
 		}
 		return result;
 	}
+	
+	public void LoggedInUser(String username, String password) {
+		enterUserName(username);
+		enterPassword(password);
+		clickLogIn();
+	}
 }

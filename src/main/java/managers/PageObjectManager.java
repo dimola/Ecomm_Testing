@@ -8,11 +8,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import dataProviders.ConfigFileReader;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
+import pageObjects.LogoutPage;
 
 public class PageObjectManager {
 	private WebDriver driver;
 	private LoginPage loginPage;
 	private HomePage homePage;
+	private LogoutPage logoutPage;
 	private static PageObjectManager pageObjectManager;
 
 	public static void init() {
@@ -40,6 +42,10 @@ public class PageObjectManager {
 
 	public HomePage getHomePage() {
 		return (homePage == null) ? homePage = new HomePage(driver) : homePage;
+	}
+	
+	public LogoutPage getLogoutPage() {
+		return (logoutPage == null) ? logoutPage = new LogoutPage(driver) : logoutPage;
 	}
 
 	public void quit() {

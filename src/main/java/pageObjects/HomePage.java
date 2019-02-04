@@ -1,5 +1,6 @@
 package pageObjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,6 +22,9 @@ public class HomePage {
 
 	@FindBy(css = "#main-big-col h3")
 	private WebElement pageHeadingTitle;
+	
+	@FindBy(css = "a[href^='index.php?page=logout']")
+	private WebElement buttonLogout;
 
 	public boolean isHomePageOnFocus() {
 		boolean result = false;
@@ -33,5 +37,21 @@ public class HomePage {
 
 		return result;
 	}
+	
+	public void clickLogOut() {
+		buttonLogout.click();
+	}
 
+	public boolean isLoggedOut() {
+		boolean result = false;
+		try {
+			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Home") && (driver.findElements(By.cssSelector("#main-menu > a:nth-child(6)")).size() != 0);
+		} catch (Throwable e) {
+			System.err.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage()); 
+																												
+		}
+
+		return result;
+	}
+	
 }
