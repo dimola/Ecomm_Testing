@@ -1,11 +1,9 @@
 package pageObjects;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
 import dataProviders.ConfigFileReader;
 
 public class LoginPage {
@@ -50,6 +48,7 @@ public class LoginPage {
 
 	public void clickLogIn() {
 		buttonLogin.click();
+
 	}
 
 	public void enterUsernameAndPassword(String username, String password) {
@@ -61,20 +60,24 @@ public class LoginPage {
 			counter++;
 		} while (counter < 3);
 	}
-
-	public void isLoginPageOnFocus() {
-		if (driver.findElements(By.id("username")).size() != 0) {
-			System.out.println("User is not logged in when using invalid data");
-		} else {
-			System.out.println("User is logged in successfully");
-		}
+	public boolean timerIsDisplayed() {
+		boolean result = false;
+			try {
+				result = timerMessage.isDisplayed();	
+			} catch(Throwable e) {
+				System.out.println("Login timer is not displayed and user is not logged in " + e.getMessage());	
+			}
+		return result;
 	}
 
-	public void timerIsDisplayed() {
-		if (driver.findElements(By.id("login-timer")).size() != 0) {
-			System.out.println("Too many unsuccessful login attempts! Please try again in 0:30!");
-		} else {
-			System.out.println("Login timer is not displayed and user is not logged in ");
+	public boolean isLoginPageOnFocus() {
+		boolean result = false;
+		try {
+			result = this.txtbxUserName.isDisplayed();
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage());
+
 		}
+		return result;
 	}
 }
