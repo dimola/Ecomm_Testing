@@ -52,7 +52,7 @@ public class Steps {
 
 	@And("^I am logged in with credentials \"([^\"]*)\" and \"([^\"]*)\"$")
 	public void I_am_logged_in_with_credentials_and(String username, String password) throws Throwable {
-		pageObjectManager.getLoginPage().LoggedInUser(username, password);
+		pageObjectManager.getLoginPage().login(username, password);
 	}
 
 	@When("^I click on Logout$")
