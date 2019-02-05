@@ -1,6 +1,5 @@
 package pageObjects;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -31,6 +30,12 @@ public class HomePage {
 
 	@FindBy(css = "a[href^='index.php?page=register']")
 	private WebElement buttonRegister;
+
+	@FindBy(css = "a[href^='index.php?page=books']")
+	private WebElement booksCategoryButton;
+
+	@FindBy(css = "a[href^='index.php?page=cds']")
+	private WebElement cdsCategoryButton;
 
 	public boolean isHomePageOnFocus() {
 		boolean result = false;
@@ -68,4 +73,16 @@ public class HomePage {
 		return result;
 	}
 
+	public HomePage open() {
+		driver.get(pageUrl);
+		return this;
+	}
+
+	public void selectBookCategory() {
+		booksCategoryButton.click();
+	}
+
+	public void selectCdsCategory() {
+		cdsCategoryButton.click();	
+	}
 }

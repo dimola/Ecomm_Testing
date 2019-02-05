@@ -27,7 +27,6 @@ public class Steps {
 	@And("^I type password \"(.*)\"$")
 	public void I_type_password(String password) throws Throwable {
 		pageObjectManager.getLoginPage().enterPassword(password);
-
 	}
 
 	@And("^I click on Login button$")
@@ -38,7 +37,6 @@ public class Steps {
 	@Then("^I should be successfully logged in$")
 	public void I_should_be_successfully_logged_in() throws Throwable {
 		Assert.assertTrue(pageObjectManager.getHomePage().isHomePageOnFocus());
-
 	}
 
 	// TC 2 Login with invalid credentials
@@ -68,6 +66,29 @@ public class Steps {
 	@Then("^I am succesfully logged out$")
 	public void I_am_successfully_logged_out() throws Throwable {
 		Assert.assertTrue("The user is not successfully logged out!", pageObjectManager.getHomePage().isLoggedOut());
+	}
+	
+	// TC 20 Verify that links are redirecting to correct place
+	
+	@Given("^Home page is loaded$")
+	public void Home_page_is_loaded() throws Throwable {
+		pageObjectManager = PageObjectManager.getManager();
+		pageObjectManager.getHomePage().open();
+	}
+
+	@When("^I click on a certain category \"([^\"]*)\"$")
+	public void I_click_on_a_certain_category(String category) throws Throwable {
+		if (category == "Books") {
+			pageObjectManager.getHomePage().selectBookCategory();
+		} else
+			pageObjectManager.getHomePage().selectCdsCategory();
+	}
+
+	@Then("^I am redirected to the respective category \"([^\"]*)\"$")
+	public void I_am_redirected_to_the_respective_category(String page) throws Throwable {
+		if (page == "BooksPage") {
+			Assert.assertTrue("Problems while verifying that Books Category Page is displayed", pageObjectManager.getBooksPage().isBooksPageOnFocus());
+		} else Assert.assertTrue("Problems while verifying that Cds Category Page is displayed",pageObjectManager.getCdsPage().isCdsPageOnFocus());	
 	}
 
 	@After
