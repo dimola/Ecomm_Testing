@@ -12,9 +12,6 @@ import managers.PageObjectManager;
 public class Steps {
 	PageObjectManager pageObjectManager;
 
-	@Before public void setUp(){ 
-	}
-
 	@Given("^Login page is loaded$")
 	public void Login_page_is_loaded() throws Throwable {
 		pageObjectManager = PageObjectManager.getManager();
@@ -39,25 +36,26 @@ public class Steps {
 
 	@Then("^I should be successfully logged in$")
 	public void I_should_be_successfully_logged_in() throws Throwable {
-		pageObjectManager.getHomePage().isHomePageOnFocus();
+		Assert.assertTrue("Home page is not on focus", pageObjectManager.getHomePage().isHomePageOnFocus());
 	}
 
 	@When("^I try to login three times with invalid credentials \"([^\"]*)\" and \"([^\"]*)\"$")
 	public void I_try_to_login_three_times_with_invalid_credentials_and(String username, String password)
 			throws Throwable {
-		pageObjectManager.getLoginPage().enterUsernameAndPassword(username, password);
-		Assert.assertTrue(pageObjectManager.getLoginPage().timerIsDisplayed());
+		pageObjectManager.getLoginPage().login(username, password);
+		pageObjectManager.getLoginPage().login(username, password);
+		pageObjectManager.getLoginPage().login(username, password);
 	}
 
 	@Then("^An error message is displayed$")
 	public void An_error_message_is_displayed() throws Throwable {
-		Assert.assertTrue(pageObjectManager.getLoginPage().timerIsDisplayed());
+		Assert.assertTrue("Timer is not displayed", pageObjectManager.getLoginPage().timerIsDisplayed());
 
 	}
 
 	@Then("^I am not logged in the system$")
 	public void I_am_not_logged_in_the_system() throws Throwable {
-		Assert.assertTrue(pageObjectManager.getLoginPage().isLoginPageOnFocus());
+		Assert.assertTrue("Home page is not on focus", pageObjectManager.getLoginPage().isLoginPageOnFocus());
 	}
 
 	@After

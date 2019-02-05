@@ -48,23 +48,14 @@ public class LoginPage {
 
 	public void clickLogIn() {
 		buttonLogin.click();
-
 	}
-
-	public void enterUsernameAndPassword(String username, String password) {
-		int counter = 0;
-		do {
-			enterUserName(username);
-			enterPassword(password);
-			clickLogIn();
-			counter++;
-		} while (counter < 3);
-	}
+	
 	public boolean timerIsDisplayed() {
 		boolean result = false;
 			try {
 				result = timerMessage.isDisplayed();	
-			} catch(Throwable e) {
+			}
+			catch(Throwable e) {
 				System.out.println("Login timer is not displayed and user is not logged in " + e.getMessage());	
 			}
 		return result;
@@ -74,10 +65,16 @@ public class LoginPage {
 		boolean result = false;
 		try {
 			result = this.txtbxUserName.isDisplayed();
-		} catch (Throwable e) {
+		} 
+		catch (Throwable e) {
 			System.out.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage());
-
 		}
 		return result;
+	}
+	
+	public void login(String username, String password) {
+		enterUserName(username);
+		enterPassword(password);
+		clickLogIn();
 	}
 }

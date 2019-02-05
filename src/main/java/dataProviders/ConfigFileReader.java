@@ -10,7 +10,6 @@ import org.openqa.selenium.NotFoundException;
 
 public class ConfigFileReader {
 
-
 	private static final long DEFAULT_TIMEOUT = 50;
 	private Properties properties;
 	private final String propertyFilePath = "configs/Configuration.properties";
@@ -27,7 +26,6 @@ public class ConfigFileReader {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-
 			System.err.println("Configuration.properties not found at " + propertyFilePath);
 			System.exit(1); 
 		}
