@@ -62,7 +62,6 @@ public class HomePage {
 			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Home")
 					&& this.buttonLogin.isDisplayed() && this.buttonRegister.isDisplayed()
 					&& this.logOutButtonIsNotPresent();
-					//&& (this.buttonLogout.getSize().equals(null));
 		} catch (Throwable e) {
 			System.err.println(
 					"Problem while checking if Home Page for logged out user is displayed so buttons Register and Login exist and button Logout does not :"

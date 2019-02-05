@@ -68,7 +68,7 @@ public class Steps {
 
 	@Then("^I am succesfully logged out$")
 	public void I_am_successfully_logged_out() throws Throwable {
-		Assert.assertTrue(pageObjectManager.getHomePage().isLoggedOut());
+		Assert.assertTrue("The user is not successfully logged out!",pageObjectManager.getHomePage().isLoggedOut());
 	}
 
 	@After
