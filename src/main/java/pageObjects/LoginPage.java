@@ -4,7 +4,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
 import dataProviders.ConfigFileReader;
 
 public class LoginPage {
@@ -46,6 +45,17 @@ public class LoginPage {
 
 	public void clickLogIn() {
 		buttonLogin.click();
+
 	}
 
+	public boolean isLoginPageOnFocus() {
+		boolean result = false;
+		try {
+			result = this.txtbxUserName.isDisplayed();
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage());
+
+		}
+		return result;
+	}
 }
