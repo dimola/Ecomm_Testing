@@ -43,7 +43,7 @@ public class PageObjectManager {
 	public HomePage getHomePage() {
 		return (homePage == null) ? homePage = new HomePage(driver) : homePage;
 	}
-	
+
 	public LogoutPage getLogoutPage() {
 		return (logoutPage == null) ? logoutPage = new LogoutPage(driver) : logoutPage;
 	}

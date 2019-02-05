@@ -20,11 +20,10 @@ public class LogoutPage {
 		configFileReader = new ConfigFileReader();
 		this.pageUrl = configFileReader.getHost() + configFileReader.getLoginPagePath();
 	}
-	
+
 	@FindBy(css = "a[href^='index.php?ses_logout=1']")
 	private WebElement buttonConfirmLogout;
-	
-	
+
 	public void clickConfirmLogOut() {
 		buttonConfirmLogout.click();
 	}

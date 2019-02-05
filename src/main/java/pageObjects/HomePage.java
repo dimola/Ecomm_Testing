@@ -38,9 +38,7 @@ public class HomePage {
 			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Home");
 		} catch (Throwable e) {
 			System.err.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage());
-
 		}
-
 		return result;
 	}
 
@@ -66,9 +64,7 @@ public class HomePage {
 			System.err.println(
 					"Problem while checking if Home Page for logged out user is displayed so buttons Register and Login exist and button Logout does not :"
 							+ e.getMessage());
-
 		}
-
 		return result;
 	}
 
