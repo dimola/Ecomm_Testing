@@ -71,7 +71,7 @@ public class LoginPage {
 		}
 		return result;
 	}
-	
+
 	public void login(String username, String password) {
 		enterUserName(username);
 		enterPassword(password);
