@@ -48,13 +48,36 @@ public class Steps {
 		Assert.assertTrue(pageObjectManager.getLoginPage().isLoginPageOnFocus());
 	}
 
+	// TC 3 Logout
+
+	@And("^I am logged in with credentials \"([^\"]*)\" and \"([^\"]*)\"$")
+	public void I_am_logged_in_with_credentials_and(String username, String password) throws Throwable {
+		pageObjectManager.getLoginPage().login(username, password);
+	}
+
+	@When("^I click on Logout$")
+	public void I_click_on_Logout() throws Throwable {
+		pageObjectManager.getHomePage().clickLogOut();
+	}
+
+	@And("^I confirm the logout$")
+	public void I_confirm_the_Logout() throws Throwable {
+		pageObjectManager.getLogoutPage().clickConfirmLogOut();
+	}
+
+	@Then("^I am succesfully logged out$")
+	public void I_am_successfully_logged_out() throws Throwable {
+		Assert.assertTrue("The user is not successfully logged out!", pageObjectManager.getHomePage().isLoggedOut());
+	}
+
 	@After
 	public void cleanUp() {
 		pageObjectManager.quit();
 	}
 
 	@Before
-	public void init( ) {
+	public void init() {
 		PageObjectManager.init();
 	}
+
 }

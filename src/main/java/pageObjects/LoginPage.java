@@ -46,7 +46,6 @@ public class LoginPage {
 
 	public void clickLogIn() {
 		buttonLogin.click();
-
 	}
 
 	public boolean isLoginPageOnFocus() {
@@ -55,8 +54,13 @@ public class LoginPage {
 			result = this.txtbxUserName.isDisplayed();
 		} catch (Throwable e) {
 			System.out.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage());
-
 		}
 		return result;
+	}
+
+	public void login(String username, String password) {
+		enterUserName(username);
+		enterPassword(password);
+		clickLogIn();
 	}
 }
