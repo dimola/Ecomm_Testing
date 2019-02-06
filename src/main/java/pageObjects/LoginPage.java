@@ -1,6 +1,5 @@
 package pageObjects;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -28,6 +27,9 @@ public class LoginPage {
 
 	@FindBy(css = "input[name='ses_login']")
 	private WebElement buttonLogin;
+	
+	@FindBy(id = "login-timer")
+	private WebElement timerMessage;
 
 	public LoginPage open() {
 		driver.get(pageUrl);
@@ -47,12 +49,24 @@ public class LoginPage {
 	public void clickLogIn() {
 		buttonLogin.click();
 	}
+	
+	public boolean timerIsDisplayed() {
+		boolean result = false;
+			try {
+				result = timerMessage.isDisplayed();	
+			}
+			catch(Throwable e) {
+				System.out.println("Login timer is not displayed and user is not logged in " + e.getMessage());	
+			}
+		return result;
+	}
 
 	public boolean isLoginPageOnFocus() {
 		boolean result = false;
 		try {
 			result = this.txtbxUserName.isDisplayed();
-		} catch (Throwable e) {
+		} 
+		catch (Throwable e) {
 			System.out.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage());
 		}
 		return result;

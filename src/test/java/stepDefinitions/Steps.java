@@ -1,5 +1,4 @@
 package stepDefinitions;
-
 import org.junit.Assert;
 
 import cucumber.api.java.After;
@@ -37,15 +36,26 @@ public class Steps {
 
 	@Then("^I should be successfully logged in$")
 	public void I_should_be_successfully_logged_in() throws Throwable {
-		Assert.assertTrue(pageObjectManager.getHomePage().isHomePageOnFocus());
+		Assert.assertTrue("Home page is not on focus", pageObjectManager.getHomePage().isHomePageOnFocus());
+	}
+
+	@When("^I try to login three times with invalid credentials \"([^\"]*)\" and \"([^\"]*)\"$")
+	public void I_try_to_login_three_times_with_invalid_credentials_and(String username, String password)
+			throws Throwable {
+		pageObjectManager.getLoginPage().login(username, password);
+		pageObjectManager.getLoginPage().login(username, password);
+		pageObjectManager.getLoginPage().login(username, password);
+	}
+
+	@Then("^An error message is displayed$")
+	public void An_error_message_is_displayed() throws Throwable {
+		Assert.assertTrue("Timer is not displayed", pageObjectManager.getLoginPage().timerIsDisplayed());
 
 	}
 
-	// TC 2 Login with invalid credentials
-
 	@Then("^I am not logged in the system$")
 	public void I_am_not_logged_in_the_system() throws Throwable {
-		Assert.assertTrue(pageObjectManager.getLoginPage().isLoginPageOnFocus());
+		Assert.assertTrue("Home page is not on focus", pageObjectManager.getLoginPage().isLoginPageOnFocus());
 	}
 
 	// TC 3 Logout
