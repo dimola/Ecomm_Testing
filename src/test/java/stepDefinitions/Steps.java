@@ -1,7 +1,6 @@
 package stepDefinitions;
 
 import org.junit.Assert;
-
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -30,7 +29,7 @@ public class Steps {
 
 	@Then("^I am not logged in the system$")
 	public void I_am_not_logged_in_the_system() throws Throwable {
-		Assert.assertTrue("Home page is not on focus", pageObjectManager.getLoginPage().isLoginPageOnFocus());
+		Assert.assertTrue("Home page is not on focus", pageObjectManager.getLoginPage().isOpen());
 	}
 
 	@Then("^An error message is displayed$")
@@ -59,9 +58,9 @@ public class Steps {
 		Assert.assertFalse("Logout button is displayed after logout",
 				pageObjectManager.getHomePage().isLogoutButtonDisplayed());
 	}
-	
+
 	// TC 20 Verify that links are redirecting to correct place
-	
+
 	@Given("^Home page is loaded$")
 	public void Home_page_is_loaded() throws Throwable {
 		pageObjectManager = PageObjectManager.getManager();
@@ -79,8 +78,11 @@ public class Steps {
 	@Then("^I am redirected to the respective category \"([^\"]*)\"$")
 	public void I_am_redirected_to_the_respective_category(String page) throws Throwable {
 		if (page == "BooksPage") {
-			Assert.assertTrue("Problems while verifying that Books Category Page is displayed", pageObjectManager.getBooksPage().isOpen());
-		} else Assert.assertTrue("Problems while verifying that Cds Category Page is displayed",pageObjectManager.getCdsPage().isOpen());	
+			Assert.assertTrue("Problems while verifying that Books Category Page is displayed",
+					pageObjectManager.getBooksPage().isOpen());
+		} else
+			Assert.assertTrue("Problems while verifying that Cds Category Page is displayed",
+					pageObjectManager.getCdsPage().isOpen());
 	}
 
 	@After
