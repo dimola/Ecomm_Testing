@@ -3,21 +3,9 @@ package pageObjects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import dataProviders.ConfigFileReader;
 
-public class LoginPage {
-	WebDriver driver;
-	ConfigFileReader configFileReader;
-
-	private String pageUrl;
-
-	public LoginPage(WebDriver driver) {
-		this.driver = driver;
-		PageFactory.initElements(driver, this);
-		configFileReader = new ConfigFileReader();
-		this.pageUrl = configFileReader.getHost() + configFileReader.getLoginPagePath();
-	}
+public class LoginPage extends GeneralPage {
+	private static final String PAGE_URL = "/index.php?page=login";
 
 	@FindBy(id = "username")
 	private WebElement txtbxUserName;
@@ -27,13 +15,29 @@ public class LoginPage {
 
 	@FindBy(css = "input[name='ses_login']")
 	private WebElement buttonLogin;
-	
+
 	@FindBy(id = "login-timer")
 	private WebElement timerMessage;
 
+	public LoginPage(WebDriver driver) {
+		super(driver);
+	}
+
+	@Override
 	public LoginPage open() {
-		driver.get(pageUrl);
+		this.driver.get(this.configFileReader.getHost() + PAGE_URL);
 		return this;
+	}
+
+	@Override
+	public boolean isOpen() {
+		boolean result = false;
+		try {
+			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Login");
+		} catch (Throwable e) {
+			System.err.println("Problem while checking if Login Page Heading is displayed: " + e.getMessage());
+		}
+		return result;
 	}
 
 	public LoginPage enterUserName(String username) {
@@ -49,25 +53,13 @@ public class LoginPage {
 	public void clickLogIn() {
 		buttonLogin.click();
 	}
-	
+
 	public boolean timerIsDisplayed() {
 		boolean result = false;
-			try {
-				result = timerMessage.isDisplayed();	
-			}
-			catch(Throwable e) {
-				System.out.println("Login timer is not displayed and user is not logged in " + e.getMessage());	
-			}
-		return result;
-	}
-
-	public boolean isLoginPageOnFocus() {
-		boolean result = false;
 		try {
-			result = this.txtbxUserName.isDisplayed();
-		} 
-		catch (Throwable e) {
-			System.out.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage());
+			result = timerMessage.isDisplayed();
+		} catch (Throwable e) {
+			System.out.println("Login timer is not displayed and user is not logged in " + e.getMessage());
 		}
 		return result;
 	}
