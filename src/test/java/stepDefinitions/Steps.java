@@ -59,6 +59,29 @@ public class Steps {
 		Assert.assertFalse("Logout button is displayed after logout",
 				pageObjectManager.getHomePage().isLogoutButtonDisplayed());
 	}
+	
+	// TC 20 Verify that links are redirecting to correct place
+	
+	@Given("^Home page is loaded$")
+	public void Home_page_is_loaded() throws Throwable {
+		pageObjectManager = PageObjectManager.getManager();
+		pageObjectManager.getHomePage().open();
+	}
+
+	@When("^I click on a certain category \"([^\"]*)\"$")
+	public void I_click_on_a_certain_category(String category) throws Throwable {
+		if (category == "Books") {
+			pageObjectManager.getHomePage().selectBookCategory();
+		} else
+			pageObjectManager.getHomePage().selectCdsCategory();
+	}
+
+	@Then("^I am redirected to the respective category \"([^\"]*)\"$")
+	public void I_am_redirected_to_the_respective_category(String page) throws Throwable {
+		if (page == "BooksPage") {
+			Assert.assertTrue("Problems while verifying that Books Category Page is displayed", pageObjectManager.getBooksPage().isOpen());
+		} else Assert.assertTrue("Problems while verifying that Cds Category Page is displayed",pageObjectManager.getCdsPage().isOpen());	
+	}
 
 	@After
 	public void cleanUp() {
