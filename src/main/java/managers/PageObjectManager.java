@@ -4,6 +4,8 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import dataProviders.ConfigFileReader;
+import pageObjects.BooksPage;
+import pageObjects.CdsPage;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import pageObjects.LogoutPage;
@@ -15,6 +17,9 @@ public class PageObjectManager {
 	private LoginPage loginPage;
 	private HomePage homePage;
 	private LogoutPage logoutPage;
+	private BooksPage booksPage;
+	private CdsPage cdsPage;
+
 	private static PageObjectManager pageObjectManager;
 
 	public static void init() {
@@ -46,6 +51,14 @@ public class PageObjectManager {
 
 	public LogoutPage getLogoutPage() {
 		return (logoutPage == null) ? logoutPage = new LogoutPage(driver) : logoutPage;
+	}
+
+	public BooksPage getBooksPage() {
+		return (booksPage == null) ? booksPage = new BooksPage(driver) : booksPage;
+	}
+
+	public CdsPage getCdsPage() {
+		return (cdsPage == null) ? cdsPage = new CdsPage(driver) : cdsPage;
 	}
 
 	public void quit() {

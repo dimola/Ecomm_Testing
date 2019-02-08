@@ -1,9 +1,19 @@
 package pageObjects;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import dataProviders.ConfigFileReader;
 
 public class HomePage extends GeneralPage {
 	private static final String PAGE_URL = "/index.php?page=home";
+
+	@FindBy(css = "a[href^='index.php?page=books']")
+	private WebElement booksCategoryButton;
+
+	@FindBy(css = "a[href^='index.php?page=cds']")
+	private WebElement cdsCategoryButton;
 
 	public HomePage(WebDriver driver) {
 		super(driver);
@@ -11,7 +21,8 @@ public class HomePage extends GeneralPage {
 
 	@Override
 	public HomePage open() {
-		this.driver.get(PAGE_URL);
+		configFileReader = new ConfigFileReader();
+		this.driver.get(configFileReader.getHost() + PAGE_URL);
 		return this;
 	}
 
@@ -26,4 +37,19 @@ public class HomePage extends GeneralPage {
 		return result;
 	}
 
+	public boolean logOutButtonIsNotPresent() {
+		if (driver.getPageSource().contains("Logout")) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public void selectBookCategory() {
+		booksCategoryButton.click();
+	}
+
+	public void selectCdsCategory() {
+		cdsCategoryButton.click();
+	}
 }
