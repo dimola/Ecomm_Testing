@@ -40,7 +40,6 @@ public class PageObjectManager {
 		return (loginPage == null) ? loginPage = new LoginPage(driver) : loginPage;
 	}
 
-
 	public BooksPage getBooksPage() {
 		return (booksPage == null) ? booksPage = new BooksPage(driver) : booksPage;
 	}
@@ -50,7 +49,6 @@ public class PageObjectManager {
 	}
 
 	public void quit() {
-		// TODO Auto-generated method stub
 		this.driver.quit();
 		pageObjectManager = null;
 	}
