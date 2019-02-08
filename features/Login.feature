@@ -5,7 +5,7 @@ Feature: Login
     Given Login page is loaded
 
   Scenario: Login with valid credentials
-    When I login with credentials "<string>" and "<string>"
+    When I login with credentials "student1" and "stpass1"
     Then I should be successfully logged in
 
   Scenario Outline: Login with invalid credentials
