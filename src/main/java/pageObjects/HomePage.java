@@ -3,35 +3,53 @@ package pageObjects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import dataProviders.ConfigFileReader;
 
-public class HomePage {
-	WebDriver driver;
-	ConfigFileReader configFileReader;
-	private String pageUrl;
+public class HomePage extends GeneralPage {
+	private static final String PAGE_URL = "/index.php?page=home";
+
+	@FindBy(css = "a[href^='index.php?page=books']")
+	private WebElement booksCategoryButton;
+
+	@FindBy(css = "a[href^='index.php?page=cds']")
+	private WebElement cdsCategoryButton;
 
 	public HomePage(WebDriver driver) {
-		this.driver = driver;
-		PageFactory.initElements(driver, this);
-		configFileReader = new ConfigFileReader();
-		this.pageUrl = configFileReader.getHost() + configFileReader.getHomePagePath();
+		super(driver);
 	}
 
-	@FindBy(css = "#main-big-col h3")
-	private WebElement pageHeadingTitle;
+	@Override
+	public HomePage open() {
+		configFileReader = new ConfigFileReader();
+		this.driver.get(configFileReader.getHost() + PAGE_URL);
+		return this;
+	}
 
-	public boolean isHomePageOnFocus() {
+	@Override
+	public boolean isOpen() {
 		boolean result = false;
 		try {
 			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Home");
 		} catch (Throwable e) {
-			System.err.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage()); 
-																												
+			System.err.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage());
 		}
-
 		return result;
 	}
 
+	public boolean logOutButtonIsNotPresent() {
+		if (driver.getPageSource().contains("Logout")) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public void selectBookCategory() {
+		booksCategoryButton.click();
+	}
+
+	public void selectCdsCategory() {
+		cdsCategoryButton.click();
+	}
 }

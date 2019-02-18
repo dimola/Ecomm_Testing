@@ -56,15 +56,6 @@ public class ConfigFileReader {
 			throw new NotFoundException("login url not specified in the Configuration.properties file.");
 		}
 	}
-
-	public String getBooksPagePath() {
-		String booksPageUrl = properties.getProperty("books-page-path");
-		if (booksPageUrl != null) {
-			return booksPageUrl;
-		} else {
-			throw new NotFoundException("books url not specified in the Configuration.properties file.");
-		}
-	}
 		
 	public String getHomePagePath() {
 		String homePageUrl = properties.getProperty("home-page-path");
@@ -72,6 +63,24 @@ public class ConfigFileReader {
 			return homePageUrl;
 		} else {
 			throw new NotFoundException("login url not specified in the Configuration.properties file.");
+		}
+	}
+	
+	public String getBooksPagePath() {
+		String booksPageUrl = properties.getProperty("books-page-path");
+		if (booksPageUrl != null) {
+			return booksPageUrl;
+		} else {
+			throw new NotFoundException("books page url not specified in the Configuration.properties file.");
+		}
+	}
+	
+	public String getCdsPagePath() {
+		String cdsPageUrl = properties.getProperty("cds-page-path");
+		if (cdsPageUrl != null) {
+			return cdsPageUrl;
+		} else {
+			throw new NotFoundException("cds page url not specified in the Configuration.properties file.");
 		}
 	}
 }

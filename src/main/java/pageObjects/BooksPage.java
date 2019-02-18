@@ -3,121 +3,57 @@ package pageObjects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-import dataProviders.ConfigFileReader;
-import managers.PageObjectManager;
+public class BooksPage extends CategoryPage {
 
-public class BooksPage {
-
-	WebDriver driver;
-	PageObjectManager pageObjectManager;
-	ConfigFileReader configFileReader;
-
-	private String pageUrl;
-
+	private static final String PAGE_URL = "/index.php?page=books";
+	
+	@FindBy(name = "Author")
+	private WebElement authorTextbox;
+	
+	@FindBy(name = "Title")
+	private WebElement titleTextbox;
+	
+	@FindBy(name = "Publisher")
+	private WebElement publisherTextbox;
+	
+	@FindBy(name = "ISBN")
+	private WebElement isbnTextbox;
+		
 	public BooksPage(WebDriver driver) {
-		this.driver = driver;
-		PageFactory.initElements(driver, this);
-		configFileReader = new ConfigFileReader();
-		this.pageUrl = configFileReader.getHost() + configFileReader.getBooksPagePath();
+		super(driver);
 	}
-	
-	@FindBy(id = "logo")
-	private WebElement logo;
-
-	@FindBy(xpath = ("//a[contains(text(),'Home')]"))
-	private WebElement btnHome;
-	
-	@FindBy(xpath = ("//a[contains(text(),'Books')]"))
-	private WebElement btnBooks;
-
-	@FindBy(xpath = ("//a[contains(text(),'CDs')]"))
-	private WebElement btnCds;
-	
-	@FindBy(xpath = ("//a[contains(text(),'Basket')]"))
-	private WebElement btnBasket;
-	
-	@FindBy(xpath = ("//a[contains(text(),'Register')]"))
-	private WebElement btnRegister;
-	
-	@FindBy(xpath = ("//a[contains(text(),'Login')]"))
-	private WebElement btnLogin;
-	
-	@FindBy(xpath = ("//a[contains(text(),'Basket')]"))
-	private WebElement basket;
-	
-	@FindBy(id = "side-menu")
-	private WebElement sideMenu;
-	
-	@FindBy(id = "product-list")
-	private WebElement productList;
-	
-	@FindBy(xpath = ("//td[contains(text(),'Author')]"))
-	private WebElement author;
-	
-	@FindBy(xpath = ("//td[contains(text(),'Title')]"))
-	private WebElement title;
-	
-	@FindBy(xpath = ("//td[contains(text(),'Publisher')]"))
-	private WebElement publisher;
-	
-	@FindBy(xpath = ("//td[contains(text(),'ISBN')]"))
-	private WebElement isbn;
-	
+		
+	@Override
 	public BooksPage open() {
-		driver.get(pageUrl);
+		this.driver.get(configFileReader.getHost() + PAGE_URL);
 		return this;
 	}
+
+	@Override
+	public boolean isOpen() {
+		boolean result = false;
+		try {
+			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Books")
+					&& this.productListTitle.isDisplayed()
+					&& this.productListTitle.getText().equals("Browse Books by category:");
+		} catch (Throwable e) {
+			System.err.println("Problem while checking if Books Heading is displayed: " + e.getMessage());
+		}
+		return result;
+	}
 	
-	public boolean checkHeaderData() {
-		boolean result = false;
-		try {
-			result = this.logo.isDisplayed() 
-					&& this.btnHome.isDisplayed()
-					&& this.btnBooks.isDisplayed()
-					&& this.btnCds.isDisplayed()
-					&& this.btnBasket.isDisplayed()
-					&& this.btnRegister.isDisplayed()
-					&& this.btnLogin.isDisplayed()
-					&& this.basket.isDisplayed();			
-		} catch (Throwable e) {
-			System.out.println("An element in the header is missing" + e.getMessage());
-		}
-		return result;
-	}
-
-	public boolean checkSideMenu() {
-		boolean result = false;
-		try {
-			result = this.sideMenu.isDisplayed();			
-		} catch (Throwable e) {
-			System.out.println("The side menu is missing" + e.getMessage());
-		}
-		return result;
-	}
-
-	public boolean checkProductList() {
-		boolean result = false;
-		try {
-			result = this.productList.isDisplayed();			
-		} catch (Throwable e) {
-			System.out.println("The product list is missing" + e.getMessage());
-		}
-		return result;
-	}
-
 	public boolean checkSearchCriterias() {
 		boolean result = false;
 		try {
-			result = this.author.isDisplayed() 
-					&& this.title.isDisplayed()
-					&& this.publisher.isDisplayed()
-					&& this.isbn.isDisplayed();	
+			result = this.checkSearchForm() && this.authorTextbox.isDisplayed() 
+					&& this.titleTextbox.isDisplayed() && this.publisherTextbox.isDisplayed()
+					&& this.isbnTextbox.isDisplayed();
 		} catch (Throwable e) {
 			System.out.println("An element in the search criteria is missing" + e.getMessage());
 		}
 		return result;
 	}
-
 }
+
+
