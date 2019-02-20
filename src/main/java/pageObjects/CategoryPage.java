@@ -16,9 +16,9 @@ public abstract class CategoryPage extends GeneralPage {
 	protected WebElement productList;
 
 	@FindBy(name = "search")
-	protected WebElement searchFields;
+	protected WebElement searchForm;
 
-	public boolean checkSideMenu() {
+	public boolean isSideMenuDisplayed() {
 		boolean result = false;
 		try {
 			result = this.sideMenu.isDisplayed();
@@ -28,7 +28,7 @@ public abstract class CategoryPage extends GeneralPage {
 		return result;
 	}
 
-	public boolean checkProductList() {
+	public boolean isProductListDisplayed() {
 		boolean result = false;
 		try {
 			result = this.productList.isDisplayed();
@@ -38,10 +38,10 @@ public abstract class CategoryPage extends GeneralPage {
 		return result;
 	}
 
-	public boolean checkSearchForm() {
+	public boolean isSearchFormDisplayed() {
 		boolean result = false;
 		try {
-			result = this.searchFields.isDisplayed();
+			result = this.searchForm.isDisplayed();
 		} catch (Throwable e) {
 			System.out.println("The Search form is missing" + e.getMessage());
 		}

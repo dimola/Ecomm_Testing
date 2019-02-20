@@ -90,12 +90,24 @@ public class Steps {
 		pageObjectManager.getBooksPage().open();
 	}
 
-	@Then("^The header the books categories and the search field are displayed$")
-	public void The_header_the_books_categories_and_the_search_field_are_displayed() throws Throwable {
-		Assert.assertTrue(pageObjectManager.getBooksPage().checkHeaderData());
-		Assert.assertTrue(pageObjectManager.getBooksPage().checkSideMenu());
-		Assert.assertTrue(pageObjectManager.getBooksPage().checkProductList());
-		Assert.assertTrue(pageObjectManager.getBooksPage().checkSearchCriterias());
+	@Then("^I should see the header also book categories and search criterias$")
+	public void I_should_see_the_header_also_book_categories_and_search_criterias() throws Throwable {
+		Assert.assertTrue("Logo is not displayed on the page",pageObjectManager.getBooksPage().isLogoDisplayed());
+		Assert.assertTrue("Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isMainMenuDisplayed());
+		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isHomeButtonDisplayed());
+		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isBooksButtonDisplayed());
+		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isCdsButtonDisplayed());
+		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isBasketButtonDisplayed());
+		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isRegisterButtonDisplayed());
+		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isLoginButtonDisplayed());
+		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isViewBasketDisplayed());
+		Assert.assertTrue("Side Menu is not displayed on the page",pageObjectManager.getBooksPage().isSideMenuDisplayed());
+		Assert.assertTrue("The Books Product list is not displayed on the page",pageObjectManager.getBooksPage().isProductListDisplayed());
+		Assert.assertTrue("Search Form is not displayed on the page",pageObjectManager.getBooksPage().isSearchFormDisplayed());
+		Assert.assertTrue("Author textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isAuthorTextboxDisplayed());
+		Assert.assertTrue("Title textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isTitleTextboxDisplayed());
+		Assert.assertTrue("Publisher textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isPublisherTextboxDisplayed());
+		Assert.assertTrue("ISBN textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isIsbnTextboxDisplayed());
 	}
 
 	@Before

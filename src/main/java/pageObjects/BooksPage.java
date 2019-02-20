@@ -42,15 +42,43 @@ public class BooksPage extends CategoryPage {
 		}
 		return result;
 	}
-	
-	public boolean checkSearchCriterias() {
+
+	public boolean isAuthorTextboxDisplayed() {
 		boolean result = false;
 		try {
-			result = this.checkSearchForm() && this.authorTextbox.isDisplayed() 
-					&& this.titleTextbox.isDisplayed() && this.publisherTextbox.isDisplayed()
-					&& this.isbnTextbox.isDisplayed();
+			result = this.authorTextbox.isDisplayed();
 		} catch (Throwable e) {
-			System.out.println("An element in the search criteria is missing" + e.getMessage());
+			System.out.println("Problem while checking if authorTextbox is displayed: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean isTitleTextboxDisplayed() {
+		boolean result = false;
+		try {
+			result = this.titleTextbox.isDisplayed();
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if titleTextbox is displayed: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean isPublisherTextboxDisplayed() {
+		boolean result = false;
+		try {
+			result = this.publisherTextbox.isDisplayed();
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if publisherTextbox is displayed: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean isIsbnTextboxDisplayed() {
+		boolean result = false;
+		try {
+			result = this.isbnTextbox.isDisplayed();
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if isbnTextbox is displayed: " + e.getMessage());
 		}
 		return result;
 	}
