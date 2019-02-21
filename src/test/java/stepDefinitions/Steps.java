@@ -9,6 +9,7 @@ import cucumber.api.java.en.When;
 import managers.PageObjectManager;
 
 public class Steps {
+
 	PageObjectManager pageObjectManager;
 
 	@Given("^Login page is loaded$")
@@ -63,7 +64,6 @@ public class Steps {
 
 	@Given("^Home page is loaded$")
 	public void Home_page_is_loaded() throws Throwable {
-		pageObjectManager = PageObjectManager.getManager();
 		pageObjectManager.getHomePage().open();
 	}
 
@@ -85,14 +85,44 @@ public class Steps {
 					pageObjectManager.getCdsPage().isOpen());
 	}
 
-	@After
-	public void cleanUp() {
-		pageObjectManager.quit();
+	@When("^I redirect to books page$")
+	public void I_redirect_to_books_page() throws Throwable {
+		pageObjectManager.getBooksPage().open();
 	}
 
+	@Then("^I should see the books page$")
+	public void i_should_see_the_books_page() throws Throwable {
+		Assert.assertTrue("Logo is not displayed on the page",pageObjectManager.getBooksPage().isLogoDisplayed());
+		Assert.assertTrue("Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isMainMenuDisplayed());
+		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isHomeButtonDisplayed());
+		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isBooksButtonDisplayed());
+		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isCdsButtonDisplayed());
+		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isBasketButtonDisplayed());
+		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isRegisterButtonDisplayed());
+		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isLoginButtonDisplayed());
+		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isViewBasketDisplayed());
+		Assert.assertTrue("Side Menu is not displayed on the page",pageObjectManager.getBooksPage().isSideMenuDisplayed());
+		Assert.assertTrue("The Books Product list is not displayed on the page",pageObjectManager.getBooksPage().isProductListDisplayed());
+		Assert.assertTrue("Search Form is not displayed on the page",pageObjectManager.getBooksPage().isSearchFormDisplayed());
+	}
+
+	@Then("^I should see all book filtering options$")
+	public void i_should_see_all_book_filtering_options() throws Throwable {
+		Assert.assertTrue("Author textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isAuthorTextboxDisplayed());
+		Assert.assertTrue("Title textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isTitleTextboxDisplayed());
+		Assert.assertTrue("Publisher textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isPublisherTextboxDisplayed());
+		Assert.assertTrue("ISBN textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isIsbnTextboxDisplayed());   
+	}
+	
 	@Before
 	public void init() {
 		PageObjectManager.init();
 		pageObjectManager = PageObjectManager.getManager();
 	}
+
+	@After
+	public void cleanUp() {
+		pageObjectManager.quit();
+	}
+
 }

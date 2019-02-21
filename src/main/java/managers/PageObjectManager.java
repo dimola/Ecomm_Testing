@@ -1,8 +1,10 @@
 package managers;
 
 import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
 import dataProviders.ConfigFileReader;
 import pageObjects.BooksPage;
 import pageObjects.CdsPage;
@@ -12,12 +14,11 @@ import pageObjects.LogoutPage;
 
 public class PageObjectManager {
 
-
 	private WebDriver driver;
 	private LoginPage loginPage;
+	private BooksPage booksPage;
 	private HomePage homePage;
 	private LogoutPage logoutPage;
-	private BooksPage booksPage;
 	private CdsPage cdsPage;
 
 	private static PageObjectManager pageObjectManager;

@@ -37,6 +37,7 @@ public class ConfigFileReader {
 			return Long.parseLong(implicitlyWait);
 		else
 			return DEFAULT_TIMEOUT;
+
 	}
 
 	public String getHost() {
@@ -55,7 +56,7 @@ public class ConfigFileReader {
 			throw new NotFoundException("login url not specified in the Configuration.properties file.");
 		}
 	}
-
+		
 	public String getHomePagePath() {
 		String homePageUrl = properties.getProperty("home-page-path");
 		if (homePageUrl != null) {
