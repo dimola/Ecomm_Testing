@@ -90,8 +90,8 @@ public class Steps {
 		pageObjectManager.getBooksPage().open();
 	}
 
-	@Then("^I should see the header also book categories and search criterias$")
-	public void I_should_see_the_header_also_book_categories_and_search_criterias() throws Throwable {
+	@Then("^I should see the books page$")
+	public void i_should_see_the_books_page() throws Throwable {
 		Assert.assertTrue("Logo is not displayed on the page",pageObjectManager.getBooksPage().isLogoDisplayed());
 		Assert.assertTrue("Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isMainMenuDisplayed());
 		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isHomeButtonDisplayed());
@@ -104,12 +104,16 @@ public class Steps {
 		Assert.assertTrue("Side Menu is not displayed on the page",pageObjectManager.getBooksPage().isSideMenuDisplayed());
 		Assert.assertTrue("The Books Product list is not displayed on the page",pageObjectManager.getBooksPage().isProductListDisplayed());
 		Assert.assertTrue("Search Form is not displayed on the page",pageObjectManager.getBooksPage().isSearchFormDisplayed());
+	}
+
+	@Then("^I should see all book filtering options$")
+	public void i_should_see_all_book_filtering_options() throws Throwable {
 		Assert.assertTrue("Author textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isAuthorTextboxDisplayed());
 		Assert.assertTrue("Title textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isTitleTextboxDisplayed());
 		Assert.assertTrue("Publisher textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isPublisherTextboxDisplayed());
-		Assert.assertTrue("ISBN textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isIsbnTextboxDisplayed());
+		Assert.assertTrue("ISBN textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isIsbnTextboxDisplayed());   
 	}
-
+	
 	@Before
 	public void init() {
 		PageObjectManager.init();
