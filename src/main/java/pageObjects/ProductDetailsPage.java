@@ -203,6 +203,5 @@ public class ProductDetailsPage extends CategoryPage {
 			System.err.println("Problem while checking if Product Image is displayed: " + e.getMessage());
 		}
 		return result;
-	}
-	
+	}	
 }

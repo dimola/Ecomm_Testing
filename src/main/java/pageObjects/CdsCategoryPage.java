@@ -44,6 +44,7 @@ public class CdsCategoryPage extends CategoryPage {
 		}
 		return result;
 	}
+	
 	public CdsCategoryPage openNotEmptyCdsCategory(int i) {
 		if (i == 0) {
 			this.driver.get(configFileReader.getHost() + ALTERNATIVE_CATEGORY_URL);
@@ -129,7 +130,6 @@ public class CdsCategoryPage extends CategoryPage {
 			this.driver.get(configFileReader.getHost() + WORLD_CATEGORY_URL);
 			this.getSideBarButtons().get(i).click();
 		}
-		return this;
-		
+		return this;		
 	}
 }

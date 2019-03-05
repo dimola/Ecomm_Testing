@@ -10,7 +10,6 @@ import dataProviders.ConfigFileReader;
 public abstract class GeneralPage {
 	protected WebDriver driver;
 	protected ConfigFileReader configFileReader;
-	//protected WebDriverWait wait = new WebDriverWait(driver, 5);
 
 	@FindBy(id = "logo")
 	protected WebElement logo;
@@ -125,9 +124,9 @@ public abstract class GeneralPage {
 	public boolean isBasketButtonDisplayed() {
 		boolean result = false;
 		try {
-			result = cdsMenuElement.isDisplayed();
+			result = basketMenuElement.isDisplayed();
 		} catch (Throwable e) {
-			System.out.println("Problem while checking if the cdsMenuElement is displayed: " + e.getMessage());
+			System.out.println("Problem while checking if the basketMenuElement is displayed: " + e.getMessage());
 		} finally {
 			return result;
 		}

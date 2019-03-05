@@ -212,7 +212,6 @@ public class Steps {
 			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(0);
 			break;
 		}
-
 		case "Biographies": {
 			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(1);
 			break;
@@ -262,7 +261,6 @@ public class Steps {
 
 	@Then("^I should see the book category page$")
 	public void i_should_see_the_book_category_page() throws Throwable {
-		System.out.println("Ehooooo" + this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle());
 		Assert.assertTrue(
 				this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle() + " page is not displayed",
 				this.pageObjectManager.getBooksCategoryPage().isSelectedCategoryOpen(
@@ -293,17 +291,16 @@ public class Steps {
 
 	@Then("^I should see all books' elements in the category page$")
 	public void i_should_see_all_books_elements_in_the_category_page() throws Throwable {
-		System.out.println("Ehooooo" + this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle());
 		Assert.assertTrue("Not all book images are displayed per category",
-				pageObjectManager.getBooksCategoryPage().areTheItemsImagesDisplayed());
+				pageObjectManager.getBooksCategoryPage().areTheProductsImagesDisplayed());
 		Assert.assertTrue("Not all book titles are dispayed per category",
-				pageObjectManager.getBooksCategoryPage().areTheItemsTitlesDisplayed());
+				pageObjectManager.getBooksCategoryPage().areTheProductsTitlesDisplayed());
 		Assert.assertTrue("Not all book authors are displayed per category",
-				pageObjectManager.getBooksCategoryPage().areTheItemsAuthorsDisplayed());
+				pageObjectManager.getBooksCategoryPage().areTheProductsAuthorsDisplayed());
 		Assert.assertTrue("Not all book prices are displayed per category",
-				pageObjectManager.getBooksCategoryPage().areTheItemsPricesDisplayed());
+				pageObjectManager.getBooksCategoryPage().areTheProductsPricesDisplayed());
 		Assert.assertTrue("Not all book add to basket buttons are displayed per category",
-				pageObjectManager.getBooksCategoryPage().areTheItemsAddToBasketButtonsDisplayed());
+				pageObjectManager.getBooksCategoryPage().areTheProductsAddToBasketButtonsDisplayed());
 	}
 
 	@When("^I redirect to not empty \"([^\"]*)\" category of CDs$")
@@ -313,7 +310,6 @@ public class Steps {
 			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(0);
 			break;
 		}
-
 		case "Blues": {
 			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(1);
 			break;
@@ -355,7 +351,6 @@ public class Steps {
 
 	@Then("^I should see the cd category page$")
 	public void i_should_see_the_cd_category_page() throws Throwable {
-		System.out.println("Ehooooo" + this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle());
 		Assert.assertTrue(
 				this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle() + " page is not displayed",
 				this.pageObjectManager.getCdsCategoryPage().isSelectedCategoryOpen(
@@ -386,19 +381,16 @@ public class Steps {
 
 	@Then("^I should see all cds' elements in the category page$")
 	public void i_should_see_all_cds_elements_in_the_category_page() throws Throwable {
-
-		System.out.println("Ehooooo" + this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle());
 		Assert.assertTrue("Not all CD images are displayed per category",
-				pageObjectManager.getCdsCategoryPage().areTheItemsImagesDisplayed());
+				pageObjectManager.getCdsCategoryPage().areTheProductsImagesDisplayed());
 		Assert.assertTrue("Not all CD titles are dispayed per category",
-				pageObjectManager.getCdsCategoryPage().areTheItemsTitlesDisplayed());
+				pageObjectManager.getCdsCategoryPage().areTheProductsTitlesDisplayed());
 		Assert.assertTrue("Not all CD authors are displayed per category",
-				pageObjectManager.getCdsCategoryPage().areTheItemsAuthorsDisplayed());
+				pageObjectManager.getCdsCategoryPage().areTheProductsAuthorsDisplayed());
 		Assert.assertTrue("Not all CD prices are displayed per category",
-				pageObjectManager.getCdsCategoryPage().areTheItemsPricesDisplayed());
+				pageObjectManager.getCdsCategoryPage().areTheProductsPricesDisplayed());
 		Assert.assertTrue("Not all CD add to basket buttons are displayed per category",
-				pageObjectManager.getCdsCategoryPage().areTheItemsAddToBasketButtonsDisplayed());
-
+				pageObjectManager.getCdsCategoryPage().areTheProductsAddToBasketButtonsDisplayed());
 	}
 
 	@When("^I redirect to empty \"([^\"]*)\" category of Books$")
@@ -408,7 +400,6 @@ public class Steps {
 			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(8);
 			break;
 		}
-
 		case "Horror": {
 			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(11);
 			break;
@@ -450,7 +441,6 @@ public class Steps {
 
 	@Then("^I should see the empty book category page$")
 	public void i_should_see_the_empty_book_category_page() throws Throwable {
-		System.out.println("Ehooooo" + this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle());
 		Assert.assertTrue(
 				this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle() + " page is not displayed",
 				this.pageObjectManager.getBooksCategoryPage().isSelectedCategoryOpen(
@@ -477,7 +467,6 @@ public class Steps {
 				pageObjectManager.getBooksCategoryPage().isSideMenuDisplayed());
 		Assert.assertTrue("Product List is not displayed on the page",
 				pageObjectManager.getBooksCategoryPage().isProductListDisplayed());
-		System.out.println("Ehooooo" + this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle());
 		Assert.assertTrue("The Book category is not empty", pageObjectManager.getBooksCategoryPage().isCategoryEmpty());
 	}
 
@@ -530,7 +519,6 @@ public class Steps {
 
 	@Then("^I should see the empty CDs category page$")
 	public void i_should_see_the_empty_CDs_category_page() throws Throwable {
-		System.out.println("Ehooooo" + this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle());
 		Assert.assertTrue(
 				this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle() + " page is not displayed",
 				this.pageObjectManager.getCdsCategoryPage().isSelectedCategoryOpen(
@@ -557,7 +545,6 @@ public class Steps {
 				pageObjectManager.getCdsCategoryPage().isSideMenuDisplayed());
 		Assert.assertTrue("Product List is not displayed on the page",
 				pageObjectManager.getCdsCategoryPage().isProductListDisplayed());
-		System.out.println("Ehooooo" + this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle());
 		Assert.assertTrue("The Book category is not empty", pageObjectManager.getCdsCategoryPage().isCategoryEmpty());
 	}
 
