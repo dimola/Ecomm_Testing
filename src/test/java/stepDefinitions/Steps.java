@@ -613,6 +613,41 @@ public class Steps {
 				this.pageObjectManager.getProductDetailsPage().isBackToProductListLinkDisplayed());
 	}
 
+	@When("^I'm on empty shopping basket page$")
+	public void i_m_on_empty_shopping_basket_page() throws Throwable {
+		this.pageObjectManager.getBasketPage().open();
+	}
+
+	@Then("^I can see the shopping basket page$")
+	public void i_can_see_the_shopping_basket_page() throws Throwable {
+		Assert.assertTrue("Problems while verifying that Shopping Basket Page is open",
+				this.pageObjectManager.getBasketPage().isOpen());
+		Assert.assertTrue("Logo is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isLogoDisplayed());
+		Assert.assertTrue("Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isMainMenuDisplayed());
+		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isHomeButtonDisplayed());
+		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isBooksButtonDisplayed());
+		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isCdsButtonDisplayed());
+		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isBasketButtonDisplayed());
+		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isRegisterButtonDisplayed());
+		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isLoginButtonDisplayed());
+		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isViewBasketDisplayed());
+	}
+
+	@Then("^I can see the following text displayed : \"([^\"]*)\"$")
+	public void i_can_see_the_following_text_displayed(String arg1) throws Throwable {
+		Assert.assertTrue("Problems while verifying that shopping basket is empty", this.pageObjectManager.getBasketPage().isEmtpyBasketDisplayed());
+		
+	}
+
 	@Before
 	public void init() {
 		PageObjectManager.init();
