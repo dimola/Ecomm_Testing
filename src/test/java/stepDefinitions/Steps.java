@@ -1,6 +1,7 @@
 package stepDefinitions;
 
 import org.junit.Assert;
+
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -63,6 +64,7 @@ public class Steps {
 	// TC 20 Verify that links are redirecting to correct place
 
 	@Given("^Home page is loaded$")
+	@When("^I redirect to home page$")
 	public void Home_page_is_loaded() throws Throwable {
 		pageObjectManager.getHomePage().open();
 	}
@@ -92,28 +94,538 @@ public class Steps {
 
 	@Then("^I should see the books page$")
 	public void i_should_see_the_books_page() throws Throwable {
-		Assert.assertTrue("Logo is not displayed on the page",pageObjectManager.getBooksPage().isLogoDisplayed());
-		Assert.assertTrue("Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isMainMenuDisplayed());
-		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isHomeButtonDisplayed());
-		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isBooksButtonDisplayed());
-		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isCdsButtonDisplayed());
-		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isBasketButtonDisplayed());
-		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isRegisterButtonDisplayed());
-		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isLoginButtonDisplayed());
-		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",pageObjectManager.getBooksPage().isViewBasketDisplayed());
-		Assert.assertTrue("Side Menu is not displayed on the page",pageObjectManager.getBooksPage().isSideMenuDisplayed());
-		Assert.assertTrue("The Books Product list is not displayed on the page",pageObjectManager.getBooksPage().isProductListDisplayed());
-		Assert.assertTrue("Search Form is not displayed on the page",pageObjectManager.getBooksPage().isSearchFormDisplayed());
+		Assert.assertTrue("Problems while verifying that Books Page is displayed",
+				pageObjectManager.getBooksPage().isOpen());
+		Assert.assertTrue("Logo is not displayed on the page", pageObjectManager.getBooksPage().isLogoDisplayed());
+		Assert.assertTrue("Main Menu is not displayed on the page",
+				pageObjectManager.getBooksPage().isMainMenuDisplayed());
+		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksPage().isHomeButtonDisplayed());
+		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksPage().isBooksButtonDisplayed());
+		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksPage().isCdsButtonDisplayed());
+		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksPage().isBasketButtonDisplayed());
+		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksPage().isRegisterButtonDisplayed());
+		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksPage().isLoginButtonDisplayed());
+		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksPage().isViewBasketDisplayed());
+		Assert.assertTrue("Side Menu is not displayed on the page",
+				pageObjectManager.getBooksPage().isSideMenuDisplayed());
+		Assert.assertTrue("The Books Product list is not displayed on the page",
+				pageObjectManager.getBooksPage().isProductListDisplayed());
+		Assert.assertTrue("Search Form is not displayed on the page",
+				pageObjectManager.getBooksPage().isSearchFormDisplayed());
 	}
 
 	@Then("^I should see all book filtering options$")
 	public void i_should_see_all_book_filtering_options() throws Throwable {
-		Assert.assertTrue("Author textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isAuthorTextboxDisplayed());
-		Assert.assertTrue("Title textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isTitleTextboxDisplayed());
-		Assert.assertTrue("Publisher textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isPublisherTextboxDisplayed());
-		Assert.assertTrue("ISBN textbox in the Search Form is not displayed on the page",pageObjectManager.getBooksPage().isIsbnTextboxDisplayed());   
+		Assert.assertTrue("Author textbox in the Search Form is not displayed on the page",
+				pageObjectManager.getBooksPage().isAuthorTextboxDisplayed());
+		Assert.assertTrue("Title textbox in the Search Form is not displayed on the page",
+				pageObjectManager.getBooksPage().isTitleTextboxDisplayed());
+		Assert.assertTrue("Publisher textbox in the Search Form is not displayed on the page",
+				pageObjectManager.getBooksPage().isPublisherTextboxDisplayed());
+		Assert.assertTrue("ISBN textbox in the Search Form is not displayed on the page",
+				pageObjectManager.getBooksPage().isIsbnTextboxDisplayed());
 	}
-	
+
+	@Then("^I should see the home page$")
+	public void i_should_see_the_home_page() throws Throwable {
+		Assert.assertTrue("Problems while verifying that Home Page is displayed",
+				pageObjectManager.getHomePage().isOpen());
+		Assert.assertTrue("Logo is not displayed on the page", pageObjectManager.getHomePage().isLogoDisplayed());
+		Assert.assertTrue("Main Menu is not displayed on the page",
+				pageObjectManager.getHomePage().isMainMenuDisplayed());
+		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
+				pageObjectManager.getHomePage().isHomeButtonDisplayed());
+		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
+				pageObjectManager.getHomePage().isBooksButtonDisplayed());
+		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
+				pageObjectManager.getHomePage().isCdsButtonDisplayed());
+		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
+				pageObjectManager.getHomePage().isBasketButtonDisplayed());
+		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
+				pageObjectManager.getHomePage().isRegisterButtonDisplayed());
+		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
+				pageObjectManager.getHomePage().isLoginButtonDisplayed());
+		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
+				pageObjectManager.getHomePage().isViewBasketDisplayed());
+
+	}
+
+	@Then("^I should see Books and CDs categories$")
+	public void i_should_see_Books_and_CDs_categories() throws Throwable {
+		Assert.assertTrue("Books category button is not displayed on the page",
+				pageObjectManager.getHomePage().isBooksCategoryButtonDisplayed());
+		Assert.assertTrue("CDs category button is not displayed on the page",
+				pageObjectManager.getHomePage().isCdsCategoryButtonDisplayed());
+	}
+
+	@When("^I redirect to cds page$")
+	public void i_redirect_to_cds_page() throws Throwable {
+		pageObjectManager.getCdsPage().open();
+	}
+
+	@Then("^I should see the cds page$")
+	public void i_should_see_the_cds_page() throws Throwable {
+		Assert.assertTrue("Problems while verifying that Cds Page is displayed",
+				pageObjectManager.getCdsPage().isOpen());
+		Assert.assertTrue("Logo is not displayed on the page", pageObjectManager.getCdsPage().isLogoDisplayed());
+		Assert.assertTrue("Main Menu is not displayed on the page",
+				pageObjectManager.getCdsPage().isMainMenuDisplayed());
+		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsPage().isHomeButtonDisplayed());
+		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsPage().isBooksButtonDisplayed());
+		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsPage().isCdsButtonDisplayed());
+		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsPage().isBasketButtonDisplayed());
+		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsPage().isRegisterButtonDisplayed());
+		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsPage().isLoginButtonDisplayed());
+		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsPage().isViewBasketDisplayed());
+	}
+
+	@Then("^I should see all cds filtering options$")
+	public void i_should_see_all_cds_filtering_options() throws Throwable {
+		Assert.assertTrue("Author textbox in the Search Form is not displayed on the page",
+				pageObjectManager.getCdsPage().isArtistTextboxDisplayed());
+		Assert.assertTrue("Title textbox in the Search Form is not displayed on the page",
+				pageObjectManager.getCdsPage().isTitleTextboxDisplayed());
+		Assert.assertTrue("Publisher textbox in the Search Form is not displayed on the page",
+				pageObjectManager.getCdsPage().isLabelTextboxDisplayed());
+		Assert.assertTrue("ISBN textbox in the Search Form is not displayed on the page",
+				pageObjectManager.getCdsPage().isComposerTextboxDisplayed());
+	}
+
+	@When("^I redirect to not empty \"([^\"]*)\" category of Books$")
+	public void i_redirect_to_not_empty_category_of_Books(String bookCategory) throws Throwable {
+		switch (bookCategory) {
+		case "Art": {
+			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(0);
+			break;
+		}
+
+		case "Biographies": {
+			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(1);
+			break;
+		}
+		case "Children’s books": {
+			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(2);
+			break;
+		}
+		case "Finance": {
+			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(3);
+			break;
+		}
+		case "Computers": {
+			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(4);
+			break;
+		}
+		case "Cooking, food & wine": {
+			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(5);
+			break;
+		}
+		case "Entertainment": {
+			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(6);
+			break;
+		}
+		case "Mind & body": {
+			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(7);
+			break;
+		}
+		case "Hobbies": {
+			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(9);
+			break;
+		}
+		case "Home & garden": {
+			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(10);
+			break;
+		}
+		case "Science & nature": {
+			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(18);
+			break;
+		}
+		case "Science fiction": {
+			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(19);
+			break;
+		}
+		}
+	}
+
+	@Then("^I should see the book category page$")
+	public void i_should_see_the_book_category_page() throws Throwable {
+		System.out.println("Ehooooo" + this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle());
+		Assert.assertTrue(
+				this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle() + " page is not displayed",
+				this.pageObjectManager.getBooksCategoryPage().isSelectedCategoryOpen(
+						this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle()));
+		Assert.assertTrue("Logo is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isLogoDisplayed());
+		Assert.assertTrue("Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isMainMenuDisplayed());
+		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isHomeButtonDisplayed());
+		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isBooksButtonDisplayed());
+		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isCdsButtonDisplayed());
+		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isBasketButtonDisplayed());
+		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isRegisterButtonDisplayed());
+		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isLoginButtonDisplayed());
+		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isViewBasketDisplayed());
+		Assert.assertTrue("Side Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isSideMenuDisplayed());
+		Assert.assertTrue("Product List is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isProductListDisplayed());
+	}
+
+	@Then("^I should see all books' elements in the category page$")
+	public void i_should_see_all_books_elements_in_the_category_page() throws Throwable {
+		System.out.println("Ehooooo" + this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle());
+		Assert.assertTrue("Not all book images are displayed per category",
+				pageObjectManager.getBooksCategoryPage().areTheItemsImagesDisplayed());
+		Assert.assertTrue("Not all book titles are dispayed per category",
+				pageObjectManager.getBooksCategoryPage().areTheItemsTitlesDisplayed());
+		Assert.assertTrue("Not all book authors are displayed per category",
+				pageObjectManager.getBooksCategoryPage().areTheItemsAuthorsDisplayed());
+		Assert.assertTrue("Not all book prices are displayed per category",
+				pageObjectManager.getBooksCategoryPage().areTheItemsPricesDisplayed());
+		Assert.assertTrue("Not all book add to basket buttons are displayed per category",
+				pageObjectManager.getBooksCategoryPage().areTheItemsAddToBasketButtonsDisplayed());
+	}
+
+	@When("^I redirect to not empty \"([^\"]*)\" category of CDs$")
+	public void i_redirect_to_not_empty_category_of_CDs(String cdsCategory) throws Throwable {
+		switch (cdsCategory) {
+		case "Alternative": {
+			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(0);
+			break;
+		}
+
+		case "Blues": {
+			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(1);
+			break;
+		}
+		case "Children’s music": {
+			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(2);
+			break;
+		}
+		case "Classical": {
+			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(3);
+			break;
+		}
+		case "Country": {
+			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(4);
+			break;
+		}
+		case "Dance & DJ": {
+			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(5);
+			break;
+		}
+		case "Folk": {
+			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(6);
+			break;
+		}
+		case "New age": {
+			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(11);
+			break;
+		}
+		case "Pop": {
+			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(13);
+			break;
+		}
+		case "Soul": {
+			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(16);
+			break;
+		}
+		}
+	}
+
+	@Then("^I should see the cd category page$")
+	public void i_should_see_the_cd_category_page() throws Throwable {
+		System.out.println("Ehooooo" + this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle());
+		Assert.assertTrue(
+				this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle() + " page is not displayed",
+				this.pageObjectManager.getCdsCategoryPage().isSelectedCategoryOpen(
+						this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle()));
+		Assert.assertTrue("Logo is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isLogoDisplayed());
+		Assert.assertTrue("Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isMainMenuDisplayed());
+		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isHomeButtonDisplayed());
+		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isBooksButtonDisplayed());
+		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isCdsButtonDisplayed());
+		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isBasketButtonDisplayed());
+		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isRegisterButtonDisplayed());
+		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isLoginButtonDisplayed());
+		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isViewBasketDisplayed());
+		Assert.assertTrue("Side Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isSideMenuDisplayed());
+		Assert.assertTrue("Product List is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isProductListDisplayed());
+	}
+
+	@Then("^I should see all cds' elements in the category page$")
+	public void i_should_see_all_cds_elements_in_the_category_page() throws Throwable {
+
+		System.out.println("Ehooooo" + this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle());
+		Assert.assertTrue("Not all CD images are displayed per category",
+				pageObjectManager.getCdsCategoryPage().areTheItemsImagesDisplayed());
+		Assert.assertTrue("Not all CD titles are dispayed per category",
+				pageObjectManager.getCdsCategoryPage().areTheItemsTitlesDisplayed());
+		Assert.assertTrue("Not all CD authors are displayed per category",
+				pageObjectManager.getCdsCategoryPage().areTheItemsAuthorsDisplayed());
+		Assert.assertTrue("Not all CD prices are displayed per category",
+				pageObjectManager.getCdsCategoryPage().areTheItemsPricesDisplayed());
+		Assert.assertTrue("Not all CD add to basket buttons are displayed per category",
+				pageObjectManager.getCdsCategoryPage().areTheItemsAddToBasketButtonsDisplayed());
+
+	}
+
+	@When("^I redirect to empty \"([^\"]*)\" category of Books$")
+	public void i_redirect_to_empty_category_of_Books(String bookCategory) throws Throwable {
+		switch (bookCategory) {
+		case "History": {
+			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(8);
+			break;
+		}
+
+		case "Horror": {
+			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(11);
+			break;
+		}
+		case "Literature & fiction": {
+			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(12);
+			break;
+		}
+		case "Mystery & thrillers": {
+			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(13);
+			break;
+		}
+		case "Non-fiction": {
+			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(14);
+			break;
+		}
+		case "Professional & technical": {
+			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(15);
+			break;
+		}
+		case "Reference": {
+			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(16);
+			break;
+		}
+		case "Religion & spirituality": {
+			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(17);
+			break;
+		}
+		case "Sports & outdoors": {
+			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(20);
+			break;
+		}
+		case "Travel": {
+			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(21);
+			break;
+		}
+		}
+	}
+
+	@Then("^I should see the empty book category page$")
+	public void i_should_see_the_empty_book_category_page() throws Throwable {
+		System.out.println("Ehooooo" + this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle());
+		Assert.assertTrue(
+				this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle() + " page is not displayed",
+				this.pageObjectManager.getBooksCategoryPage().isSelectedCategoryOpen(
+						this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle()));
+		Assert.assertTrue("Logo is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isLogoDisplayed());
+		Assert.assertTrue("Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isMainMenuDisplayed());
+		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isHomeButtonDisplayed());
+		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isBooksButtonDisplayed());
+		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isCdsButtonDisplayed());
+		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isBasketButtonDisplayed());
+		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isRegisterButtonDisplayed());
+		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isLoginButtonDisplayed());
+		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isViewBasketDisplayed());
+		Assert.assertTrue("Side Menu is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isSideMenuDisplayed());
+		Assert.assertTrue("Product List is not displayed on the page",
+				pageObjectManager.getBooksCategoryPage().isProductListDisplayed());
+		System.out.println("Ehooooo" + this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle());
+		Assert.assertTrue("The Book category is not empty", pageObjectManager.getBooksCategoryPage().isCategoryEmpty());
+	}
+
+	@When("^I redirect to empty \"([^\"]*)\" category of CDs$")
+	public void i_redirect_to_empty_category_of_CDs(String cdsCategory) throws Throwable {
+		switch (cdsCategory) {
+		case "Emerging artists": {
+			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(7);
+			break;
+		}
+
+		case "International": {
+			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(8);
+			break;
+		}
+		case "Jazz": {
+			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(9);
+			break;
+		}
+		case "Miscellaneous": {
+			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(10);
+			break;
+		}
+		case "Opera & vocal": {
+			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(12);
+			break;
+		}
+		case "Rap & hip-hop": {
+			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(14);
+			break;
+		}
+		case "R&B": {
+			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(15);
+			break;
+		}
+		case "Soundtracks": {
+			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(17);
+			break;
+		}
+		case "Vocalists & Broadway": {
+			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(18);
+			break;
+		}
+		case "World": {
+			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(19);
+			break;
+		}
+		}
+	}
+
+	@Then("^I should see the empty CDs category page$")
+	public void i_should_see_the_empty_CDs_category_page() throws Throwable {
+		System.out.println("Ehooooo" + this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle());
+		Assert.assertTrue(
+				this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle() + " page is not displayed",
+				this.pageObjectManager.getCdsCategoryPage().isSelectedCategoryOpen(
+						this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle()));
+		Assert.assertTrue("Logo is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isLogoDisplayed());
+		Assert.assertTrue("Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isMainMenuDisplayed());
+		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isHomeButtonDisplayed());
+		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isBooksButtonDisplayed());
+		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isCdsButtonDisplayed());
+		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isBasketButtonDisplayed());
+		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isRegisterButtonDisplayed());
+		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isLoginButtonDisplayed());
+		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isViewBasketDisplayed());
+		Assert.assertTrue("Side Menu is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isSideMenuDisplayed());
+		Assert.assertTrue("Product List is not displayed on the page",
+				pageObjectManager.getCdsCategoryPage().isProductListDisplayed());
+		System.out.println("Ehooooo" + this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle());
+		Assert.assertTrue("The Book category is not empty", pageObjectManager.getCdsCategoryPage().isCategoryEmpty());
+	}
+
+	@When("^I am on a product details page with \"([^\"]*)\" url$")
+	public void i_am_on_a_product_details_page_with_url(String detailsPageURL) throws Throwable {
+		this.pageObjectManager.getProductDetailsPage().openProductDetailsPage(detailsPageURL);
+	}
+
+	@Then("^I can see the product details page for \"([^\"]*)\" book/cd$")
+	public void i_can_see_the_product_details_page_for_book_cd(String product) throws Throwable {
+		Assert.assertTrue("Problems while verifying that Book Details page is open",
+				this.pageObjectManager.getProductDetailsPage().isProductDetailsPageOpen(product));
+		Assert.assertTrue("Logo is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isLogoDisplayed());
+		Assert.assertTrue("Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isMainMenuDisplayed());
+		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isHomeButtonDisplayed());
+		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isBooksButtonDisplayed());
+		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isCdsButtonDisplayed());
+		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isBasketButtonDisplayed());
+		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isRegisterButtonDisplayed());
+		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isLoginButtonDisplayed());
+		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isViewBasketDisplayed());
+		Assert.assertTrue("Side Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isSideMenuDisplayed());
+	}
+
+	@Then("^I can see the book details$")
+	public void i_can_see_the_book_details() throws Throwable {
+		Assert.assertTrue("The image is not displayed on the book details page",
+				this.pageObjectManager.getProductDetailsPage().isProductImageDisplayed());
+		Assert.assertTrue("The author is not displayed on the book details page",
+				this.pageObjectManager.getProductDetailsPage().isProductAuthorDisplayed());
+		Assert.assertTrue("The book publisher is not displayed on the book details page",
+				this.pageObjectManager.getProductDetailsPage().isProductPublisherDisplayed());
+		Assert.assertTrue("The book ISBN is not displayed on the book details page",
+				this.pageObjectManager.getProductDetailsPage().isProductISBNDisplayed());
+		Assert.assertTrue("The price is not displayed on the book details page",
+				this.pageObjectManager.getProductDetailsPage().isProductPriceDisplayed());
+		Assert.assertTrue("The add to basket button is not displayed on the book details page",
+				this.pageObjectManager.getProductDetailsPage().isAddToBasketButtonDisplayed());
+		Assert.assertTrue("The back to prodcut details link is not displayed on the book details page",
+				this.pageObjectManager.getProductDetailsPage().isBackToProductListLinkDisplayed());
+	}
+
+	@Then("^I can see the CD details$")
+	public void i_can_see_the_CD_details() throws Throwable {
+		Assert.assertTrue("The image is not displayed on the CD details page",
+				this.pageObjectManager.getProductDetailsPage().isProductImageDisplayed());
+		Assert.assertTrue("The Artist is not displayed on the CD details page",
+				this.pageObjectManager.getProductDetailsPage().isProductArtistDisplayed());
+		Assert.assertTrue("The CD label is not displayed on the CD details page",
+				this.pageObjectManager.getProductDetailsPage().isProductLabelDisplayed());
+		Assert.assertTrue("The price is not displayed on the CD details page",
+				this.pageObjectManager.getProductDetailsPage().isProductPriceDisplayed());
+		Assert.assertTrue("The add to basket button is not displayed on the CD details page",
+				this.pageObjectManager.getProductDetailsPage().isAddToBasketButtonDisplayed());
+		Assert.assertTrue("The back to prodcut details link is not displayed on the CD details page",
+				this.pageObjectManager.getProductDetailsPage().isBackToProductListLinkDisplayed());
+	}
+
 	@Before
 	public void init() {
 		PageObjectManager.init();

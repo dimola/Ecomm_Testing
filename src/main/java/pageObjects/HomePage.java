@@ -44,6 +44,26 @@ public class HomePage extends GeneralPage {
 			return true;
 		}
 	}
+	
+	public boolean isBooksCategoryButtonDisplayed() {
+		boolean result = false;
+		try {
+			result = this.booksCategoryButton.isDisplayed();
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if booksCategoryButton is displayed: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public boolean isCdsCategoryButtonDisplayed() {
+		boolean result = false;
+		try {
+			result = this.cdsCategoryButton.isDisplayed();
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if cdsCategoryButton is displayed: " + e.getMessage());
+		}
+		return result;
+	}
 
 	public void selectBookCategory() {
 		booksCategoryButton.click();

@@ -83,4 +83,13 @@ public class ConfigFileReader {
 			throw new NotFoundException("cds page url not specified in the Configuration.properties file.");
 		}
 	}
+	
+	public String getBooksCategoryPagePath() {
+		String booksCategoryPageUrl = properties.getProperty("bookscategory-page-path");
+		if (booksCategoryPageUrl != null) {
+			return booksCategoryPageUrl;
+		} else {
+			throw new NotFoundException("bookscategory page url not specified in the Configuration.properties file.");
+		}
+	}
 }
