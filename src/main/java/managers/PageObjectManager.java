@@ -65,6 +65,6 @@ public class PageObjectManager {
 	public void quit() {
 		this.driver.quit();
 		pageObjectManager = null;
-	}	
 	}
 
+}

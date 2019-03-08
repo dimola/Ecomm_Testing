@@ -143,7 +143,7 @@ public class Steps {
 	@Then("^All displayed books are written by this author \"([^\"]*)\"$")
 	public void all_displayed_books_are_written_by_this_author(String author) throws Throwable {
 		Assert.assertTrue("Displayed books are not written by this author",
-				pageObjectManager.getBooksPage().areAllBooksWrittenBySearchedAuthor(author));
+				pageObjectManager.getBooksPage().areAllProductsWrittenBySearchedAuthorOrArtist(author));
 	}
 
 	@When("^I search for a certain Book by its title \"([^\"]*)\"$")
@@ -155,7 +155,7 @@ public class Steps {
 	@Then("^The book is displayed \"([^\"]*)\"$")
 	public void the_book_is_displayed(String title) throws Throwable {
 		Assert.assertTrue("Displayed book does not have the same title",
-				pageObjectManager.getBooksPage().isSearchedTitleDisplayed(title));
+				pageObjectManager.getBooksPage().doesAllProductsContainSearchedTitle(title));
 	}
 
 	@When("^I search for a certain publisher \"([^\"]*)\"$")
@@ -167,7 +167,7 @@ public class Steps {
 	@Then("^All books from this publisher are displayed \"([^\"]*)\"$")
 	public void all_books_from_this_publisher_are_displayed(String publisher) throws Throwable {
 		Assert.assertTrue("Displayed books are not written by this publisher",
-				pageObjectManager.getBooksPage().arePublisherBooksDisplayed(publisher));
+				pageObjectManager.getBooksPage().areAllBooksPublishedBySearchedPublisher(publisher));
 	}
 
 	@When("^I search for a certain ISBN \"([^\"]*)\"$")
@@ -179,11 +179,12 @@ public class Steps {
 	@Then("^The book with that number is displayed \"([^\"]*)\"$")
 	public void the_book_with_that_number_is_displayed(String ISBN) throws Throwable {
 		Assert.assertTrue("Displayed books are not with this number",
-				pageObjectManager.getBooksPage().areBooksWithThisNumberDisplayed(ISBN));
+				pageObjectManager.getBooksPage().doesAllProductsContainSearchedISBN(ISBN));
 	}
-	
+
 	@When("^I search for more than one of the search criteria at the same time \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
-	public void i_search_for_more_than_one_of_the_search_criteria_at_the_same_time_and_and_and(String author, String title, String publisher, String ISBN) throws Throwable {
+	public void i_search_for_more_than_one_of_the_search_criteria_at_the_same_time_and_and_and(String author,
+			String title, String publisher, String ISBN) throws Throwable {
 		pageObjectManager.getBooksPage().enterAuthor(author);
 		pageObjectManager.getBooksPage().enterTitle(title);
 		pageObjectManager.getBooksPage().enterPublisher(publisher);
@@ -192,23 +193,27 @@ public class Steps {
 	}
 
 	@Then("^The book answering to the respective criteria is displayed \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
-	public void the_book_answering_to_the_respective_criteria_is_displayed_and_and_and(String author, String title, String publisher, String ISBN) throws Throwable {
+	public void the_book_answering_to_the_respective_criteria_is_displayed_and_and_and(String author, String title,
+			String publisher, String ISBN) throws Throwable {
 		Assert.assertTrue("Displayed books are not answering the respective criteria",
-				pageObjectManager.getBooksPage().isBookAnsweringRespectiveCriteria(author, title, publisher, ISBN));
+				pageObjectManager.getBooksPage().isTheResultAnsweringRespectiveSearchCriteria(author, title, publisher, ISBN));
 	}
 
-	@When("^I search for a non existing book \"([^\"]*)\"$")
-	public void i_search_for_a_non_existing_book(String invalidData) throws Throwable {
-		pageObjectManager.getBooksPage().enterTitle(invalidData);
+	@When("^I search with invalid criteria \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
+	public void i_search_with_invalid_criteria_and_and_and(String invalidAuthor, String invalidTitle,
+			String invalidPublisher, String invalidISBN) throws Throwable {
+		pageObjectManager.getBooksPage().enterAuthor(invalidAuthor);
+		pageObjectManager.getBooksPage().enterTitle(invalidTitle);
+		pageObjectManager.getBooksPage().enterPublisher(invalidPublisher);
+		pageObjectManager.getBooksPage().enterIsbn(invalidISBN);
 		pageObjectManager.getBooksPage().clickSubmit();
 	}
 
 	@Then("^An error message is displayed, stating that there are no such books in the system$")
 	public void an_error_message_is_displayed_stating_that_there_are_no_such_books_in_the_system() throws Throwable {
-		Assert.assertTrue("Books are dispalyed",
-				pageObjectManager.getBooksPage().isErrorMessageDisplayed());
+		Assert.assertTrue("Books are displayed", pageObjectManager.getBooksPage().isErrorMessageDisplayed());
 	}
-	
+
 	@Before
 	public void init() {
 		PageObjectManager.init();

@@ -47,18 +47,21 @@ Scenario Outline: Combined searching in Books
 	Examples: 
 		|author        |title        |publisher        |ISBN    |
 		|Diana Jones   |Autumn Colors|Nature Books Ltd.|55134124| 
-		|Anne Wilkinson|Green Food   |Nature Books Ltd.|55432334|
+		|Anne Wilkinson|             |                 |55432334|
+		|Lilly         |             |World            |        |
 		
 Scenario Outline: 
 	Check if error message is displayed when searching with invalid data 
 	Given Books page is loaded 
-	When I search for a non existing book "<invalidData>" 
+	When I search with invalid criteria "<invalidAuthor>" and "<invalidTitle>" and "<invalidPublisher>" and "<invalidISBN>" 
 	Then An error message is displayed, stating that there are no such books in the system 
 	Examples: 
-		|invalidData|
-		|hdgabas    |
-		|ffffff     |
-		|aa3333     |
+		|invalidAuthor|invalidTitle|invalidPublisher|invalidISBN|
+		|hdkjahdabhfs |555555      |34jh24bb        |skadnj     |
+		|hdgabas      |            |                |           |
+		|             |ffffff      |                |           |
+		|             |            |aa3333          |           |
+		|             |            |                |sabg3      |
 		
 		
 		
