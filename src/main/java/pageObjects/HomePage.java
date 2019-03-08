@@ -72,4 +72,11 @@ public class HomePage extends GeneralPage {
 	public void selectCdsCategory() {
 		cdsCategoryButton.click();
 	}
+	
+	public String getRandomCategoryName() {
+		int rnd = (int)(Math.random()*2 +1);
+		if (rnd == 1) {
+		return "Books";
+	} return "CDs";
+	}
 }

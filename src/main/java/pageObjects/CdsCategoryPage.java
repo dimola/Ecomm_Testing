@@ -132,4 +132,22 @@ public class CdsCategoryPage extends CategoryPage {
 		}
 		return this;		
 	}
+
+	public int getRandomNotEmptyCdCategoryNumbers() {
+		int[] notEmptyCatNumbers = new int[10];
+		int rnd = (int)(Math.random()*notEmptyCatNumbers.length);
+		
+		notEmptyCatNumbers[0] = 0;
+		notEmptyCatNumbers[1] = 1;
+		notEmptyCatNumbers[2] = 2;
+		notEmptyCatNumbers[3] = 3;
+		notEmptyCatNumbers[4] = 4;
+		notEmptyCatNumbers[5] = 5;
+		notEmptyCatNumbers[6] = 6;
+		notEmptyCatNumbers[7] = 11;
+		notEmptyCatNumbers[8] = 13;
+		notEmptyCatNumbers[9] = 16;
+		
+		return notEmptyCatNumbers[rnd];
+	}
 }

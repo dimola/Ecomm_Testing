@@ -644,8 +644,83 @@ public class Steps {
 
 	@Then("^I can see the following text displayed : \"([^\"]*)\"$")
 	public void i_can_see_the_following_text_displayed(String arg1) throws Throwable {
-		Assert.assertTrue("Problems while verifying that shopping basket is empty", this.pageObjectManager.getBasketPage().isEmtpyBasketDisplayed());
-		
+		Assert.assertTrue("Problems while verifying that shopping basket is empty",
+				this.pageObjectManager.getBasketPage().isEmtpyBasketDisplayed());
+
+	}
+
+	@When("^(\\d+) products are added to the basket$")
+	public void products_are_added_to_the_basket(int number) throws Throwable {
+		for (int i = 1; i <= number; i++) {
+			if (this.pageObjectManager.getHomePage().getRandomCategoryName() == "Books") {
+				this.pageObjectManager.getBooksPage().open();
+				this.pageObjectManager.getBooksCategoryPage().getSideBarButtons()
+						.get(this.pageObjectManager.getBooksCategoryPage().getRandomNotEmptyBookCategoryNumbers())
+						.click();
+				this.pageObjectManager.getBooksCategoryPage().addRandomProductToBasketFromProductList();
+			} else {
+				this.pageObjectManager.getCdsPage().open();
+				this.pageObjectManager.getCdsCategoryPage().getSideBarButtons()
+						.get(this.pageObjectManager.getCdsCategoryPage().getRandomNotEmptyCdCategoryNumbers()).click();
+				this.pageObjectManager.getCdsCategoryPage().addRandomProductToBasketFromProductList();
+			}
+		}
+	}
+
+	@When("^I open the shopping basket$")
+	public void i_open_the_shopping_basket() throws Throwable {
+		this.pageObjectManager.getBasketPage().open();
+	}
+
+	@Then("^I should see the shopping basket page$")
+	public void i_should_see_the_shopping_basket_page() throws Throwable {
+		this.pageObjectManager.getBasketPage().isOpen();
+		Assert.assertTrue("Logo is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isLogoDisplayed());
+		Assert.assertTrue("Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isMainMenuDisplayed());
+		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isHomeButtonDisplayed());
+		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isBooksButtonDisplayed());
+		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isCdsButtonDisplayed());
+		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isBasketButtonDisplayed());
+		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isRegisterButtonDisplayed());
+		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isLoginButtonDisplayed());
+		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
+				pageObjectManager.getProductDetailsPage().isViewBasketDisplayed());
+	}
+
+	@Then("^I should see all (\\d+) added products$")
+	public void i_should_see_all_added_products(int number) throws Throwable {
+		Assert.assertTrue("Not all added products are displayed in the Basket",
+				this.pageObjectManager.getBasketPage().areAllAddedProductsDisplayed(number));
+	}
+
+	@Then("^I should see all shopping basket information and buttons$")
+	public void i_should_see_all_shopping_basket_information_and_buttons() throws Throwable {
+		Assert.assertTrue("Basket Header is not displayed",
+				this.pageObjectManager.getBasketPage().isBasketHeaderDisplayed());
+		Assert.assertTrue("Remove Product button is not displayed for the products added in the basket",
+				this.pageObjectManager.getBasketPage().isRemoveProductButtonDisplayed());
+		Assert.assertTrue("Remove One Product button is not displayed for the products added in the basket",
+				this.pageObjectManager.getBasketPage().isRemoveOneProductButtonDisplayed());
+		Assert.assertTrue("Add One Product button is not displayed for the products added in the basket",
+				this.pageObjectManager.getBasketPage().isAddOneProductButtonDisplayed());
+		Assert.assertTrue("Product Count button is not displayed for the products added in the basket",
+				this.pageObjectManager.getBasketPage().isProductCountDisplayed());
+		Assert.assertTrue("Product Price is not displayed for the products added in the basket",
+				this.pageObjectManager.getBasketPage().isProductPriceDisplayed());
+		Assert.assertTrue("Product Subtotal is not displayed for the products added in the basket or is not correct",
+				this.pageObjectManager.getBasketPage().isProductSubtotalDisplayed());
+		Assert.assertTrue("Basket Total is not displayed for the products added in the basket or is not correct",
+				this.pageObjectManager.getBasketPage().isBasketTotalDisplayed());
+		Assert.assertTrue("Basket Total is not displayed for the products added in the basket or is not correct",
+				this.pageObjectManager.getBasketPage().isCheckoutButtonDisplayed());
 	}
 
 	@Before

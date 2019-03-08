@@ -48,7 +48,7 @@ public class BooksPage extends CategoryPage {
 		try {
 			result = this.authorTextbox.isDisplayed();
 		} catch (Throwable e) {
-			System.out.println("Problem while checking if authorTextbox is displayed: " + e.getMessage());
+			System.err.println("Problem while checking if authorTextbox is displayed: " + e.getMessage());
 		}
 		return result;
 	}
@@ -58,7 +58,7 @@ public class BooksPage extends CategoryPage {
 		try {
 			result = this.titleTextbox.isDisplayed();
 		} catch (Throwable e) {
-			System.out.println("Problem while checking if titleTextbox is displayed: " + e.getMessage());
+			System.err.println("Problem while checking if titleTextbox is displayed: " + e.getMessage());
 		}
 		return result;
 	}
@@ -68,7 +68,7 @@ public class BooksPage extends CategoryPage {
 		try {
 			result = this.publisherTextbox.isDisplayed();
 		} catch (Throwable e) {
-			System.out.println("Problem while checking if publisherTextbox is displayed: " + e.getMessage());
+			System.err.println("Problem while checking if publisherTextbox is displayed: " + e.getMessage());
 		}
 		return result;
 	}
@@ -78,7 +78,7 @@ public class BooksPage extends CategoryPage {
 		try {
 			result = this.isbnTextbox.isDisplayed();
 		} catch (Throwable e) {
-			System.out.println("Problem while checking if isbnTextbox is displayed: " + e.getMessage());
+			System.err.println("Problem while checking if isbnTextbox is displayed: " + e.getMessage());
 		}
 		return result;
 	}

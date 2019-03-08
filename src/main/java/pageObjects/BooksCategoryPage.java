@@ -25,7 +25,7 @@ public class BooksCategoryPage extends CategoryPage {
 	private static final String RELIGION_SPIRITUALITY_CATEGORY_URL = "/index.php?page=books&category=books-religion-spirituality";
 	private static final String SPORTS_OUTDOORS_CATEGORY_URL = "/index.php?page=books&category=books-sports-outdoors";
 	private static final String TRAVEL_CATEGORY_URL = "/index.php?page=books&category=books-travel";
-
+	
 	public BooksCategoryPage(WebDriver driver) {
 		super(driver);
 	}
@@ -141,5 +141,25 @@ public class BooksCategoryPage extends CategoryPage {
 			this.getSideBarButtons().get(i).click();
 		}
 		return this;
-	}	
+	}
+	
+	public int getRandomNotEmptyBookCategoryNumbers() {
+		int[] notEmptyCatNumbers = new int[12];
+		int rnd = (int)(Math.random()*notEmptyCatNumbers.length);
+		
+		notEmptyCatNumbers[0] = 0;
+		notEmptyCatNumbers[1] = 1;
+		notEmptyCatNumbers[2] = 2;
+		notEmptyCatNumbers[3] = 3;
+		notEmptyCatNumbers[4] = 4;
+		notEmptyCatNumbers[5] = 5;
+		notEmptyCatNumbers[6] = 6;
+		notEmptyCatNumbers[7] = 7;
+		notEmptyCatNumbers[8] = 9;
+		notEmptyCatNumbers[9] = 10;
+		notEmptyCatNumbers[10] = 18;
+		notEmptyCatNumbers[11] = 19;
+		
+		return notEmptyCatNumbers[rnd];
+	}
 }

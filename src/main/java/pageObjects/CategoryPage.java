@@ -52,6 +52,15 @@ public abstract class CategoryPage extends GeneralPage {
 	public String getSelectedCategoryTitle() {
 		return this.selectedCategory.getText();
 	}
+	
+	public String getProductAuthorFromProductListPerCategory(int productNumber) {
+		String removeTitleText = this.allProductsTitlesPerCategory.get(productNumber).getText();
+		String removePricesText = this.allProductsPrisesPerCategory.get(productNumber).getText();
+		String removeButtonAddToBasketText = this.allProductsAddToBasketButtonsPerCategory.get(productNumber).getText();
+		return (this.allProductsPerCategory.get(productNumber).getText().replace(removeTitleText, "")
+				.replace(removePricesText, "").replace(removeButtonAddToBasketText, "").replaceAll(" ", "")
+				.replaceAll("\\r\\n|\\r|\\n", ""));
+	}
 
 	public boolean isSideMenuDisplayed() {
 		boolean result = false;
@@ -71,15 +80,6 @@ public abstract class CategoryPage extends GeneralPage {
 			System.out.println("The Search form is missing" + e.getMessage());
 		}
 		return result;
-	}
-
-	public String getAllProductsAuthorsPerCategory(int itemNumber) {
-		String removeTitleText = this.allProductsTitlesPerCategory.get(itemNumber).getText();
-		String removePricesText = this.allProductsPrisesPerCategory.get(itemNumber).getText();
-		String removeButtonAddToBasketText = this.allProductsAddToBasketButtonsPerCategory.get(itemNumber).getText();
-		return (this.allProductsPerCategory.get(itemNumber).getText().replace(removeTitleText, "")
-				.replace(removePricesText, "").replace(removeButtonAddToBasketText, "").replaceAll(" ", "")
-				.replaceAll("\\r\\n|\\r|\\n", ""));
 	}
 
 	public boolean isSelectedCategoryOpen(String categoryName) {
@@ -129,7 +129,7 @@ public abstract class CategoryPage extends GeneralPage {
 		boolean currentResult = true;
 		try {
 			for (int i = 0; i < this.allProductsPerCategory.size(); i++) {
-				result = currentResult && (this.getAllProductsAuthorsPerCategory(i) != null);
+				result = currentResult && (this.getProductAuthorFromProductListPerCategory(i) != null);
 				currentResult = result;
 			}
 		} catch (Throwable e) {
@@ -177,5 +177,10 @@ public abstract class CategoryPage extends GeneralPage {
 			System.err.println("Problem while checking if Empty Category Error is displayed: " + e.getMessage());
 		}
 		return result;
+	}
+	
+	public void addRandomProductToBasketFromProductList() {
+		int rnd = (int)(Math.random()*this.allProductsAddToBasketButtonsPerCategory.size());
+		this.allProductsAddToBasketButtonsPerCategory.get(rnd).click();
 	}
 }
