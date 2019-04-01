@@ -26,15 +26,22 @@ public class HomePage extends GeneralPage {
 		return this;
 	}
 
-	@Override
-	public boolean isOpen() {
-		boolean result = false;
-		try {
-			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Home");
-		} catch (Throwable e) {
-			System.err.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage());
-		}
-		return result;
+	//Methods
+	public void selectBookCategory() {
+		booksCategoryButton.click();
+	}
+
+	public void selectCdsCategory() {
+		cdsCategoryButton.click();
+	}
+
+	//Getters
+	public WebElement getBooksCategoryButton(){
+		return this.booksCategoryButton;
+	}
+
+	public WebElement getCdsCategoryButton(){
+		return this.cdsCategoryButton;
 	}
 
 	public boolean logOutButtonIsNotPresent() {
@@ -45,11 +52,15 @@ public class HomePage extends GeneralPage {
 		}
 	}
 
-	public void selectBookCategory() {
-		booksCategoryButton.click();
-	}
-
-	public void selectCdsCategory() {
-		cdsCategoryButton.click();
+	//To be deleted?
+	@Override
+	public boolean isOpen() {
+		boolean result = false;
+		try {
+			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Home");
+		} catch (Throwable e) {
+			System.err.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage());
+		}
+		return result;
 	}
 }

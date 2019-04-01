@@ -39,6 +39,8 @@ public class PageObjectManager {
 		return pageObjectManager;
 	}
 
+
+
 	private PageObjectManager(WebDriver driver) {
 		this.driver = driver;
 	}
