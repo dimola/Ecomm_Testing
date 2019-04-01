@@ -1,6 +1,7 @@
 package customAssertions;
 
 import org.assertj.core.api.AbstractAssert;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElement> {
@@ -16,8 +17,13 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
     public WebElementAssert isDisplayed(){
         isNotNull();
 
-        if(!actual.isDisplayed()){
-            failWithMessage("WebElement <%s> is not displayed.", actual);
+        if (actual == null){
+            failWithMessage("WebElement is not displayed.");
+        }
+        else {
+            if(!actual.isDisplayed()){
+                failWithMessage("WebElement <%s> is not displayed.", actual);
+            }
         }
 
         return this;
@@ -26,18 +32,26 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
     public WebElementAssert isNotDisplayed(){
         isNotNull();
 
-        if(actual.isDisplayed()){
-            failWithMessage("Web Element <%s> is displayed when it should not.", actual);
+        if(actual != null){
+            if(actual.isDisplayed()){
+                failWithMessage("Web Element <%s> is displayed when it should not.", actual);
+            }
         }
 
         return this;
     }
 
+
     public WebElementAssert textEquals(String expected){
         isNotNull();
 
-        if (!actual.getText().equals(expected)){
-            failWithMessage("Expected text: <%s> . Actual text: <%s>: ", expected, actual.getText());
+        if(actual == null){
+            failWithMessage("Element is not loaded!");
+        }
+        else{
+            if (!actual.getText().equals(expected)){
+                failWithMessage("Expected text: <%s> . Actual text: <%s>: ", expected, actual.getText());
+            }
         }
 
         return this;
