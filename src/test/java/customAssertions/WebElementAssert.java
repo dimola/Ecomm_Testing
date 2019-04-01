@@ -32,9 +32,16 @@ public class WebElementAssert extends AbstractAssert<WebElementAssert, WebElemen
     public WebElementAssert isNotDisplayed(){
         isNotNull();
 
-        if(actual != null){
-            if(actual.isDisplayed()){
-                failWithMessage("Web Element <%s> is displayed when it should not.", actual);
+        boolean isDisplayed = true;
+        try{
+            actual.isDisplayed();
+        }
+        catch (NoSuchElementException e){
+            isDisplayed = false;
+        }
+        finally {
+            if (isDisplayed){
+                failWithMessage("Element <%s> is displayed when it should not.", actual);
             }
         }
 
