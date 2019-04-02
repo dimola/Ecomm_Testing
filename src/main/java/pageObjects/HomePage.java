@@ -44,14 +44,6 @@ public class HomePage extends GeneralPage {
 		return this.cdsCategoryButton;
 	}
 
-	public boolean logOutButtonIsNotPresent() {
-		if (driver.getPageSource().contains("Logout")) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 	//To be deleted?
 	@Override
 	public boolean isOpen() {
@@ -62,5 +54,13 @@ public class HomePage extends GeneralPage {
 			System.err.println("Problem while checking if Home Page Heading is displayed: " + e.getMessage());
 		}
 		return result;
+	}
+
+	public boolean logOutButtonIsNotPresent() {
+		if (driver.getPageSource().contains("Logout")) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }

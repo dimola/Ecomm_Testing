@@ -29,6 +29,18 @@ public class BooksPage extends CategoryPage {
 		return this.authorTextbox;
 	}
 
+	public WebElement getPublisherTextbox(){
+		return this.publisherTextbox;
+	}
+
+	public WebElement getTitleTextbox(){
+		return this.titleTextbox;
+	}
+
+	public WebElement getIsbnTextbox(){
+		return this.isbnTextbox;
+	}
+
 	//Methods
 	@Override
 	public BooksPage open() {
