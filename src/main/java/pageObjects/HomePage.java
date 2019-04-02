@@ -26,6 +26,25 @@ public class HomePage extends GeneralPage {
 		return this;
 	}
 
+	//Methods
+	public void selectBookCategory() {
+		booksCategoryButton.click();
+	}
+
+	public void selectCdsCategory() {
+		cdsCategoryButton.click();
+	}
+
+	//Getters
+	public WebElement getBooksCategoryButton(){
+		return this.booksCategoryButton;
+	}
+
+	public WebElement getCdsCategoryButton(){
+		return this.cdsCategoryButton;
+	}
+
+	//To be deleted?
 	@Override
 	public boolean isOpen() {
 		boolean result = false;
@@ -43,13 +62,5 @@ public class HomePage extends GeneralPage {
 		} else {
 			return true;
 		}
-	}
-
-	public void selectBookCategory() {
-		booksCategoryButton.click();
-	}
-
-	public void selectCdsCategory() {
-		cdsCategoryButton.click();
 	}
 }

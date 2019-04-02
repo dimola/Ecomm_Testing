@@ -23,21 +23,39 @@ public class LoginPage extends GeneralPage {
 		super(driver);
 	}
 
+	//Methods
 	@Override
 	public LoginPage open() {
 		this.driver.get(this.configFileReader.getHost() + PAGE_URL);
 		return this;
 	}
 
-	@Override
-	public boolean isOpen() {
-		boolean result = false;
-		try {
-			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Login");
-		} catch (Throwable e) {
-			System.err.println("Problem while checking if Login Page Heading is displayed: " + e.getMessage());
-		}
-		return result;
+	public void clickLogIn() {
+		buttonLogin.click();
+	}
+
+	public void login(String username, String password) {
+		enterUserName(username);
+		enterPassword(password);
+		clickLogIn();
+	}
+
+
+	//Getters
+	public WebElement getTxtbxUserName(){
+		return this.txtbxUserName;
+	}
+
+	public WebElement getTxtbxPassword(){
+		return this.txtbxPassword;
+	}
+
+	public WebElement getButtonLogin(){
+		return this.buttonLogin;
+	}
+
+	public WebElement getTimerMessage(){
+		return this.timerMessage;
 	}
 
 	public LoginPage enterUserName(String username) {
@@ -50,8 +68,16 @@ public class LoginPage extends GeneralPage {
 		return this;
 	}
 
-	public void clickLogIn() {
-		buttonLogin.click();
+	//To be deleted?
+	@Override
+	public boolean isOpen() {
+		boolean result = false;
+		try {
+			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Login");
+		} catch (Throwable e) {
+			System.err.println("Problem while checking if Login Page Heading is displayed: " + e.getMessage());
+		}
+		return result;
 	}
 
 	public boolean timerIsDisplayed() {
@@ -62,11 +88,5 @@ public class LoginPage extends GeneralPage {
 			System.out.println("Login timer is not displayed and user is not logged in " + e.getMessage());
 		}
 		return result;
-	}
-
-	public void login(String username, String password) {
-		enterUserName(username);
-		enterPassword(password);
-		clickLogIn();
 	}
 }

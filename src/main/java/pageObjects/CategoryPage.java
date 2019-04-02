@@ -18,6 +18,28 @@ public abstract class CategoryPage extends GeneralPage {
 	@FindBy(name = "search")
 	protected WebElement searchForm;
 
+	public CategoryPage(WebDriver driver) {
+		super(driver);
+	}
+
+	//Getters
+	public WebElement getProductListTitle(){
+		return this.productListTitle;
+	}
+
+	public WebElement getSideMenu(){
+		return this.sideMenu;
+	}
+
+	public WebElement getProductList(){
+		return this.productList;
+	}
+
+	public WebElement getSearchForm(){
+		return this.searchForm;
+	}
+
+	//To be deleted?
 	public boolean isSideMenuDisplayed() {
 		boolean result = false;
 		try {
@@ -46,9 +68,5 @@ public abstract class CategoryPage extends GeneralPage {
 			System.out.println("The Search form is missing" + e.getMessage());
 		}
 		return result;
-	}
-
-	public CategoryPage(WebDriver driver) {
-		super(driver);
 	}
 }
