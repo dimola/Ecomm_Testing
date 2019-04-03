@@ -165,9 +165,5 @@ public abstract class CategoryPage extends GeneralPage {
 		}
 		return result;
 	}
-	
-	public CategoryPage(WebDriver driver) {
-		super(driver);
-	}
 
 }
