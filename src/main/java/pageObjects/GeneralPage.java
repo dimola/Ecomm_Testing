@@ -58,52 +58,6 @@ public abstract class GeneralPage {
 		logoutMenuElement.click();
 	}
 
-	//Getters
-	public WebElement getBasketMenuElement(){
-		return this.basketMenuElement;
-	}
-
-	public WebElement getLogo(){
-		return this.logo;
-	}
-
-	public WebElement getMainMenuElement(){
-		return this.mainMenuElement;
-	}
-
-	public WebElement getHomeMenuElement(){
-		return this.homeMenuElement;
-	}
-
-	public WebElement getBooksMenuElement(){
-		return this.booksMenuElement;
-	}
-
-	public WebElement getCdsMenuElement(){
-		return this.cdsMenuElement;
-	}
-
-	public WebElement getRegisterMenuElement(){
-		return this.registerMenuElement;
-	}
-
-	public WebElement getLoginMenuElement(){
-		return this.loginMenuElement;
-	}
-
-	public WebElement getLogoutMenuElement(){
-		return this.logoutMenuElement;
-	}
-
-	public WebElement getViewBasketMenuElement(){
-		return this.viewBasketMenuElement;
-	}
-
-	public WebElement getPageHeadingTitle(){
-		return this.pageHeadingTitle;
-	}
-
-	//To be deleted?
 	@SuppressWarnings("finally")
 	public boolean isMainMenuDisplayed() {
 		boolean result = false;

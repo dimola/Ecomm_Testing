@@ -40,24 +40,6 @@ public class LoginPage extends GeneralPage {
 		clickLogIn();
 	}
 
-
-	//Getters
-	public WebElement getTxtbxUserName(){
-		return this.txtbxUserName;
-	}
-
-	public WebElement getTxtbxPassword(){
-		return this.txtbxPassword;
-	}
-
-	public WebElement getButtonLogin(){
-		return this.buttonLogin;
-	}
-
-	public WebElement getTimerMessage(){
-		return this.timerMessage;
-	}
-
 	public LoginPage enterUserName(String username) {
 		txtbxUserName.sendKeys(username);
 		return this;
@@ -68,7 +50,6 @@ public class LoginPage extends GeneralPage {
 		return this;
 	}
 
-	//To be deleted?
 	@Override
 	public boolean isOpen() {
 		boolean result = false;

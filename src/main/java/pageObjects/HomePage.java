@@ -35,16 +35,6 @@ public class HomePage extends GeneralPage {
 		cdsCategoryButton.click();
 	}
 
-	//Getters
-	public WebElement getBooksCategoryButton(){
-		return this.booksCategoryButton;
-	}
-
-	public WebElement getCdsCategoryButton(){
-		return this.cdsCategoryButton;
-	}
-
-	//To be deleted?
 	@Override
 	public boolean isOpen() {
 		boolean result = false;
