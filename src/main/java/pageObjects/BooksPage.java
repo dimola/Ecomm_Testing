@@ -27,31 +27,12 @@ public class BooksPage extends CategoryPage {
 		super(driver);
 	}
 
-	//Getters
-	public WebElement getAuthorTextbox(){
-		return this.authorTextbox;
-	}
-
-	public WebElement getPublisherTextbox(){
-		return this.publisherTextbox;
-	}
-
-	public WebElement getTitleTextbox(){
-		return this.titleTextbox;
-	}
-
-	public WebElement getIsbnTextbox(){
-		return this.isbnTextbox;
-	}
-
-	//Methods
 	@Override
 	public BooksPage open() {
 		this.driver.get(configFileReader.getHost() + PAGE_URL);
 		return this;
 	}
 
-	//To be deleted?
 	@Override
 	public boolean isOpen() {
 		boolean result = false;

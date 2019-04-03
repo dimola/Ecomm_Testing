@@ -41,7 +41,6 @@ public class CdsPage extends CategoryPage {
 		return result;
 	}
 
-	//To be deleted?
 	public boolean isArtistTextboxDisplayed() {
 		boolean result = false;
 		try {

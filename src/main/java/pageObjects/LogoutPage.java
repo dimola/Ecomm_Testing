@@ -25,12 +25,6 @@ public class LogoutPage extends GeneralPage {
 		buttonConfirmLogout.click();
 	}
 
-	//Getters
-	public WebElement getButtonConfirmLogout(){
-		return this.buttonConfirmLogout;
-	}
-
-	//To be deleted?
 	@Override
 	public boolean isOpen() {
 		boolean result = false;

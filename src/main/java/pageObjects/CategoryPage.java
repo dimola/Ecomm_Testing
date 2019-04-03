@@ -41,29 +41,9 @@ public abstract class CategoryPage extends GeneralPage {
 	@FindBy(css = "#main-big-col > b.err")
 	private WebElement errorMessage;
 
-
 	public CategoryPage(WebDriver driver) {
 		super(driver);
 	}
-
-	//Getters
-	public WebElement getProductListTitle(){
-		return this.productListTitle;
-	}
-
-	public WebElement getSideMenu(){
-		return this.sideMenu;
-	}
-
-	public WebElement getProductList(){
-		return this.productList;
-	}
-
-	public WebElement getSearchForm(){
-		return this.searchForm;
-	}
-
-	//To be deleted?
 
 	public boolean isSideMenuDisplayed() {
 		boolean result = false;
