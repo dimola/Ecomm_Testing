@@ -8,3 +8,14 @@ Scenario Outline: Verify that links are redirecting to correct place
 	|category|page     |
 	|Books   |BooksPage|
 	|Cds     |CdsPage  |
+
+
+Scenario Outline: Verify that by clicking on the logo the user is redirected to Home page
+    Given A "<page>" from the ACME website is loaded
+    When I click on the logo
+    Then I am redirected to Home page
+    Examples:
+    |page     |
+    |BooksPage|
+    |CdsPage  |
+    |LoginPage|

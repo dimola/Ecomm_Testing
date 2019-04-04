@@ -53,4 +53,8 @@ public class HomePage extends GeneralPage {
 			return true;
 		}
 	}
+
+	public void clickOnLogo(){
+		logo.click();
+	}
 }

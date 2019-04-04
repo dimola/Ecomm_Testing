@@ -7,6 +7,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import managers.PageObjectManager;
+import static org.assertj.core.api.Assertions.*;
 
 public class Steps {
 
@@ -221,7 +222,32 @@ public class Steps {
 		Assert.assertTrue("Books are displayed", pageObjectManager.getBooksPage().isErrorMessageDisplayed());
 	}
 
-	@Before
+    @Given("^A \"([^\"]*)\" from the ACME website is loaded$")
+    public void a_page_from_the_ACME_website_is_loaded(String page) throws Throwable{
+
+        if (page.equals("BooksPage")){
+            pageObjectManager.getBooksPage().open();
+        }
+        if (page.equals("CdsPage")){
+            pageObjectManager.getCdsPage().open();
+        }
+        if (page.equals("LoginPage")){
+            pageObjectManager.getLoginPage().open();
+        }
+    }
+
+    @When("^I click on the logo$")
+    public void i_click_on_the_logo(){
+        pageObjectManager.getHomePage().clickOnLogo();
+    }
+
+    @Then("^I am redirected to Home page$")
+    public void i_am_redirected_to_Home_page() {
+        assertThat(pageObjectManager.getHomePage().getPageTitle()).as("").isEqualTo("Home");
+    }
+
+
+    @Before
 	public void init() {
 		PageObjectManager.init();
 		pageObjectManager = PageObjectManager.getManager();
