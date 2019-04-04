@@ -1,5 +1,6 @@
 package pageObjects;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -56,6 +57,111 @@ public abstract class GeneralPage {
 
 	public void clickLogOut() {
 		logoutMenuElement.click();
+	}
+
+	public String getPageTitle(){
+		try {
+			if (this.pageHeadingTitle.isDisplayed()){
+				return this.pageHeadingTitle.getText();
+			}
+			else{
+				return "Can't find page title";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't load page title.";
+		}
+	}
+
+	public String getHomeButtonText(){
+		try {
+			if (this.homeMenuElement.isDisplayed()){
+				return this.homeMenuElement.getText();
+			}
+			else{
+				return "Can't find Home button";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't load Home button.";
+		}
+	}
+
+	public String getBooksButtonText(){
+		try {
+			if (this.homeMenuElement.isDisplayed()){
+				return this.homeMenuElement.getText();
+			}
+			else{
+				return "Can't find Books button";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't load Books button.";
+		}
+	}
+
+	public String getCDsButtonText(){
+		try {
+			if (this.cdsMenuElement.isDisplayed()){
+				return this.cdsMenuElement.getText();
+			}
+			else{
+				return "Can't find Cds button";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't load Cds button.";
+		}
+	}
+
+	public String getViewBasketButtonText(){
+		try {
+			if (this.viewBasketMenuElement.isDisplayed()){
+				return this.viewBasketMenuElement.getText();
+			}
+			else{
+				return "Can't find Basket button";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't load Basket button.";
+		}
+	}
+
+	public String getRegisterButtonText() {
+		try {
+			if (this.registerMenuElement.isDisplayed()){
+				return this.registerMenuElement.getText();
+			}
+			else{
+				return "Can't find Register button";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't load Register button.";
+		}
+	}
+
+	public String getBasketIconText(){
+		try {
+			if (this.basketMenuElement.isDisplayed()){
+				return this.basketMenuElement.getText();
+			}
+			else{
+				return "Can't find basket icon";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't load basket icon.";
+		}
 	}
 
 	@SuppressWarnings("finally")
