@@ -14,8 +14,8 @@ public abstract class GeneralPage {
 
 	@FindBy(id = "logo")
 	protected WebElement logo;
-	
-	@FindBy(id ="main-menu")
+
+	@FindBy(id = "main-menu")
 	protected WebElement mainMenuElement;
 
 	@FindBy(css = "a[href^='index.php?page=home']")
@@ -27,7 +27,7 @@ public abstract class GeneralPage {
 	@FindBy(css = "a[href^='index.php?page=cds']")
 	protected WebElement cdsMenuElement;
 
-	@FindBy(css = "#main-menu > a:nth-child(4)") //changed to be like this because the previous returns two web elements
+	@FindBy(css = "#main-menu > a:nth-child(4)")
 	protected WebElement basketMenuElement;
 
 	@FindBy(css = "a[href^='index.php?page=register']")
@@ -41,6 +41,12 @@ public abstract class GeneralPage {
 
 	@FindBy(id = "basket")
 	protected WebElement viewBasketMenuElement;
+
+	@FindBy(id = "product-list")
+	protected WebElement productList;
+
+	@FindBy(css = "#product-list h4")
+	protected WebElement productListTitle;
 
 	@FindBy(css = "#main-big-col h3")
 	protected WebElement pageHeadingTitle;
@@ -175,7 +181,7 @@ public abstract class GeneralPage {
 			return result;
 		}
 	}
-	
+
 	@SuppressWarnings("finally")
 	public boolean isLogoDisplayed() {
 		boolean result = false;
@@ -187,7 +193,7 @@ public abstract class GeneralPage {
 			return result;
 		}
 	}
-	
+
 	@SuppressWarnings("finally")
 	public boolean isHomeButtonDisplayed() {
 		boolean result = false;
@@ -199,7 +205,7 @@ public abstract class GeneralPage {
 			return result;
 		}
 	}
-	
+
 	@SuppressWarnings("finally")
 	public boolean isBooksButtonDisplayed() {
 		boolean result = false;
@@ -211,7 +217,7 @@ public abstract class GeneralPage {
 			return result;
 		}
 	}
-	
+
 	@SuppressWarnings("finally")
 	public boolean isCdsButtonDisplayed() {
 		boolean result = false;
@@ -223,14 +229,14 @@ public abstract class GeneralPage {
 			return result;
 		}
 	}
-	
+
 	@SuppressWarnings("finally")
 	public boolean isBasketButtonDisplayed() {
 		boolean result = false;
 		try {
-			result = cdsMenuElement.isDisplayed();
+			result = basketMenuElement.isDisplayed();
 		} catch (Throwable e) {
-			System.out.println("Problem while checking if the cdsMenuElement is displayed: " + e.getMessage());
+			System.out.println("Problem while checking if the basketMenuElement is displayed: " + e.getMessage());
 		} finally {
 			return result;
 		}
@@ -271,7 +277,7 @@ public abstract class GeneralPage {
 			return result;
 		}
 	}
-	
+
 	@SuppressWarnings("finally")
 	public boolean isViewBasketDisplayed() {
 		boolean result = false;
@@ -282,5 +288,19 @@ public abstract class GeneralPage {
 		} finally {
 			return result;
 		}
+	}
+
+	public boolean isProductListDisplayed() {
+		boolean result = false;
+		try {
+			result = this.productList.isDisplayed();
+		} catch (Throwable e) {
+			System.out.println("The product list is missing" + e.getMessage());
+		}
+		return result;
+	}
+
+	public void clickLogOut() {
+		logoutMenuElement.click();
 	}
 }

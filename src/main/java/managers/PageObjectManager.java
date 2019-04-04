@@ -6,11 +6,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import dataProviders.ConfigFileReader;
+import pageObjects.BasketPage;
+import pageObjects.BooksCategoryPage;
 import pageObjects.BooksPage;
+import pageObjects.CdsCategoryPage;
 import pageObjects.CdsPage;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import pageObjects.LogoutPage;
+import pageObjects.ProductDetailsPage;
 
 public class PageObjectManager {
 
@@ -20,6 +24,10 @@ public class PageObjectManager {
 	private HomePage homePage;
 	private LogoutPage logoutPage;
 	private CdsPage cdsPage;
+	private BooksCategoryPage booksCategoryPage;
+	private CdsCategoryPage cdsCategoryPage;
+	private ProductDetailsPage productDetailsPage;
+	private BasketPage basketPage;
 
 	private static PageObjectManager pageObjectManager;
 
@@ -65,6 +73,22 @@ public class PageObjectManager {
 		return (cdsPage == null) ? cdsPage = new CdsPage(driver) : cdsPage;
 	}
 
+	public BooksCategoryPage getBooksCategoryPage() {
+		return (booksCategoryPage == null) ? booksCategoryPage = new BooksCategoryPage(driver) : booksCategoryPage;
+	}
+	
+	public CdsCategoryPage getCdsCategoryPage() {
+		return (cdsCategoryPage == null) ? cdsCategoryPage = new CdsCategoryPage(driver) : cdsCategoryPage;
+	}
+	
+	public ProductDetailsPage getProductDetailsPage() {
+		return (productDetailsPage == null) ? productDetailsPage = new ProductDetailsPage(driver) : productDetailsPage;
+	}
+	
+	public BasketPage getBasketPage() {
+		return (basketPage == null) ? basketPage = new BasketPage(driver) : basketPage;
+	}
+	
 	public void quit() {
 		this.driver.quit();
 		pageObjectManager = null;
