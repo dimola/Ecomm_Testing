@@ -34,6 +34,7 @@ public class PageObjectManager {
 	public static void init() {
 		if (pageObjectManager == null || pageObjectManager.driver == null) {
 			ConfigFileReader configFileReader = new ConfigFileReader();
+			System.setProperty("webdriver.chrome.driver", "drivers//chromedriver.exe");
 			WebDriver driver = new ChromeDriver();
 			driver.manage().window().maximize();
 			driver.manage().timeouts().implicitlyWait(configFileReader.getImplicitlyWait(), TimeUnit.SECONDS);
@@ -45,6 +46,8 @@ public class PageObjectManager {
 	public static PageObjectManager getManager() {
 		return pageObjectManager;
 	}
+
+
 
 	private PageObjectManager(WebDriver driver) {
 		this.driver = driver;
@@ -90,5 +93,5 @@ public class PageObjectManager {
 		this.driver.quit();
 		pageObjectManager = null;
 	}
-	}
 
+}

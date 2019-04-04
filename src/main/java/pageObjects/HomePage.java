@@ -26,6 +26,15 @@ public class HomePage extends GeneralPage {
 		return this;
 	}
 
+	//Methods
+	public void selectBookCategory() {
+		booksCategoryButton.click();
+	}
+
+	public void selectCdsCategory() {
+		cdsCategoryButton.click();
+	}
+
 	@Override
 	public boolean isOpen() {
 		boolean result = false;
@@ -79,4 +88,5 @@ public class HomePage extends GeneralPage {
 		return "Books";
 	} return "CDs";
 	}
+
 }

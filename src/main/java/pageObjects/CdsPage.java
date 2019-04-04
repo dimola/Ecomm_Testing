@@ -19,6 +19,7 @@ public class CdsPage extends CategoryPage {
 	@FindBy(name = "Composer")
 	private WebElement composerTextbox;
 	
+
 	public CdsPage(WebDriver driver) {
 		super(driver);
 	}

@@ -14,10 +14,15 @@ public class LogoutPage extends GeneralPage {
 		super(driver);
 	}
 
+	//Methods
 	@Override
 	public LogoutPage open() {
 		this.driver.get(this.configFileReader.getHost() + PAGE_URL);
 		return this;
+	}
+
+	public void clickConfirmLogOut() {
+		buttonConfirmLogout.click();
 	}
 
 	@Override
@@ -31,7 +36,4 @@ public class LogoutPage extends GeneralPage {
 		return result;
 	}
 
-	public void clickConfirmLogOut() {
-		buttonConfirmLogout.click();
-	}
 }

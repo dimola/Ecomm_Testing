@@ -1,7 +1,6 @@
 package stepDefinitions;
 
 import org.junit.Assert;
-
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -20,6 +19,7 @@ public class Steps {
 
 	@Then("^I should be successfully logged in$")
 	public void I_should_be_successfully_logged_in() throws Throwable {
+
 		Assert.assertTrue("Home page is not on focus", pageObjectManager.getHomePage().isOpen());
 		Assert.assertFalse("Login button is displayed after login but it should not",
 				pageObjectManager.getHomePage().isLoginButtonDisplayed());
@@ -27,6 +27,7 @@ public class Steps {
 				pageObjectManager.getHomePage().isRegisterButtonDisplayed());
 		Assert.assertTrue("Logout button is not displayed after login but it should",
 				pageObjectManager.getHomePage().isLogoutButtonDisplayed());
+
 	}
 
 	@Then("^I am not logged in the system$")
@@ -59,12 +60,12 @@ public class Steps {
 				pageObjectManager.getHomePage().isRegisterButtonDisplayed());
 		Assert.assertFalse("Logout button is displayed after logout",
 				pageObjectManager.getHomePage().isLogoutButtonDisplayed());
+
 	}
 
 	// TC 20 Verify that links are redirecting to correct place
 
 	@Given("^Home page is loaded$")
-	@When("^I redirect to home page$")
 	public void Home_page_is_loaded() throws Throwable {
 		pageObjectManager.getHomePage().open();
 	}
@@ -82,9 +83,13 @@ public class Steps {
 		if (page == "BooksPage") {
 			Assert.assertTrue("Problems while verifying that Books Category Page is displayed",
 					pageObjectManager.getBooksPage().isOpen());
-		} else
+
+		} else{
 			Assert.assertTrue("Problems while verifying that Cds Category Page is displayed",
 					pageObjectManager.getCdsPage().isOpen());
+
+		}
+
 	}
 
 	@When("^I redirect to books page$")
@@ -94,8 +99,6 @@ public class Steps {
 
 	@Then("^I should see the books page$")
 	public void i_should_see_the_books_page() throws Throwable {
-		Assert.assertTrue("Problems while verifying that Books Page is displayed",
-				pageObjectManager.getBooksPage().isOpen());
 		Assert.assertTrue("Logo is not displayed on the page", pageObjectManager.getBooksPage().isLogoDisplayed());
 		Assert.assertTrue("Main Menu is not displayed on the page",
 				pageObjectManager.getBooksPage().isMainMenuDisplayed());
@@ -131,6 +134,91 @@ public class Steps {
 				pageObjectManager.getBooksPage().isPublisherTextboxDisplayed());
 		Assert.assertTrue("ISBN textbox in the Search Form is not displayed on the page",
 				pageObjectManager.getBooksPage().isIsbnTextboxDisplayed());
+	}
+
+	@Given("^Books page is loaded$")
+	public void books_page_is_loaded() throws Throwable {
+		pageObjectManager.getBooksPage().open();
+	}
+
+	@When("^I search for a certain author \"([^\"]*)\"$")
+	public void i_search_for_a_certain_author(String author) throws Throwable {
+		pageObjectManager.getBooksPage().enterAuthor(author);
+		pageObjectManager.getBooksPage().clickSubmit();
+	}
+
+	@Then("^All displayed books are written by this author \"([^\"]*)\"$")
+	public void all_displayed_books_are_written_by_this_author(String author) throws Throwable {
+		Assert.assertTrue("Displayed books are not written by this author",
+				pageObjectManager.getBooksPage().areAllProductsWrittenBySearchedAuthorOrArtist(author));
+	}
+
+	@When("^I search for a certain Book by its title \"([^\"]*)\"$")
+	public void i_search_for_a_certain_Book_by_its_title(String title) throws Throwable {
+		pageObjectManager.getBooksPage().enterTitle(title);
+		pageObjectManager.getBooksPage().clickSubmit();
+	}
+
+	@Then("^The book is displayed \"([^\"]*)\"$")
+	public void the_book_is_displayed(String title) throws Throwable {
+		Assert.assertTrue("Displayed book does not have the same title",
+				pageObjectManager.getBooksPage().doesAllProductsContainSearchedTitle(title));
+	}
+
+	@When("^I search for a certain publisher \"([^\"]*)\"$")
+	public void i_search_for_a_certain_publisher(String publisher) throws Throwable {
+		pageObjectManager.getBooksPage().enterPublisher(publisher);
+		pageObjectManager.getBooksPage().clickSubmit();
+	}
+
+	@Then("^All books from this publisher are displayed \"([^\"]*)\"$")
+	public void all_books_from_this_publisher_are_displayed(String publisher) throws Throwable {
+		Assert.assertTrue("Displayed books are not written by this publisher",
+				pageObjectManager.getBooksPage().areAllBooksPublishedBySearchedPublisher(publisher));
+	}
+
+	@When("^I search for a certain ISBN \"([^\"]*)\"$")
+	public void i_search_for_a_certain_ISBN(String ISBN) throws Throwable {
+		pageObjectManager.getBooksPage().enterIsbn(ISBN);
+		pageObjectManager.getBooksPage().clickSubmit();
+	}
+
+	@Then("^The book with that number is displayed \"([^\"]*)\"$")
+	public void the_book_with_that_number_is_displayed(String ISBN) throws Throwable {
+		Assert.assertTrue("Displayed books are not with this number",
+				pageObjectManager.getBooksPage().doesAllProductsContainSearchedISBN(ISBN));
+	}
+
+	@When("^I search for more than one of the search criteria at the same time \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
+	public void i_search_for_more_than_one_of_the_search_criteria_at_the_same_time_and_and_and(String author,
+			String title, String publisher, String ISBN) throws Throwable {
+		pageObjectManager.getBooksPage().enterAuthor(author);
+		pageObjectManager.getBooksPage().enterTitle(title);
+		pageObjectManager.getBooksPage().enterPublisher(publisher);
+		pageObjectManager.getBooksPage().enterIsbn(ISBN);
+		pageObjectManager.getBooksPage().clickSubmit();
+	}
+
+	@Then("^The book answering to the respective criteria is displayed \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
+	public void the_book_answering_to_the_respective_criteria_is_displayed_and_and_and(String author, String title,
+			String publisher, String ISBN) throws Throwable {
+		Assert.assertTrue("Displayed books are not answering the respective criteria",
+				pageObjectManager.getBooksPage().isTheResultAnsweringRespectiveSearchCriteria(author, title, publisher, ISBN));
+	}
+
+	@When("^I search with invalid criteria \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
+	public void i_search_with_invalid_criteria_and_and_and(String invalidAuthor, String invalidTitle,
+			String invalidPublisher, String invalidISBN) throws Throwable {
+		pageObjectManager.getBooksPage().enterAuthor(invalidAuthor);
+		pageObjectManager.getBooksPage().enterTitle(invalidTitle);
+		pageObjectManager.getBooksPage().enterPublisher(invalidPublisher);
+		pageObjectManager.getBooksPage().enterIsbn(invalidISBN);
+		pageObjectManager.getBooksPage().clickSubmit();
+	}
+
+	@Then("^An error message is displayed, stating that there are no such books in the system$")
+	public void an_error_message_is_displayed_stating_that_there_are_no_such_books_in_the_system() throws Throwable {
+		Assert.assertTrue("Books are displayed", pageObjectManager.getBooksPage().isErrorMessageDisplayed());
 	}
 
 	@Then("^I should see the home page$")
@@ -208,54 +296,54 @@ public class Steps {
 	@When("^I redirect to not empty \"([^\"]*)\" category of Books$")
 	public void i_redirect_to_not_empty_category_of_Books(String bookCategory) throws Throwable {
 		switch (bookCategory) {
-		case "Art": {
-			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(0);
-			break;
-		}
-		case "Biographies": {
-			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(1);
-			break;
-		}
-		case "Children’s books": {
-			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(2);
-			break;
-		}
-		case "Finance": {
-			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(3);
-			break;
-		}
-		case "Computers": {
-			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(4);
-			break;
-		}
-		case "Cooking, food & wine": {
-			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(5);
-			break;
-		}
-		case "Entertainment": {
-			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(6);
-			break;
-		}
-		case "Mind & body": {
-			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(7);
-			break;
-		}
-		case "Hobbies": {
-			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(9);
-			break;
-		}
-		case "Home & garden": {
-			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(10);
-			break;
-		}
-		case "Science & nature": {
-			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(18);
-			break;
-		}
-		case "Science fiction": {
-			pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(19);
-			break;
-		}
+			case "Art": {
+				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(0);
+				break;
+			}
+			case "Biographies": {
+				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(1);
+				break;
+			}
+			case "Children’s books": {
+				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(2);
+				break;
+			}
+			case "Finance": {
+				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(3);
+				break;
+			}
+			case "Computers": {
+				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(4);
+				break;
+			}
+			case "Cooking, food & wine": {
+				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(5);
+				break;
+			}
+			case "Entertainment": {
+				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(6);
+				break;
+			}
+			case "Mind & body": {
+				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(7);
+				break;
+			}
+			case "Hobbies": {
+				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(9);
+				break;
+			}
+			case "Home & garden": {
+				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(10);
+				break;
+			}
+			case "Science & nature": {
+				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(18);
+				break;
+			}
+			case "Science fiction": {
+				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(19);
+				break;
+			}
 		}
 	}
 
@@ -306,46 +394,46 @@ public class Steps {
 	@When("^I redirect to not empty \"([^\"]*)\" category of CDs$")
 	public void i_redirect_to_not_empty_category_of_CDs(String cdsCategory) throws Throwable {
 		switch (cdsCategory) {
-		case "Alternative": {
-			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(0);
-			break;
-		}
-		case "Blues": {
-			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(1);
-			break;
-		}
-		case "Children’s music": {
-			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(2);
-			break;
-		}
-		case "Classical": {
-			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(3);
-			break;
-		}
-		case "Country": {
-			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(4);
-			break;
-		}
-		case "Dance & DJ": {
-			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(5);
-			break;
-		}
-		case "Folk": {
-			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(6);
-			break;
-		}
-		case "New age": {
-			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(11);
-			break;
-		}
-		case "Pop": {
-			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(13);
-			break;
-		}
-		case "Soul": {
-			pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(16);
-			break;
-		}
+			case "Alternative": {
+				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(0);
+				break;
+			}
+			case "Blues": {
+				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(1);
+				break;
+			}
+			case "Children’s music": {
+				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(2);
+				break;
+			}
+			case "Classical": {
+				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(3);
+				break;
+			}
+			case "Country": {
+				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(4);
+				break;
+			}
+			case "Dance & DJ": {
+				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(5);
+				break;
+			}
+			case "Folk": {
+				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(6);
+				break;
+			}
+			case "New age": {
+				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(11);
+				break;
+			}
+			case "Pop": {
+				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(13);
+				break;
+			}
+			case "Soul": {
+				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(16);
+				break;
+			}
 		}
 	}
 
@@ -396,46 +484,46 @@ public class Steps {
 	@When("^I redirect to empty \"([^\"]*)\" category of Books$")
 	public void i_redirect_to_empty_category_of_Books(String bookCategory) throws Throwable {
 		switch (bookCategory) {
-		case "History": {
-			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(8);
-			break;
-		}
-		case "Horror": {
-			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(11);
-			break;
-		}
-		case "Literature & fiction": {
-			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(12);
-			break;
-		}
-		case "Mystery & thrillers": {
-			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(13);
-			break;
-		}
-		case "Non-fiction": {
-			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(14);
-			break;
-		}
-		case "Professional & technical": {
-			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(15);
-			break;
-		}
-		case "Reference": {
-			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(16);
-			break;
-		}
-		case "Religion & spirituality": {
-			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(17);
-			break;
-		}
-		case "Sports & outdoors": {
-			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(20);
-			break;
-		}
-		case "Travel": {
-			pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(21);
-			break;
-		}
+			case "History": {
+				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(8);
+				break;
+			}
+			case "Horror": {
+				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(11);
+				break;
+			}
+			case "Literature & fiction": {
+				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(12);
+				break;
+			}
+			case "Mystery & thrillers": {
+				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(13);
+				break;
+			}
+			case "Non-fiction": {
+				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(14);
+				break;
+			}
+			case "Professional & technical": {
+				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(15);
+				break;
+			}
+			case "Reference": {
+				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(16);
+				break;
+			}
+			case "Religion & spirituality": {
+				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(17);
+				break;
+			}
+			case "Sports & outdoors": {
+				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(20);
+				break;
+			}
+			case "Travel": {
+				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(21);
+				break;
+			}
 		}
 	}
 
@@ -473,47 +561,47 @@ public class Steps {
 	@When("^I redirect to empty \"([^\"]*)\" category of CDs$")
 	public void i_redirect_to_empty_category_of_CDs(String cdsCategory) throws Throwable {
 		switch (cdsCategory) {
-		case "Emerging artists": {
-			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(7);
-			break;
-		}
+			case "Emerging artists": {
+				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(7);
+				break;
+			}
 
-		case "International": {
-			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(8);
-			break;
-		}
-		case "Jazz": {
-			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(9);
-			break;
-		}
-		case "Miscellaneous": {
-			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(10);
-			break;
-		}
-		case "Opera & vocal": {
-			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(12);
-			break;
-		}
-		case "Rap & hip-hop": {
-			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(14);
-			break;
-		}
-		case "R&B": {
-			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(15);
-			break;
-		}
-		case "Soundtracks": {
-			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(17);
-			break;
-		}
-		case "Vocalists & Broadway": {
-			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(18);
-			break;
-		}
-		case "World": {
-			pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(19);
-			break;
-		}
+			case "International": {
+				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(8);
+				break;
+			}
+			case "Jazz": {
+				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(9);
+				break;
+			}
+			case "Miscellaneous": {
+				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(10);
+				break;
+			}
+			case "Opera & vocal": {
+				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(12);
+				break;
+			}
+			case "Rap & hip-hop": {
+				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(14);
+				break;
+			}
+			case "R&B": {
+				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(15);
+				break;
+			}
+			case "Soundtracks": {
+				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(17);
+				break;
+			}
+			case "Vocalists & Broadway": {
+				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(18);
+				break;
+			}
+			case "World": {
+				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(19);
+				break;
+			}
 		}
 	}
 
@@ -733,5 +821,6 @@ public class Steps {
 	public void cleanUp() {
 		pageObjectManager.quit();
 	}
+
 
 }

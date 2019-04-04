@@ -23,9 +23,30 @@ public class LoginPage extends GeneralPage {
 		super(driver);
 	}
 
+	//Methods
 	@Override
 	public LoginPage open() {
 		this.driver.get(this.configFileReader.getHost() + PAGE_URL);
+		return this;
+	}
+
+	public void clickLogIn() {
+		buttonLogin.click();
+	}
+
+	public void login(String username, String password) {
+		enterUserName(username);
+		enterPassword(password);
+		clickLogIn();
+	}
+
+	public LoginPage enterUserName(String username) {
+		txtbxUserName.sendKeys(username);
+		return this;
+	}
+
+	public LoginPage enterPassword(String password) {
+		txtbxPassword.sendKeys(password);
 		return this;
 	}
 
@@ -40,20 +61,6 @@ public class LoginPage extends GeneralPage {
 		return result;
 	}
 
-	public LoginPage enterUserName(String username) {
-		txtbxUserName.sendKeys(username);
-		return this;
-	}
-
-	public LoginPage enterPassword(String password) {
-		txtbxPassword.sendKeys(password);
-		return this;
-	}
-
-	public void clickLogIn() {
-		buttonLogin.click();
-	}
-
 	public boolean timerIsDisplayed() {
 		boolean result = false;
 		try {
@@ -62,11 +69,5 @@ public class LoginPage extends GeneralPage {
 			System.out.println("Login timer is not displayed and user is not logged in " + e.getMessage());
 		}
 		return result;
-	}
-
-	public void login(String username, String password) {
-		enterUserName(username);
-		enterPassword(password);
-		clickLogIn();
 	}
 }
