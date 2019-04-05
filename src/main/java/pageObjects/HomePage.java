@@ -74,14 +74,6 @@ public class HomePage extends GeneralPage {
 		return result;
 	}
 
-	public void selectBookCategory() {
-		booksCategoryButton.click();
-	}
-
-	public void selectCdsCategory() {
-		cdsCategoryButton.click();
-	}
-	
 	public String getRandomCategoryName() {
 		int rnd = (int)(Math.random()*2 +1);
 		if (rnd == 1) {

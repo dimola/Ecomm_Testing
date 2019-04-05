@@ -259,8 +259,9 @@ public abstract class CategoryPage extends GeneralPage {
 	}
 	
 	public void addRandomProductToBasketFromProductList() {
-		int rnd = (int)(Math.random()*this.allProductsAddToBasketButtonsPerCategory.size());
+		int rnd = (int) (Math.random() * this.allProductsAddToBasketButtonsPerCategory.size());
 		this.allProductsAddToBasketButtonsPerCategory.get(rnd).click();
+	}
 
 	public boolean isErrorMessageDisplayed() {
 		boolean result = false;
