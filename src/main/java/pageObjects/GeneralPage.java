@@ -300,7 +300,4 @@ public abstract class GeneralPage {
 		return result;
 	}
 
-	public void clickLogOut() {
-		logoutMenuElement.click();
-	}
 }
