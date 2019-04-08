@@ -1,5 +1,6 @@
 package pageObjects;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
@@ -121,7 +122,7 @@ public abstract class CategoryPage extends GeneralPage {
 	}
 
 	public List<String> getSideMenuButtonsText(){
-		List listSideMenuTitles = null;
+		List listSideMenuTitles = new ArrayList<>();
 		try {
 			for (int i = 0; i < this.sideBarButtons.size(); i++) {
 				listSideMenuTitles.add(this.sideBarButtons.get(i).getText());
@@ -135,7 +136,7 @@ public abstract class CategoryPage extends GeneralPage {
 	}
 
 	public List<String> getMainMenuLinksText(){
-		List listMainMenuCategories = null;
+		List listMainMenuCategories = new ArrayList<>();
 
 		for (int i = 0; i < this.allCategoriesMainMenu.size(); i++) {
 			listMainMenuCategories.add(this.allCategoriesMainMenu.get(i).getText());

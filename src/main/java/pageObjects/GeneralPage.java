@@ -127,8 +127,8 @@ public abstract class GeneralPage {
 
 	public String getViewBasketButtonText(){
 		try {
-			if (this.viewBasketMenuElement.isDisplayed()){
-				return this.viewBasketMenuElement.getText();
+			if (this.basketMenuElement.isDisplayed()){
+				return this.basketMenuElement.getText();
 			}
 			else{
 				return "Can't find Basket button";

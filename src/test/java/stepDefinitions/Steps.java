@@ -96,7 +96,7 @@ public class Steps {
 		if (page == "BooksPage") {
 			assertThat(pageObjectManager.getBooksPage().getPageTitle()).as("Expected to be on Books page. Actual on page %s", pageObjectManager.getBooksPage().getPageTitle()).isEqualTo("Books");
 		} else{
-			assertThat(pageObjectManager.getCdsPage().getPageTitle()).as("Expected to be on Cds page. Actual on page %s", pageObjectManager.getBooksPage().getPageTitle()).isEqualTo("Cds");
+			assertThat(pageObjectManager.getCdsPage().getPageTitle()).as("Expected to be on Cds page. Actual on page %s", pageObjectManager.getBooksPage().getPageTitle()).isEqualTo("CDs");
 		}
 
 	}
@@ -115,7 +115,7 @@ public class Steps {
 		softly.assertThat(booksPage.getSideMenuTitle()).as("Expected: Side Menu title should be \"Books\" Actual: Side menu title is \"%s\".").isEqualTo("Books");
 		softly.assertThat(booksPage.getHomeButtonText()).as("Expected: Home button text \"Home\". Actual: Home button text \"%s\" ", booksPage.getHomeButtonText()).isEqualTo("Home");
 		softly.assertThat(booksPage.getBooksButtonText()).as("Expected: Books button text \"Books\". Actual: Books button text \"%s\" ", booksPage.getBooksButtonText()).isEqualTo("Books");
-		softly.assertThat(booksPage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", booksPage.getCDsButtonText()).isEqualTo("Cds");
+		softly.assertThat(booksPage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", booksPage.getCDsButtonText()).isEqualTo("CDs");
 		softly.assertThat(booksPage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", booksPage.getViewBasketButtonText()).isEqualTo("Basket");
 		softly.assertThat(booksPage.getSideMenuButtonsText()).as("Side menu is empty.").isNotEmpty();
 		softly.assertThat(booksPage.getSearchBarFieldsLabels()).as("Search bar is empty.").isNotEmpty();
@@ -263,7 +263,7 @@ public class Steps {
 
 		assertThat(homePage.getHomeButtonText()).as("Expected: Home button text \"Home\". Actual: Home button text \"%s\" ", homePage.getHomeButtonText()).isEqualTo("Home");
 		assertThat(homePage.getBooksButtonText()).as("Expected: Books button text \"Books\". Actual: Books button text \"%s\" ", homePage.getBooksButtonText()).isEqualTo("Books");
-		assertThat(homePage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", homePage.getCDsButtonText()).isEqualTo("Cds");
+		assertThat(homePage.getCDsButtonText()).as("Expected: CDs button text \"Cds\". Actual: Cds button text \"%s\" ", homePage.getCDsButtonText()).isEqualTo("CDs");
 		assertThat(homePage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", homePage.getViewBasketButtonText()).isEqualTo("Basket");
 		assertThat(homePage.getRegisterButtonText()).as("Expected: Register button text \"Register\". Actual: Register button text \"%s\" ", homePage.getRegisterButtonText()).isEqualTo("Register");
 		assertThat(homePage.getLoginButtonText()).as("Expected: Login button text \"Login\". Actual: Login button text \"%s\" ", homePage.getLoginButtonText()).isEqualTo("Login");
@@ -311,11 +311,11 @@ public class Steps {
 		CdsPage cdsPage = pageObjectManager.getCdsPage();
 
 		SoftAssertions softly = new SoftAssertions();
-		softly.assertThat(cdsPage.getPageTitle()).as("Title expected: Cds. Actual title: %s", cdsPage.getPageTitle()).isEqualTo("Cds");
-		softly.assertThat(cdsPage.getSideMenuTitle()).as("Expected: Side Menu title should be \"Cds\" Actual: Side menu title is \"%s\".").isEqualTo("Cds");
+		softly.assertThat(cdsPage.getPageTitle()).as("Title expected: Cds. Actual title: %s", cdsPage.getPageTitle()).isEqualTo("CDs");
+		softly.assertThat(cdsPage.getSideMenuTitle()).as("Expected: Side Menu title should be \"Cds\" Actual: Side menu title is \"%s\".").isEqualTo("CDs");
 		softly.assertThat(cdsPage.getHomeButtonText()).as("Expected: Home button text \"Home\". Actual: Home button text \"%s\" ", cdsPage.getHomeButtonText()).isEqualTo("Home");
 		softly.assertThat(cdsPage.getBooksButtonText()).as("Expected: Books button text \"Books\". Actual: Books button text \"%s\" ", cdsPage.getBooksButtonText()).isEqualTo("Books");
-		softly.assertThat(cdsPage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", cdsPage.getCDsButtonText()).isEqualTo("Cds");
+		softly.assertThat(cdsPage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", cdsPage.getCDsButtonText()).isEqualTo("CDs");
 		softly.assertThat(cdsPage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", cdsPage.getViewBasketButtonText()).isEqualTo("Basket");
 		softly.assertThat(cdsPage.getSideMenuButtonsText()).as("Side menu is empty.").isNotEmpty();
 		//softly.assertThat(cdsPage.getSearchBarFieldsLabels()).as("Search bar is empty.").isNotEmpty();
