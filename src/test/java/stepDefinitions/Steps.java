@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -7,6 +8,11 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import managers.PageObjectManager;
+import pageObjects.BooksPage;
+import pageObjects.CdsPage;
+import pageObjects.HomePage;
+
+import static org.assertj.core.api.Assertions.*;
 
 public class Steps {
 
@@ -19,25 +25,29 @@ public class Steps {
 
 	@Then("^I should be successfully logged in$")
 	public void I_should_be_successfully_logged_in() throws Throwable {
-
-		Assert.assertTrue("Home page is not on focus", pageObjectManager.getHomePage().isOpen());
-		Assert.assertFalse("Login button is displayed after login but it should not",
-				pageObjectManager.getHomePage().isLoginButtonDisplayed());
-		Assert.assertFalse("Register button is displayed after login but it should not",
-				pageObjectManager.getHomePage().isRegisterButtonDisplayed());
-		Assert.assertTrue("Logout button is not displayed after login but it should",
-				pageObjectManager.getHomePage().isLogoutButtonDisplayed());
+		HomePage homePage = pageObjectManager.getHomePage();
+		assertThat(homePage.getPageTitle()).as("Expected title: \"Home\". Actual title: %s.", homePage.getPageTitle())
+												.isEqualTo("Home");
+		assertThat(homePage.getLoginButtonText()).as("Expected: Login button not present. Actual: Login button present with text %s.", homePage.getLoginButtonText())
+												.contains("Can't find");
+		assertThat(homePage.getLogoutButtonText()).as("Expected logout button text: Logout. Actual: %s.", homePage.getLogoutButtonText())
+												.isEqualTo("Logout");
+		assertThat(homePage.getRegisterButtonText()).as("Expected: Register button not present. Actual: Register button present with text %s.", homePage.getRegisterButtonText())
+												.contains("Can't find");
 
 	}
 
 	@Then("^I am not logged in the system$")
 	public void I_am_not_logged_in_the_system() throws Throwable {
-		Assert.assertTrue("Home page is not on focus", pageObjectManager.getLoginPage().isOpen());
+		String pageTitle = pageObjectManager.getLoginPage().getPageTitle();
+		assertThat(pageTitle).as("Expected title: Login. Actual title: %s .", pageTitle).isEqualTo("Login");
+		//Assert.assertTrue("Home page is not on focus", pageObjectManager.getLoginPage().isOpen());
 	}
 
 	@Then("^An error message is displayed$")
 	public void An_error_message_is_displayed() throws Throwable {
-		Assert.assertTrue("Timer is not displayed", pageObjectManager.getLoginPage().timerIsDisplayed());
+		assertThat(pageObjectManager.getLoginPage().getErrorTime()).as("Error message timer is not displayed.").doesNotContain("Can't find");
+		//Assert.assertTrue("Timer is not displayed", pageObjectManager.getLoginPage().timerIsDisplayed());
 	}
 
 	@Given("^I am logged in with credentials \"([^\"]*)\" and \"([^\"]*)\"$")
@@ -54,13 +64,15 @@ public class Steps {
 
 	@Then("^I am successfully logged out$")
 	public void I_am_successfully_logged_out() throws Throwable {
-		Assert.assertTrue("Login button is not displayed after logout",
-				pageObjectManager.getHomePage().isLoginButtonDisplayed());
-		Assert.assertTrue("Register button is not displayed after logout",
-				pageObjectManager.getHomePage().isRegisterButtonDisplayed());
-		Assert.assertFalse("Logout button is displayed after logout",
-				pageObjectManager.getHomePage().isLogoutButtonDisplayed());
-
+		HomePage homePage = pageObjectManager.getHomePage();
+		assertThat(homePage.getPageTitle()).as("Expected title: \"Home\". Actual title: %s.", homePage.getPageTitle())
+				.isEqualTo("Home");
+		assertThat(homePage.getLoginButtonText()).as("Expected login button text: Login. Actual: %s.", homePage.getLoginButtonText())
+				.isEqualTo("Login");
+		assertThat(homePage.getLogoutButtonText()).as("Expected logout button to be not present. Actual: button is present with text %s.", homePage.getLogoutButtonText())
+				.contains("Can't find");
+		assertThat(homePage.getRegisterButtonText()).as("Expected register button text: Register. Actual: %s.", homePage.getRegisterButtonText())
+				.isEqualTo("Register");
 	}
 
 	// TC 20 Verify that links are redirecting to correct place
@@ -82,13 +94,9 @@ public class Steps {
 	@Then("^I am redirected to the respective category \"([^\"]*)\"$")
 	public void I_am_redirected_to_the_respective_category(String page) throws Throwable {
 		if (page == "BooksPage") {
-			Assert.assertTrue("Problems while verifying that Books Category Page is displayed",
-					pageObjectManager.getBooksPage().isOpen());
-
+			assertThat(pageObjectManager.getBooksPage().getPageTitle()).as("Expected to be on Books page. Actual on page %s", pageObjectManager.getBooksPage().getPageTitle()).isEqualTo("Books");
 		} else{
-			Assert.assertTrue("Problems while verifying that Cds Category Page is displayed",
-					pageObjectManager.getCdsPage().isOpen());
-
+			assertThat(pageObjectManager.getCdsPage().getPageTitle()).as("Expected to be on Cds page. Actual on page %s", pageObjectManager.getBooksPage().getPageTitle()).isEqualTo("Cds");
 		}
 
 	}
@@ -100,6 +108,21 @@ public class Steps {
 
 	@Then("^I should see the books page$")
 	public void i_should_see_the_books_page() throws Throwable {
+		BooksPage booksPage = pageObjectManager.getBooksPage();
+
+		SoftAssertions softly = new SoftAssertions();
+		softly.assertThat(booksPage.getPageTitle()).as("Title expected: Books. Actual title: %s", booksPage.getPageTitle()).isEqualTo("Books");
+		softly.assertThat(booksPage.getSideMenuTitle()).as("Expected: Side Menu title should be \"Books\" Actual: Side menu title is \"%s\".").isEqualTo("Books");
+		softly.assertThat(booksPage.getHomeButtonText()).as("Expected: Home button text \"Home\". Actual: Home button text \"%s\" ", booksPage.getHomeButtonText()).isEqualTo("Home");
+		softly.assertThat(booksPage.getBooksButtonText()).as("Expected: Books button text \"Books\". Actual: Books button text \"%s\" ", booksPage.getBooksButtonText()).isEqualTo("Books");
+		softly.assertThat(booksPage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", booksPage.getCDsButtonText()).isEqualTo("Cds");
+		softly.assertThat(booksPage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", booksPage.getViewBasketButtonText()).isEqualTo("Basket");
+		softly.assertThat(booksPage.getSideMenuButtonsText()).as("Side menu is empty.").isNotEmpty();
+		softly.assertThat(booksPage.getSearchBarFieldsLabels()).as("Search bar is empty.").isNotEmpty();
+		softly.assertThat(booksPage.getMainMenuLinksText()).as("Main menu is empty.").isNotEmpty();
+		softly.assertAll();
+
+		/*
 		Assert.assertTrue("Logo is not displayed on the page", pageObjectManager.getBooksPage().isLogoDisplayed());
 		Assert.assertTrue("Main Menu is not displayed on the page",
 				pageObjectManager.getBooksPage().isMainMenuDisplayed());
@@ -123,10 +146,19 @@ public class Steps {
 				pageObjectManager.getBooksPage().isProductListDisplayed());
 		Assert.assertTrue("Search Form is not displayed on the page",
 				pageObjectManager.getBooksPage().isSearchFormDisplayed());
+				*/
 	}
 
 	@Then("^I should see all book filtering options$")
 	public void i_should_see_all_book_filtering_options() throws Throwable {
+		BooksPage booksPage = pageObjectManager.getBooksPage();
+
+		assertThat(booksPage.getAuthorLabelText()).as("Expected \"Author\", found %s", booksPage.getAuthorLabelText()).isEqualTo("Author");
+		assertThat(booksPage.getTitleLabelText()).as("Expected \"Title\", found %s", booksPage.getTitleLabelText()).isEqualTo("Title");
+		assertThat(booksPage.getPublisherLabelText()).as("Expected \"Publisher\", found %s", booksPage.getPublisherLabelText()).isEqualTo("Publisher");
+		assertThat(booksPage.getIsbnLabelText()).as("Expected \"ISBN\", found %s", booksPage.getIsbnLabelText()).isEqualTo("ISBN");
+
+		/*
 		Assert.assertTrue("Author textbox in the Search Form is not displayed on the page",
 				pageObjectManager.getBooksPage().isAuthorTextboxDisplayed());
 		Assert.assertTrue("Title textbox in the Search Form is not displayed on the page",
@@ -135,6 +167,7 @@ public class Steps {
 				pageObjectManager.getBooksPage().isPublisherTextboxDisplayed());
 		Assert.assertTrue("ISBN textbox in the Search Form is not displayed on the page",
 				pageObjectManager.getBooksPage().isIsbnTextboxDisplayed());
+				*/
 	}
 
 	@Given("^Books page is loaded$")
@@ -185,14 +218,14 @@ public class Steps {
 	}
 
 	@Then("^The book with that number is displayed \"([^\"]*)\"$")
-	public void the_book_with_that_number_is_displayed(String ISBN) throws Throwable {
+	public void the_book_with_that_number_is_displayed(String ISBN){
 		Assert.assertTrue("Displayed books are not with this number",
 				pageObjectManager.getBooksPage().doesAllProductsContainSearchedISBN(ISBN));
 	}
 
 	@When("^I search for more than one of the search criteria at the same time \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
 	public void i_search_for_more_than_one_of_the_search_criteria_at_the_same_time_and_and_and(String author,
-			String title, String publisher, String ISBN) throws Throwable {
+			String title, String publisher, String ISBN){
 		pageObjectManager.getBooksPage().enterAuthor(author);
 		pageObjectManager.getBooksPage().enterTitle(title);
 		pageObjectManager.getBooksPage().enterPublisher(publisher);
@@ -202,14 +235,14 @@ public class Steps {
 
 	@Then("^The book answering to the respective criteria is displayed \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
 	public void the_book_answering_to_the_respective_criteria_is_displayed_and_and_and(String author, String title,
-			String publisher, String ISBN) throws Throwable {
+			String publisher, String ISBN){
 		Assert.assertTrue("Displayed books are not answering the respective criteria",
 				pageObjectManager.getBooksPage().isTheResultAnsweringRespectiveSearchCriteria(author, title, publisher, ISBN));
 	}
 
 	@When("^I search with invalid criteria \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
 	public void i_search_with_invalid_criteria_and_and_and(String invalidAuthor, String invalidTitle,
-			String invalidPublisher, String invalidISBN) throws Throwable {
+			String invalidPublisher, String invalidISBN){
 		pageObjectManager.getBooksPage().enterAuthor(invalidAuthor);
 		pageObjectManager.getBooksPage().enterTitle(invalidTitle);
 		pageObjectManager.getBooksPage().enterPublisher(invalidPublisher);
@@ -218,12 +251,25 @@ public class Steps {
 	}
 
 	@Then("^An error message is displayed, stating that there are no such books in the system$")
-	public void an_error_message_is_displayed_stating_that_there_are_no_such_books_in_the_system() throws Throwable {
+	public void an_error_message_is_displayed_stating_that_there_are_no_such_books_in_the_system(){
+		String errorMsg = pageObjectManager.getBooksPage().getErrorMsgText();
+		assertThat(errorMsg).as("Expected error message for books, received: \"%s\" ", errorMsg).isEqualTo("There are no Books matching the search criteria...");
 		//Assert.assertTrue("Books are displayed", pageObjectManager.getBooksPage().isErrorMessageDisplayed());
 	}
 
 	@Then("^I should see the home page$")
-	public void i_should_see_the_home_page() throws Throwable {
+	public void i_should_see_the_home_page(){
+		HomePage homePage = pageObjectManager.getHomePage();
+
+		assertThat(homePage.getHomeButtonText()).as("Expected: Home button text \"Home\". Actual: Home button text \"%s\" ", homePage.getHomeButtonText()).isEqualTo("Home");
+		assertThat(homePage.getBooksButtonText()).as("Expected: Books button text \"Books\". Actual: Books button text \"%s\" ", homePage.getBooksButtonText()).isEqualTo("Books");
+		assertThat(homePage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", homePage.getCDsButtonText()).isEqualTo("Cds");
+		assertThat(homePage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", homePage.getViewBasketButtonText()).isEqualTo("Basket");
+		assertThat(homePage.getRegisterButtonText()).as("Expected: Register button text \"Register\". Actual: Register button text \"%s\" ", homePage.getRegisterButtonText()).isEqualTo("Register");
+		assertThat(homePage.getLoginButtonText()).as("Expected: Login button text \"Login\". Actual: Login button text \"%s\" ", homePage.getLoginButtonText()).isEqualTo("Login");
+		assertThat(homePage.getBasketIconText()).as("Missing basket icon.", homePage.getBooksButtonText()).doesNotContain("Can't find");
+
+		/*
 		Assert.assertTrue("Problems while verifying that Home Page is displayed",
 				pageObjectManager.getHomePage().isOpen());
 		Assert.assertTrue("Logo is not displayed on the page", pageObjectManager.getHomePage().isLogoDisplayed());
@@ -243,6 +289,7 @@ public class Steps {
 				pageObjectManager.getHomePage().isLoginButtonDisplayed());
 		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
 				pageObjectManager.getHomePage().isViewBasketDisplayed());
+				*/
 
 	}
 
@@ -255,12 +302,27 @@ public class Steps {
 	}
 
 	@When("^I redirect to cds page$")
-	public void i_redirect_to_cds_page() throws Throwable {
+	public void i_redirect_to_cds_page(){
 		pageObjectManager.getCdsPage().open();
 	}
 
 	@Then("^I should see the cds page$")
-	public void i_should_see_the_cds_page() throws Throwable {
+	public void i_should_see_the_cds_page() {
+		CdsPage cdsPage = pageObjectManager.getCdsPage();
+
+		SoftAssertions softly = new SoftAssertions();
+		softly.assertThat(cdsPage.getPageTitle()).as("Title expected: Cds. Actual title: %s", cdsPage.getPageTitle()).isEqualTo("Cds");
+		softly.assertThat(cdsPage.getSideMenuTitle()).as("Expected: Side Menu title should be \"Cds\" Actual: Side menu title is \"%s\".").isEqualTo("Cds");
+		softly.assertThat(cdsPage.getHomeButtonText()).as("Expected: Home button text \"Home\". Actual: Home button text \"%s\" ", cdsPage.getHomeButtonText()).isEqualTo("Home");
+		softly.assertThat(cdsPage.getBooksButtonText()).as("Expected: Books button text \"Books\". Actual: Books button text \"%s\" ", cdsPage.getBooksButtonText()).isEqualTo("Books");
+		softly.assertThat(cdsPage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", cdsPage.getCDsButtonText()).isEqualTo("Cds");
+		softly.assertThat(cdsPage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", cdsPage.getViewBasketButtonText()).isEqualTo("Basket");
+		softly.assertThat(cdsPage.getSideMenuButtonsText()).as("Side menu is empty.").isNotEmpty();
+		//softly.assertThat(cdsPage.getSearchBarFieldsLabels()).as("Search bar is empty.").isNotEmpty();
+		softly.assertThat(cdsPage.getMainMenuLinksText()).as("Main menu is empty.").isNotEmpty();
+		softly.assertAll();
+
+		/*
 		Assert.assertTrue("Problems while verifying that Cds Page is displayed",
 				pageObjectManager.getCdsPage().isOpen());
 		Assert.assertTrue("Logo is not displayed on the page", pageObjectManager.getCdsPage().isLogoDisplayed());
@@ -280,10 +342,11 @@ public class Steps {
 				pageObjectManager.getCdsPage().isLoginButtonDisplayed());
 		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
 				pageObjectManager.getCdsPage().isViewBasketDisplayed());
+				*/
 	}
 
 	@Then("^I should see all cds filtering options$")
-	public void i_should_see_all_cds_filtering_options() throws Throwable {
+	public void i_should_see_all_cds_filtering_options(){
 		Assert.assertTrue("Author textbox in the Search Form is not displayed on the page",
 				pageObjectManager.getCdsPage().isArtistTextboxDisplayed());
 		Assert.assertTrue("Title textbox in the Search Form is not displayed on the page",
@@ -295,7 +358,7 @@ public class Steps {
 	}
 
 	@When("^I redirect to not empty \"([^\"]*)\" category of Books$")
-	public void i_redirect_to_not_empty_category_of_Books(String bookCategory) throws Throwable {
+	public void i_redirect_to_not_empty_category_of_Books(String bookCategory){
 
 		switch (bookCategory) {
 			case "Art": {

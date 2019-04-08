@@ -76,7 +76,7 @@ public abstract class GeneralPage {
 		}
 		catch (NoSuchElementException e) {
 			//result remain empty string
-			return "Can't load page title.";
+			return "Can't find page title";
 		}
 	}
 
@@ -91,14 +91,14 @@ public abstract class GeneralPage {
 		}
 		catch (NoSuchElementException e) {
 			//result remain empty string
-			return "Can't load Home button.";
+			return "Can't find Home button";
 		}
 	}
 
 	public String getBooksButtonText(){
 		try {
-			if (this.homeMenuElement.isDisplayed()){
-				return this.homeMenuElement.getText();
+			if (this.booksMenuElement.isDisplayed()){
+				return this.booksMenuElement.getText();
 			}
 			else{
 				return "Can't find Books button";
@@ -106,7 +106,7 @@ public abstract class GeneralPage {
 		}
 		catch (NoSuchElementException e) {
 			//result remain empty string
-			return "Can't load Books button.";
+			return "Can't find Books button";
 		}
 	}
 
@@ -121,7 +121,7 @@ public abstract class GeneralPage {
 		}
 		catch (NoSuchElementException e) {
 			//result remain empty string
-			return "Can't load Cds button.";
+			return "Can't find Cds button";
 		}
 	}
 
@@ -136,7 +136,7 @@ public abstract class GeneralPage {
 		}
 		catch (NoSuchElementException e) {
 			//result remain empty string
-			return "Can't load Basket button.";
+			return "Can't find Basket button";
 		}
 	}
 
@@ -151,7 +151,7 @@ public abstract class GeneralPage {
 		}
 		catch (NoSuchElementException e) {
 			//result remain empty string
-			return "Can't load Register button.";
+			return "Can't find Register button";
 		}
 	}
 
@@ -166,7 +166,37 @@ public abstract class GeneralPage {
 		}
 		catch (NoSuchElementException e) {
 			//result remain empty string
-			return "Can't load basket icon.";
+			return "Can't find basket icon";
+		}
+	}
+
+	public String getLoginButtonText(){
+		try {
+			if (this.loginMenuElement.isDisplayed()){
+				return this.loginMenuElement.getText();
+			}
+			else{
+				return "Can't find login button";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't find login button";
+		}
+	}
+
+	public String getLogoutButtonText(){
+		try {
+			if (this.logoutMenuElement.isDisplayed()){
+				return this.logoutMenuElement.getText();
+			}
+			else{
+				return "Can't find logout button";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't find logout button";
 		}
 	}
 

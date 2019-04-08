@@ -50,6 +50,19 @@ public class LoginPage extends GeneralPage {
 		return this;
 	}
 
+	public String getErrorTime(){
+		try {
+			if(timerMessage.isDisplayed()){
+				return timerMessage.getText();
+			}
+			else{
+				return "Can't find error message timer.";
+			}
+		} catch (Throwable e) {
+			return "Can't find error message timer.";
+		}
+	}
+
 	@Override
 	public boolean isOpen() {
 		boolean result = false;

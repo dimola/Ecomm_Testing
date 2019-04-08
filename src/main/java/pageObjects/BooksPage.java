@@ -1,8 +1,11 @@
 package pageObjects;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
 
 public class BooksPage extends CategoryPage {
 
@@ -22,6 +25,21 @@ public class BooksPage extends CategoryPage {
 
 	@FindBy(css = "#product-details > div > h3")
 	private WebElement bookHeadingTitle;
+
+	@FindBy(xpath = "//tbody/tr[1]/td[1]")
+	private WebElement authorLabel;
+
+	@FindBy(xpath = "//tbody/tr[2]/td[1]")
+	private WebElement titleLable;
+
+	@FindBy(xpath = "//tbody/tr[3]/td[1]")
+	private WebElement publisherLabel;
+
+	@FindBy(xpath = "//tbody/tr[4]/td[1]")
+	private WebElement isbnLable;
+
+	@FindBy(className = "formbtn")
+	private WebElement submitButton;
 
 	public BooksPage(WebDriver driver) {
 		super(driver);
@@ -45,6 +63,121 @@ public class BooksPage extends CategoryPage {
 		}
 		return result;
 	}
+
+	public BooksPage enterAuthor(String author) {
+		authorTextbox.sendKeys(author);
+		return this;
+	}
+
+	public BooksPage enterTitle(String title) {
+		titleTextbox.sendKeys(title);
+		return this;
+	}
+
+	public BooksPage enterPublisher(String publisher) {
+		publisherTextbox.sendKeys(publisher);
+		return this;
+	}
+
+	public BooksPage enterIsbn(String ISBN) {
+		isbnTextbox.sendKeys(ISBN);
+		return this;
+	}
+
+	public void Submit(String author, String title, String publisher, String isbn){
+		authorTextbox.sendKeys(author);
+		titleTextbox.sendKeys(title);
+		publisherTextbox.sendKeys(publisher);
+		isbnTextbox.sendKeys(isbn);
+		submitButton.click();
+	}
+
+	public String getAuthorLabelText(){
+		try {
+			if (this.authorLabel.isDisplayed()){
+				return this.authorLabel.getText();
+			}
+			else{
+				return "Can't find Author text box";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't find Author text box";
+		}
+	}
+
+	public String getTitleLabelText(){
+		try {
+			if (this.titleLable.isDisplayed()){
+				return this.titleLable.getText();
+			}
+			else{
+				return "Can't find title text box";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't find title text box";
+		}
+	}
+
+	public String getSubmitButtonText(){
+		try {
+			if (this.submitButton.isDisplayed()){
+				return this.submitButton.getText();
+			}
+			else{
+				return "Can't find submit button";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't find submit button";
+		}
+	}
+
+	public String getPublisherLabelText(){
+		try {
+			if (this.publisherLabel.isDisplayed()){
+				return this.publisherLabel.getText();
+			}
+			else{
+				return "Can't find publisher text box";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't find publisher text box";
+		}
+	}
+
+	public String getIsbnLabelText(){
+		try {
+			if (this.isbnLable.isDisplayed()){
+				return this.isbnLable.getText();
+			}
+			else{
+				return "Can't find ISBN text box";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't find ISBN text box";
+		}
+	}
+
+	public List<String> getSearchBarFieldsLabels(){
+		List<String> searchBarFieldsLabels = null;
+		searchBarFieldsLabels.add(this.getAuthorLabelText());
+		searchBarFieldsLabels.add(this.getTitleLabelText());
+		searchBarFieldsLabels.add(this.getPublisherLabelText());
+		searchBarFieldsLabels.add(this.getIsbnLabelText());
+
+		return searchBarFieldsLabels;
+	}
+
+	//To be deleted or refactored
 
 	public boolean isAuthorTextboxDisplayed() {
 		boolean result = false;
@@ -84,26 +217,6 @@ public class BooksPage extends CategoryPage {
 			System.err.println("Problem while checking if isbnTextbox is displayed: " + e.getMessage());
 		}
 		return result;
-	}
-
-	public BooksPage enterAuthor(String author) {
-		authorTextbox.sendKeys(author);
-		return this;
-	}
-
-	public BooksPage enterTitle(String title) {
-		titleTextbox.sendKeys(title);
-		return this;
-	}
-
-	public BooksPage enterPublisher(String publisher) {
-		publisherTextbox.sendKeys(publisher);
-		return this;
-	}
-
-	public BooksPage enterIsbn(String ISBN) {
-		isbnTextbox.sendKeys(ISBN);
-		return this;
 	}
 
 	public boolean areAllBooksPublishedBySearchedPublisher(String publisher) {
@@ -175,4 +288,5 @@ public class BooksPage extends CategoryPage {
 		}
 		return result;
 	}
+
 }
