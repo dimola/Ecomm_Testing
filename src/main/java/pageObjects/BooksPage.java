@@ -180,46 +180,6 @@ public class BooksPage extends CategoryPage {
 
 	//To be deleted or refactored
 
-	public boolean isAuthorTextboxDisplayed() {
-		boolean result = false;
-		try {
-			result = this.authorTextbox.isDisplayed();
-		} catch (Throwable e) {
-			System.err.println("Problem while checking if authorTextbox is displayed: " + e.getMessage());
-		}
-		return result;
-	}
-
-	public boolean isTitleTextboxDisplayed() {
-		boolean result = false;
-		try {
-			result = this.titleTextbox.isDisplayed();
-		} catch (Throwable e) {
-			System.err.println("Problem while checking if titleTextbox is displayed: " + e.getMessage());
-		}
-		return result;
-	}
-
-	public boolean isPublisherTextboxDisplayed() {
-		boolean result = false;
-		try {
-			result = this.publisherTextbox.isDisplayed();
-		} catch (Throwable e) {
-			System.err.println("Problem while checking if publisherTextbox is displayed: " + e.getMessage());
-		}
-		return result;
-	}
-
-	public boolean isIsbnTextboxDisplayed() {
-		boolean result = false;
-		try {
-			result = this.isbnTextbox.isDisplayed();
-		} catch (Throwable e) {
-			System.err.println("Problem while checking if isbnTextbox is displayed: " + e.getMessage());
-		}
-		return result;
-	}
-
 	public boolean areAllBooksPublishedBySearchedPublisher(String publisher) {
 		boolean result = false;
 		String publisherLowCase = publisher.toLowerCase();

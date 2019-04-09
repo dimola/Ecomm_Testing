@@ -120,7 +120,6 @@ public abstract class GeneralPage {
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
 			return "Can't find Cds button";
 		}
 	}
@@ -135,7 +134,6 @@ public abstract class GeneralPage {
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
 			return "Can't find Basket button";
 		}
 	}
@@ -150,7 +148,6 @@ public abstract class GeneralPage {
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
 			return "Can't find Register button";
 		}
 	}
@@ -165,7 +162,6 @@ public abstract class GeneralPage {
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
 			return "Can't find basket icon";
 		}
 	}
@@ -180,7 +176,6 @@ public abstract class GeneralPage {
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
 			return "Can't find login button";
 		}
 	}
@@ -195,7 +190,6 @@ public abstract class GeneralPage {
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
 			return "Can't find logout button";
 		}
 	}

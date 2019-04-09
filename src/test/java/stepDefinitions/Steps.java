@@ -118,7 +118,8 @@ public class Steps {
 		softly.assertThat(booksPage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", booksPage.getCDsButtonText()).isEqualTo("CDs");
 		softly.assertThat(booksPage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", booksPage.getViewBasketButtonText()).isEqualTo("Basket");
 		softly.assertThat(booksPage.getSideMenuButtonsText()).as("Side menu is empty.").isNotEmpty();
-		softly.assertThat(booksPage.getSearchBarFieldsLabels()).as("Search bar is empty.").isNotEmpty();
+		softly.assertThat(booksPage.getSearchBarFieldsLabels()).as("Search bar is empty.").isNotEmpty()
+																									.contains("Author", "Title", "Publisher", "ISBN");
 		softly.assertThat(booksPage.getMainMenuLinksText()).as("Main menu is empty.").isNotEmpty();
 		softly.assertAll();
 
@@ -260,15 +261,17 @@ public class Steps {
 	@Then("^I should see the home page$")
 	public void i_should_see_the_home_page(){
 		HomePage homePage = pageObjectManager.getHomePage();
+		SoftAssertions softly = new SoftAssertions();
 
-		assertThat(homePage.getHomeButtonText()).as("Expected: Home button text \"Home\". Actual: Home button text \"%s\" ", homePage.getHomeButtonText()).isEqualTo("Home");
-		assertThat(homePage.getBooksButtonText()).as("Expected: Books button text \"Books\". Actual: Books button text \"%s\" ", homePage.getBooksButtonText()).isEqualTo("Books");
-		assertThat(homePage.getCDsButtonText()).as("Expected: CDs button text \"Cds\". Actual: Cds button text \"%s\" ", homePage.getCDsButtonText()).isEqualTo("CDs");
-		assertThat(homePage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", homePage.getViewBasketButtonText()).isEqualTo("Basket");
-		assertThat(homePage.getRegisterButtonText()).as("Expected: Register button text \"Register\". Actual: Register button text \"%s\" ", homePage.getRegisterButtonText()).isEqualTo("Register");
-		assertThat(homePage.getLoginButtonText()).as("Expected: Login button text \"Login\". Actual: Login button text \"%s\" ", homePage.getLoginButtonText()).isEqualTo("Login");
-		assertThat(homePage.getBasketIconText()).as("Missing basket icon.", homePage.getBooksButtonText()).doesNotContain("Can't find");
+		softly.assertThat(homePage.getHomeButtonText()).as("Expected: Home button text \"Home\". Actual: Home button text \"%s\" ", homePage.getHomeButtonText()).isEqualTo("Home");
+		softly.assertThat(homePage.getBooksButtonText()).as("Expected: Books button text \"Books\". Actual: Books button text \"%s\" ", homePage.getBooksButtonText()).isEqualTo("Books");
+		softly.assertThat(homePage.getCDsButtonText()).as("Expected: CDs button text \"Cds\". Actual: Cds button text \"%s\" ", homePage.getCDsButtonText()).isEqualTo("CDs");
+		softly.assertThat(homePage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", homePage.getViewBasketButtonText()).isEqualTo("Basket");
+		softly.assertThat(homePage.getRegisterButtonText()).as("Expected: Register button text \"Register\". Actual: Register button text \"%s\" ", homePage.getRegisterButtonText()).isEqualTo("Register");
+		softly.assertThat(homePage.getLoginButtonText()).as("Expected: Login button text \"Login\". Actual: Login button text \"%s\" ", homePage.getLoginButtonText()).isEqualTo("Login");
+		softly.assertThat(homePage.getBasketIconText()).as("Missing basket icon.", homePage.getBooksButtonText()).doesNotContain("Can't find");
 
+		softly.assertAll();
 		/*
 		Assert.assertTrue("Problems while verifying that Home Page is displayed",
 				pageObjectManager.getHomePage().isOpen());
