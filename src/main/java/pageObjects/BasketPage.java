@@ -79,7 +79,7 @@ public class BasketPage extends GeneralPage {
 	// (https://trello.com/c/iuwbGqI0/11-different-books-and-cds-cannot-be-added-to-the-basket)
 	// this should return product prise for specific row number in the basket
 	// product table
-	// now it works just for one product addded to the basket
+	// now it works just for one product added to the basket
 	public float getProductPrice(int productRowNumber) {
 		return Float.parseFloat(this.productPrice.get(productRowNumber).getText());
 	}
@@ -104,6 +104,17 @@ public class BasketPage extends GeneralPage {
 			productsCount = productsCount + Integer.parseInt(helpArray2[0]);
 		}
 		return productsCount;
+	}
+
+	public int getAllAddedProducts(){
+		try {
+			int count =  this.getProductsCount();
+			return count;
+		} catch (Throwable e) {
+			System.err.println(
+					"Problem while checking if the right amount of books are added to the basket: " + e.getMessage());
+			return 0;
+		}
 	}
 
 	public boolean areAllAddedProductsDisplayed(int number) {

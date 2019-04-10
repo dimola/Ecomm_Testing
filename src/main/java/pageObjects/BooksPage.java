@@ -47,13 +47,13 @@ public class BooksPage extends CategoryPage {
 	}
 
 	@Override
-	public BooksPage open() {
+	public BooksPage open(){
 		this.driver.get(configFileReader.getHost() + PAGE_URL);
 		return this;
 	}
 
 	@Override
-	public boolean isOpen() {
+	public boolean isOpen(){
 		boolean result = false;
 		try {
 			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Books")
@@ -93,6 +93,21 @@ public class BooksPage extends CategoryPage {
 		submitButton.click();
 	}
 
+	public String getSubmitButtonText(){
+		try {
+			if (this.submitButton.isDisplayed()){
+				return this.submitButton.getText();
+			}
+			else{
+				return "Can't find submit button";
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return "Can't find submit button";
+		}
+	}
+
 	public String getAuthorLabelText(){
 		try {
 			if (this.authorLabel.isDisplayed()){
@@ -120,21 +135,6 @@ public class BooksPage extends CategoryPage {
 		catch (NoSuchElementException e) {
 			//result remain empty string
 			return "Can't find title text box";
-		}
-	}
-
-	public String getSubmitButtonText(){
-		try {
-			if (this.submitButton.isDisplayed()){
-				return this.submitButton.getText();
-			}
-			else{
-				return "Can't find submit button";
-			}
-		}
-		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't find submit button";
 		}
 	}
 
@@ -180,6 +180,23 @@ public class BooksPage extends CategoryPage {
 
 	//To be deleted or refactored
 
+	public List<String> getAllProductsPublishers(){
+		List<String> allPublishers = new ArrayList<>();
+		try {
+			for (int i = 0; i < this.allProducts.size(); i++) {
+				this.openProductDetailsPageFromProductList(i);
+				ProductDetailsPage product = new ProductDetailsPage(driver);
+				allPublishers.add(product.getProductPublisher());
+				driver.navigate().back();
+			}
+
+			return allPublishers;
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if displayed book are by this publisher: " + e.getMessage());
+			return null;
+		}
+	}
+
 	public boolean areAllBooksPublishedBySearchedPublisher(String publisher) {
 		boolean result = false;
 		String publisherLowCase = publisher.toLowerCase();
@@ -200,6 +217,23 @@ public class BooksPage extends CategoryPage {
 			System.out.println("Problem while checking if displayed book are by this publisher: " + e.getMessage());
 		}
 		return result;
+	}
+
+	public List<String> getAllProductsISBNs(){
+		List<String> allISBNs = new ArrayList<>();
+		try {
+			for (int i = 0; i < this.allProducts.size(); i++) {
+				this.openProductDetailsPageFromProductList(i);
+				ProductDetailsPage product = new ProductDetailsPage(driver);
+				allISBNs.add(product.getProductISBN());
+				driver.navigate().back();
+			}
+
+			return allISBNs;
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if displayed book are by this publisher: " + e.getMessage());
+			return null;
+		}
 	}
 
 	public boolean doesAllProductsContainSearchedISBN(String ISBN) {

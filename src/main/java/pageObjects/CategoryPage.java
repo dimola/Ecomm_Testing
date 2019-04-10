@@ -92,7 +92,7 @@ public abstract class CategoryPage extends GeneralPage {
 		String removePricesText = this.allProductsPrisesPerCategory.get(productNumber).getText();
 		String removeButtonAddToBasketText = this.allProductsAddToBasketButtonsPerCategory.get(productNumber).getText();
 		return (this.allProductsPerCategory.get(productNumber).getText().replace(removeTitleText, "")
-				.replace(removePricesText, "").replace(removeButtonAddToBasketText, "").replaceAll(" ", "")
+				.replace(removePricesText, "").replace(removeButtonAddToBasketText, "")
 				.replaceAll("\\r\\n|\\r|\\n", ""));
 	}
 
@@ -117,6 +117,18 @@ public abstract class CategoryPage extends GeneralPage {
 			}
 		} catch (Throwable e) {
 			System.out.println("Problem while checking if error message is displayed: " + e.getMessage());
+			return "";
+		}
+	}
+
+	public String getEmptyErrorMsg(){
+		try {
+			if (this.emptyCategoryErr.getText() != null) {
+				return this.emptyCategoryErr.getText();
+			} else {
+				return "";
+			}
+		} catch (Throwable e) {
 			return "";
 		}
 	}
@@ -227,6 +239,8 @@ public abstract class CategoryPage extends GeneralPage {
 		return result;
 	}
 
+	// Rework in progress
+
 	public boolean areTheProductsImagesDisplayed() {
 		boolean result = false;
 		boolean currentResult = true;
@@ -240,6 +254,18 @@ public abstract class CategoryPage extends GeneralPage {
 			System.out.println("Not all images per product are shown" + e.getMessage());
 		}
 		return result;
+	}
+
+	public List<String> getAllProductTitles(){
+		try {
+			List<String> productsTitlesList = new ArrayList<>();
+			for (int i = 0; i < this.allProductsPerCategory.size(); i++) {
+				productsTitlesList.add(this.allProductsTitlesPerCategory.get(i).getText());
+			}
+			return productsTitlesList;
+		} catch (Throwable e) {
+			return null;
+		}
 	}
 
 	public boolean areTheProductsTitlesDisplayed() {
@@ -257,6 +283,18 @@ public abstract class CategoryPage extends GeneralPage {
 		return result;
 	}
 
+	public List<String> getAllProductsAuthors(){
+		try {
+			List<String> productsAuthorsList = new ArrayList<>();
+			for (int i = 0; i < this.allProductsPerCategory.size(); i++) {
+				productsAuthorsList.add(this.getProductAuthorFromProductListPerCategory(i));
+			}
+			return productsAuthorsList;
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+
 	public boolean areTheProductsAuthorsDisplayed() {
 		boolean result = false;
 		boolean currentResult = true;
@@ -269,6 +307,18 @@ public abstract class CategoryPage extends GeneralPage {
 			System.out.println("Not all Authors per book category are shown" + e.getMessage());
 		}
 		return result;
+	}
+
+	public List<String> getAllProductsPrices(){
+		try {
+			List<String> productPricesList = new ArrayList<>();
+			for (int i = 0; i < this.allProductsPerCategory.size(); i++) {
+				productPricesList.add(this.allProductsPrisesPerCategory.get(i).getText());
+			}
+			return productPricesList;
+		} catch (Throwable e) {
+			return null;
+		}
 	}
 
 	public boolean areTheProductsPricesDisplayed() {

@@ -47,6 +47,103 @@ public class BooksCategoryPage extends CategoryPage {
 		return result;
 	}
 
+	public void openCategory(int categoryNumber){
+		this.getSideBarButtons().get(categoryNumber).click();
+	}
+
+	public void openCategory(String category){
+		switch (category){
+			case "Art": {
+				this.driver.get(configFileReader.getHost() + ART_CATEGORY_URL);
+				break;
+			}
+			case "Biographies": {
+				this.driver.get(configFileReader.getHost() + BIOGRAPHY_CATEGORY_URL);
+				break;
+			}
+			case "Children’s books": {
+				this.driver.get(configFileReader.getHost() + CHILDRENS_CATEGORY_URL);
+				break;
+			}
+			case "Finance": {
+				this.driver.get(configFileReader.getHost() + FINANCE_CATEGORY_URL);
+				break;
+			}
+			case "Computers": {
+				this.driver.get(configFileReader.getHost() + COMPUTERS_CATEGORY_URL);
+				break;
+			}
+			case "Cooking, food & wine": {
+				this.driver.get(configFileReader.getHost() + COOKING_FOOD_WINE_CATEGORY_URL);
+				break;
+			}
+			case "Entertainment": {
+				this.driver.get(configFileReader.getHost() + ENTERTAINMENT_CATEGORY_URL);
+				break;
+			}
+			case "Mind & body": {
+				this.driver.get(configFileReader.getHost() + MIND_BODY_CATEGORY_URL);
+				break;
+			}
+			case "Hobbies": {
+				this.driver.get(configFileReader.getHost() + HOBBIES_CATEGORY_URL);
+				break;
+			}
+			case "Home & garden": {
+				this.driver.get(configFileReader.getHost() + HOME_GARDEN_CATEGORY_URL);
+				break;
+			}
+			case "Science & nature": {
+				this.driver.get(configFileReader.getHost() + SCIENCE_NATURE_CATEGORY_URL);
+				break;
+			}
+			case "Science fiction": {
+				this.driver.get(configFileReader.getHost() + SCIENCE_FICTION_CATEGORY_URL);
+				break;
+			}
+			case "History": {
+				this.driver.get(configFileReader.getHost() + HISTORY_CATEGORY_URL);
+				break;
+			}
+			case "Horror": {
+				this.driver.get(configFileReader.getHost() + HORROR_CATEGORY_URL);
+				break;
+			}
+			case "Literature & fiction": {
+				this.driver.get(configFileReader.getHost() + LITERATURE_FICTION_CATEGORY_URL);
+				break;
+			}
+			case "Mystery & thrillers": {
+				this.driver.get(configFileReader.getHost() + MISTERY_THRILLERS_CATEGORY_URL);
+				break;
+			}
+			case "Non-fiction": {
+				this.driver.get(configFileReader.getHost() + NON_FICTION_CATEGORY_URL);
+				break;
+			}
+			case "Professional & technical": {
+				this.driver.get(configFileReader.getHost() + PROFESSIONAL_TECHNICAL_CATEGORY_URL);
+				break;
+			}
+			case "Reference": {
+				this.driver.get(configFileReader.getHost() + REFERENCE_CATEGORY_URL);
+				break;
+			}
+			case "Religion & spirituality": {
+				this.driver.get(configFileReader.getHost() + RELIGION_SPIRITUALITY_CATEGORY_URL);
+				break;
+			}
+			case "Sports & outdoors": {
+				this.driver.get(configFileReader.getHost() + SPORTS_OUTDOORS_CATEGORY_URL);
+				break;
+			}
+			case "Travel": {
+				this.driver.get(configFileReader.getHost() + TRAVEL_CATEGORY_URL);
+				break;
+			}
+		}
+	}
+/*
 	public BooksCategoryPage openNotEmptyBookCategory(int i) {
 		if (i == 0) {
 			this.driver.get(configFileReader.getHost() + ART_CATEGORY_URL);
@@ -142,6 +239,7 @@ public class BooksCategoryPage extends CategoryPage {
 		}
 		return this;
 	}
+	*/
 	
 	public int getRandomNotEmptyBookCategoryNumbers() {
 		int[] notEmptyCatNumbers = new int[12];
