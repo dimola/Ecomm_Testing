@@ -30,6 +30,9 @@ public class BooksCategoryPage extends CategoryPage {
 		super(driver);
 	}
 
+	/*
+	 Implementation from Home page abstract methods
+	  */
 	@Override
 	public BooksCategoryPage open() {
 		this.driver.get(configFileReader.getHost() + ART_CATEGORY_URL);
@@ -47,6 +50,13 @@ public class BooksCategoryPage extends CategoryPage {
 		return result;
 	}
 
+	/*
+	Text getters from Web Elements
+	 */
+
+	/*
+	Actions in this page
+	 */
 	public void openCategory(int categoryNumber){
 		this.getSideBarButtons().get(categoryNumber).click();
 	}
@@ -143,104 +153,14 @@ public class BooksCategoryPage extends CategoryPage {
 			}
 		}
 	}
-/*
-	public BooksCategoryPage openNotEmptyBookCategory(int i) {
-		if (i == 0) {
-			this.driver.get(configFileReader.getHost() + ART_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 1) {
-			this.driver.get(configFileReader.getHost() + BIOGRAPHY_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 2) {
-			this.driver.get(configFileReader.getHost() + CHILDRENS_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 3) {
-			this.driver.get(configFileReader.getHost() + FINANCE_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 4) {
-			this.driver.get(configFileReader.getHost() + COMPUTERS_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 5) {
-			this.driver.get(configFileReader.getHost() + COOKING_FOOD_WINE_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 6) {
-			this.driver.get(configFileReader.getHost() + ENTERTAINMENT_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 7) {
-			this.driver.get(configFileReader.getHost() + MIND_BODY_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 9) {
-			this.driver.get(configFileReader.getHost() + HOBBIES_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 10) {
-			this.driver.get(configFileReader.getHost() + HOME_GARDEN_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 18) {
-			this.driver.get(configFileReader.getHost() + SCIENCE_NATURE_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 19) {
-			this.driver.get(configFileReader.getHost() + SCIENCE_FICTION_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		return this;
-	}
 
-	public BooksCategoryPage openEmptyBookCategory(int i) {
-		if (i == 8) {
-			this.driver.get(configFileReader.getHost() + HISTORY_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 11) {
-			this.driver.get(configFileReader.getHost() + HORROR_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 12) {
-			this.driver.get(configFileReader.getHost() + LITERATURE_FICTION_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 13) {
-			this.driver.get(configFileReader.getHost() + MISTERY_THRILLERS_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 14) {
-			this.driver.get(configFileReader.getHost() + NON_FICTION_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 15) {
-			this.driver.get(configFileReader.getHost() + PROFESSIONAL_TECHNICAL_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 16) {
-			this.driver.get(configFileReader.getHost() + REFERENCE_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 17) {
-			this.driver.get(configFileReader.getHost() + RELIGION_SPIRITUALITY_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 20) {
-			this.driver.get(configFileReader.getHost() + SPORTS_OUTDOORS_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		if (i == 21) {
-			this.driver.get(configFileReader.getHost() + TRAVEL_CATEGORY_URL);
-			this.getSideBarButtons().get(i).click();
-		}
-		return this;
-	}
-	*/
-	
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
+
+	/*
+	Helper functions
+	 */
 	public int getRandomNotEmptyBookCategoryNumbers() {
 		int[] notEmptyCatNumbers = new int[12];
 		int rnd = (int)(Math.random()*notEmptyCatNumbers.length);

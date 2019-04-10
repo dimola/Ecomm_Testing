@@ -40,6 +40,9 @@ public class CdsPage extends CategoryPage {
 		super(driver);
 	}
 
+	/*
+	Implementation from Home page abstract methods
+	 */
 	@Override
 	public CdsPage open(){
 		this.driver.get(configFileReader.getHost() + PAGE_URL);
@@ -59,18 +62,20 @@ public class CdsPage extends CategoryPage {
 		return result;
 	}
 
+	/*
+	Text getters from Web Elements
+	 */
 	public String getArtistLabelText(){
 		try {
 			if (this.artistLabel.isDisplayed()){
 				return this.artistLabel.getText();
 			}
 			else{
-				return "Can't find artist text box";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't find artist text box";
+			return null;
 		}
 	}
 
@@ -80,12 +85,11 @@ public class CdsPage extends CategoryPage {
 				return this.titleLable.getText();
 			}
 			else{
-				return "Can't find title text box";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't find title text box";
+			return null;
 		}
 	}
 
@@ -95,12 +99,11 @@ public class CdsPage extends CategoryPage {
 				return this.labelLabel.getText();
 			}
 			else{
-				return "Can't find label text box";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't find label text box";
+			return null;
 		}
 	}
 
@@ -110,12 +113,11 @@ public class CdsPage extends CategoryPage {
 				return this.composerLabel.getText();
 			}
 			else{
-				return "Can't find composer text box";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't find composer text box";
+			return null;
 		}
 	}
 
@@ -129,6 +131,14 @@ public class CdsPage extends CategoryPage {
 		return searchBarFieldsLabels;
 	}
 
+	/*
+	Actions in this page
+	 */
+
+
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
 	public boolean isArtistTextboxDisplayed(){
 		boolean result = false;
 		try {
@@ -168,5 +178,9 @@ public class CdsPage extends CategoryPage {
 		}
 		return result;
 	}
+
+	/*
+	Helper functions
+	 */
 
 }

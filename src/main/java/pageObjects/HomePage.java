@@ -19,20 +19,14 @@ public class HomePage extends GeneralPage {
 		super(driver);
 	}
 
+	/*
+	Implementation from Home page abstract methods
+	 */
 	@Override
 	public HomePage open() {
 		configFileReader = new ConfigFileReader();
 		this.driver.get(configFileReader.getHost() + PAGE_URL);
 		return this;
-	}
-
-	//Methods
-	public void selectBookCategory() {
-		booksCategoryButton.click();
-	}
-
-	public void selectCdsCategory() {
-		cdsCategoryButton.click();
 	}
 
 	@Override
@@ -46,6 +40,24 @@ public class HomePage extends GeneralPage {
 		return result;
 	}
 
+	/*
+	Text getters from Web Elements
+	 */
+
+	/*
+	Actions in this page
+	 */
+	public void selectBookCategory() {
+		booksCategoryButton.click();
+	}
+
+	public void selectCdsCategory() {
+		cdsCategoryButton.click();
+	}
+
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
 	public boolean logOutButtonIsNotPresent() {
 		if (driver.getPageSource().contains("Logout")) {
 			return false;
@@ -53,7 +65,7 @@ public class HomePage extends GeneralPage {
 			return true;
 		}
 	}
-	
+
 	public boolean isBooksCategoryButtonDisplayed() {
 		boolean result = false;
 		try {
@@ -63,7 +75,7 @@ public class HomePage extends GeneralPage {
 		}
 		return result;
 	}
-	
+
 	public boolean isCdsCategoryButtonDisplayed() {
 		boolean result = false;
 		try {
@@ -74,11 +86,12 @@ public class HomePage extends GeneralPage {
 		return result;
 	}
 
+	//Helper functions
 	public String getRandomCategoryName() {
 		int rnd = (int)(Math.random()*2 +1);
 		if (rnd == 1) {
-		return "Books";
-	} return "CDs";
+			return "Books";
+		} return "CDs";
 	}
 
 }

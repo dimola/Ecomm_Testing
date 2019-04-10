@@ -67,26 +67,25 @@ public abstract class CategoryPage extends GeneralPage {
 	@FindBy(css = "#main-big-col > b.err")
 	private WebElement errorMessage;
 
+
 	public CategoryPage(WebDriver driver) {
 		super(driver);
 	}
 
-	public void clickSubmit() {
-		buttonSubmit.click();
-	}
+	/*
+	Implementation from Home page abstract methods
+	 */
 
-	public void openProductDetailsPageFromProductList(int productNumber) {
-		this.allProductsTitles.get(productNumber).click();
+	/*
+	Text getters from Web Elements
+	 */
+	public String getSelectedCategoryTitle() {
+		return this.selectedCategory.getText();
 	}
-
 	public List<WebElement> getSideBarButtons() {
 		return sideBarButtons;
 	}
 
-	public String getSelectedCategoryTitle() {
-		return this.selectedCategory.getText();
-	}
-	
 	public String getProductAuthorFromProductListPerCategory(int productNumber) {
 		String removeTitleText = this.allProductsTitlesPerCategory.get(productNumber).getText();
 		String removePricesText = this.allProductsPrisesPerCategory.get(productNumber).getText();
@@ -113,11 +112,11 @@ public abstract class CategoryPage extends GeneralPage {
 			if (this.errorMessage.getText() != null) {
 				return this.errorMessage.getText();
 			} else {
-				return "";
+				return null;
 			}
 		} catch (Throwable e) {
-			System.out.println("Problem while checking if error message is displayed: " + e.getMessage());
-			return "";
+			//System.out.println("Problem while checking if error message is displayed: " + e.getMessage());
+			return null;
 		}
 	}
 
@@ -126,10 +125,10 @@ public abstract class CategoryPage extends GeneralPage {
 			if (this.emptyCategoryErr.getText() != null) {
 				return this.emptyCategoryErr.getText();
 			} else {
-				return "";
+				return null;
 			}
 		} catch (Throwable e) {
-			return "";
+			return null;
 		}
 	}
 
@@ -162,14 +161,63 @@ public abstract class CategoryPage extends GeneralPage {
 			if (this.sideMenuTitle.getText() != null && this.sideMenuTitle.isDisplayed()) {
 				return this.sideMenuTitle.getText();
 			} else {
-				return "Can't find side menu title.";
+				return null;
 			}
 		} catch (Throwable e) {
-			return "Can't find side menu title";
+			return null;
 		}
 	}
 
-	//All rows below should  be deleted or refactored
+	public List<String> getAllProductTitles(){
+		try {
+			List<String> productsTitlesList = new ArrayList<>();
+			for (int i = 0; i < this.allProductsPerCategory.size(); i++) {
+				productsTitlesList.add(this.allProductsTitlesPerCategory.get(i).getText());
+			}
+			return productsTitlesList;
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+
+	public List<String> getAllProductsAuthors(){
+		try {
+			List<String> productsAuthorsList = new ArrayList<>();
+			for (int i = 0; i < this.allProductsPerCategory.size(); i++) {
+				productsAuthorsList.add(this.getProductAuthorFromProductListPerCategory(i));
+			}
+			return productsAuthorsList;
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+
+	public List<String> getAllProductsPrices(){
+		try {
+			List<String> productPricesList = new ArrayList<>();
+			for (int i = 0; i < this.allProductsPerCategory.size(); i++) {
+				productPricesList.add(this.allProductsPrisesPerCategory.get(i).getText());
+			}
+			return productPricesList;
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+
+	/*
+	Actions in this page
+	 */
+	public void clickSubmit() {
+		buttonSubmit.click();
+	}
+
+	public void openProductDetailsPageFromProductList(int productNumber) {
+		this.allProductsTitles.get(productNumber).click();
+	}
+
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
 	public boolean isSideMenuDisplayed() {
 		boolean result = false;
 		try {
@@ -239,8 +287,6 @@ public abstract class CategoryPage extends GeneralPage {
 		return result;
 	}
 
-	// Rework in progress
-
 	public boolean areTheProductsImagesDisplayed() {
 		boolean result = false;
 		boolean currentResult = true;
@@ -254,18 +300,6 @@ public abstract class CategoryPage extends GeneralPage {
 			System.out.println("Not all images per product are shown" + e.getMessage());
 		}
 		return result;
-	}
-
-	public List<String> getAllProductTitles(){
-		try {
-			List<String> productsTitlesList = new ArrayList<>();
-			for (int i = 0; i < this.allProductsPerCategory.size(); i++) {
-				productsTitlesList.add(this.allProductsTitlesPerCategory.get(i).getText());
-			}
-			return productsTitlesList;
-		} catch (Throwable e) {
-			return null;
-		}
 	}
 
 	public boolean areTheProductsTitlesDisplayed() {
@@ -283,18 +317,6 @@ public abstract class CategoryPage extends GeneralPage {
 		return result;
 	}
 
-	public List<String> getAllProductsAuthors(){
-		try {
-			List<String> productsAuthorsList = new ArrayList<>();
-			for (int i = 0; i < this.allProductsPerCategory.size(); i++) {
-				productsAuthorsList.add(this.getProductAuthorFromProductListPerCategory(i));
-			}
-			return productsAuthorsList;
-		} catch (Throwable e) {
-			return null;
-		}
-	}
-
 	public boolean areTheProductsAuthorsDisplayed() {
 		boolean result = false;
 		boolean currentResult = true;
@@ -307,18 +329,6 @@ public abstract class CategoryPage extends GeneralPage {
 			System.out.println("Not all Authors per book category are shown" + e.getMessage());
 		}
 		return result;
-	}
-
-	public List<String> getAllProductsPrices(){
-		try {
-			List<String> productPricesList = new ArrayList<>();
-			for (int i = 0; i < this.allProductsPerCategory.size(); i++) {
-				productPricesList.add(this.allProductsPrisesPerCategory.get(i).getText());
-			}
-			return productPricesList;
-		} catch (Throwable e) {
-			return null;
-		}
 	}
 
 	public boolean areTheProductsPricesDisplayed() {
@@ -361,11 +371,6 @@ public abstract class CategoryPage extends GeneralPage {
 		}
 		return result;
 	}
-	
-	public void addRandomProductToBasketFromProductList() {
-		int rnd = (int) (Math.random() * this.allProductsAddToBasketButtonsPerCategory.size());
-		this.allProductsAddToBasketButtonsPerCategory.get(rnd).click();
-	}
 
 	public boolean isErrorMessageDisplayed() {
 		boolean result = false;
@@ -381,4 +386,11 @@ public abstract class CategoryPage extends GeneralPage {
 		return result;
 	}
 
+	/*
+	Helper functions
+	 */
+	public void addRandomProductToBasketFromProductList() {
+		int rnd = (int) (Math.random() * this.allProductsAddToBasketButtonsPerCategory.size());
+		this.allProductsAddToBasketButtonsPerCategory.get(rnd).click();
+	}
 }

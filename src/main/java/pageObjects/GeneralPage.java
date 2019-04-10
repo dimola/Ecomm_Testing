@@ -57,26 +57,20 @@ public abstract class GeneralPage {
 		configFileReader = new ConfigFileReader();
 	}
 
-	public abstract GeneralPage open();
-
-	public abstract boolean isOpen();
-
-	public void clickLogOut() {
-		logoutMenuElement.click();
-	}
-
+	/*
+	Text getters from Web Elements
+	 */
 	public String getPageTitle(){
 		try {
 			if (this.pageHeadingTitle.isDisplayed()){
 				return this.pageHeadingTitle.getText();
 			}
 			else{
-				return "Can't find page title";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't find page title";
+			return null;
 		}
 	}
 
@@ -86,12 +80,11 @@ public abstract class GeneralPage {
 				return this.homeMenuElement.getText();
 			}
 			else{
-				return "Can't find Home button";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't find Home button";
+			return null;
 		}
 	}
 
@@ -101,12 +94,11 @@ public abstract class GeneralPage {
 				return this.booksMenuElement.getText();
 			}
 			else{
-				return "Can't find Books button";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't find Books button";
+			return null;
 		}
 	}
 
@@ -116,11 +108,11 @@ public abstract class GeneralPage {
 				return this.cdsMenuElement.getText();
 			}
 			else{
-				return "Can't find Cds button";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			return "Can't find Cds button";
+			return null;
 		}
 	}
 
@@ -130,11 +122,11 @@ public abstract class GeneralPage {
 				return this.basketMenuElement.getText();
 			}
 			else{
-				return "Can't find Basket button";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			return "Can't find Basket button";
+			return null;
 		}
 	}
 
@@ -144,11 +136,11 @@ public abstract class GeneralPage {
 				return this.registerMenuElement.getText();
 			}
 			else{
-				return "Can't find Register button";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			return "Can't find Register button";
+			return null;
 		}
 	}
 
@@ -158,11 +150,11 @@ public abstract class GeneralPage {
 				return this.basketMenuElement.getText();
 			}
 			else{
-				return "Can't find basket icon";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			return "Can't find basket icon";
+			return null;
 		}
 	}
 
@@ -172,11 +164,11 @@ public abstract class GeneralPage {
 				return this.loginMenuElement.getText();
 			}
 			else{
-				return "Can't find login button";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			return "Can't find login button";
+			return null;
 		}
 	}
 
@@ -186,14 +178,28 @@ public abstract class GeneralPage {
 				return this.logoutMenuElement.getText();
 			}
 			else{
-				return "Can't find logout button";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			return "Can't find logout button";
+			return null;
 		}
 	}
 
+	/*
+	Actions in this page
+	 */
+	public abstract GeneralPage open();
+
+	public abstract boolean isOpen();
+
+	public void clickLogOut() {
+		logoutMenuElement.click();
+	}
+
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
 	@SuppressWarnings("finally")
 	public boolean isMainMenuDisplayed() {
 		boolean result = false;

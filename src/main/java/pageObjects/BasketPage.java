@@ -37,6 +37,9 @@ public class BasketPage extends GeneralPage {
 		super(driver);
 	}
 
+	/*
+	Implementation from Home page abstract methods
+	 */
 	@Override
 	public BasketPage open() {
 		this.driver.get(configFileReader.getHost() + PAGE_URL);
@@ -54,16 +57,22 @@ public class BasketPage extends GeneralPage {
 		return result;
 	}
 
-	public boolean isEmtpyBasketDisplayed() {
-		boolean result = false;
+	/*
+	Text getters from Web Elements
+	 */
+	public String getEmptyBasketErrorMsg(){
+
 		try {
-			result = this.errorEmptyBasket.isDisplayed()
-					&& this.errorEmptyBasket.getText().equals("The Shopping Basket is empty!");
+			if(this.errorEmptyBasket.isDisplayed()){
+				return this.errorEmptyBasket.getText();
+			}
+			else{
+				return null;
+			}
+
 		} catch (Throwable e) {
-			System.err.println("Problem while checking if the empty shopping basket error message is displayed: "
-					+ e.getMessage());
+			return null;
 		}
-		return result;
 	}
 
 	public int getProductCount(int productRowNumber) {
@@ -75,11 +84,6 @@ public class BasketPage extends GeneralPage {
 		return productCount;
 	}
 
-	// when the defect is fixed
-	// (https://trello.com/c/iuwbGqI0/11-different-books-and-cds-cannot-be-added-to-the-basket)
-	// this should return product prise for specific row number in the basket
-	// product table
-	// now it works just for one product added to the basket
 	public float getProductPrice(int productRowNumber) {
 		return Float.parseFloat(this.productPrice.get(productRowNumber).getText());
 	}
@@ -116,6 +120,14 @@ public class BasketPage extends GeneralPage {
 			return 0;
 		}
 	}
+	/*
+	Actions in this page
+	 */
+
+
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
 
 	public boolean areAllAddedProductsDisplayed(int number) {
 		boolean result = false;
@@ -128,16 +140,12 @@ public class BasketPage extends GeneralPage {
 		return result;
 	}
 
-	public boolean isBasketHeaderDisplayed() {
+	public boolean isCheckoutButtonDisplayed() {
 		boolean result = false;
 		try {
-			result = this.basketTableRows.get(0).isDisplayed()
-					&& this.basketTableRows.get(0).getText().contains("Product")
-					&& this.basketTableRows.get(0).getText().contains("Price")
-					&& this.basketTableRows.get(0).getText().contains("Count")
-					&& this.basketTableRows.get(0).getText().contains("Subtotal");
+			result = this.checkoutButton.isDisplayed() && this.checkoutButton.getText().equals("Checkout");
 		} catch (Throwable e) {
-			System.err.println("Problem while checking if the Basket Header is correctly displayed: " + e.getMessage());
+			System.err.println("Problem while checking if Basket Page Heading is displayed: " + e.getMessage());
 		}
 		return result;
 	}
@@ -183,6 +191,32 @@ public class BasketPage extends GeneralPage {
 			}
 		} catch (Throwable e) {
 			System.err.println("Problem while checking if Add One Product button is displayed: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean isBasketHeaderDisplayed() {
+		boolean result = false;
+		try {
+			result = this.basketTableRows.get(0).isDisplayed()
+					&& this.basketTableRows.get(0).getText().contains("Product")
+					&& this.basketTableRows.get(0).getText().contains("Price")
+					&& this.basketTableRows.get(0).getText().contains("Count")
+					&& this.basketTableRows.get(0).getText().contains("Subtotal");
+		} catch (Throwable e) {
+			System.err.println("Problem while checking if the Basket Header is correctly displayed: " + e.getMessage());
+		}
+		return result;
+	}
+
+	public boolean isEmtpyBasketDisplayed() {
+		boolean result = false;
+		try {
+			result = this.errorEmptyBasket.isDisplayed()
+					&& this.errorEmptyBasket.getText().equals("The Shopping Basket is empty!");
+		} catch (Throwable e) {
+			System.err.println("Problem while checking if the empty shopping basket error message is displayed: "
+					+ e.getMessage());
 		}
 		return result;
 	}
@@ -244,13 +278,4 @@ public class BasketPage extends GeneralPage {
 		return result;
 	}
 
-	public boolean isCheckoutButtonDisplayed() {
-		boolean result = false;
-		try {
-			result = this.checkoutButton.isDisplayed() && this.checkoutButton.getText().equals("Checkout");
-		} catch (Throwable e) {
-			System.err.println("Problem while checking if Basket Page Heading is displayed: " + e.getMessage());
-		}
-		return result;
-	}
 }

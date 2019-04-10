@@ -46,6 +46,9 @@ public class BooksPage extends CategoryPage {
 		super(driver);
 	}
 
+	/*
+	Implementation from Home page abstract methods
+	 */
 	@Override
 	public BooksPage open(){
 		this.driver.get(configFileReader.getHost() + PAGE_URL);
@@ -65,6 +68,131 @@ public class BooksPage extends CategoryPage {
 		return result;
 	}
 
+	/*
+	Text getters from Web Elements
+	 */
+	public String getSubmitButtonText(){
+		try {
+			if (this.submitButton.isDisplayed()){
+				return this.submitButton.getText();
+			}
+			else{
+				return null;
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return null;
+		}
+	}
+
+	public String getAuthorLabelText(){
+		try {
+			if (this.authorLabel.isDisplayed()){
+				return this.authorLabel.getText();
+			}
+			else{
+				return null;
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return null;
+		}
+	}
+
+	public String getTitleLabelText(){
+		try {
+			if (this.titleLable.isDisplayed()){
+				return this.titleLable.getText();
+			}
+			else{
+				return null;
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return null;
+		}
+	}
+
+	public String getPublisherLabelText(){
+		try {
+			if (this.publisherLabel.isDisplayed()){
+				return this.publisherLabel.getText();
+			}
+			else{
+				return null;
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return null;
+		}
+	}
+
+	public String getIsbnLabelText(){
+		try {
+			if (this.isbnLable.isDisplayed()){
+				return this.isbnLable.getText();
+			}
+			else{
+				return null;
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return null;
+		}
+	}
+
+	public List<String> getSearchBarFieldsLabels(){
+		List<String> searchBarFieldsLabels = new ArrayList<>();
+		searchBarFieldsLabels.add(this.getAuthorLabelText());
+		searchBarFieldsLabels.add(this.getTitleLabelText());
+		searchBarFieldsLabels.add(this.getPublisherLabelText());
+		searchBarFieldsLabels.add(this.getIsbnLabelText());
+
+		return searchBarFieldsLabels;
+	}
+
+	public List<String> getAllProductsPublishers(){
+		List<String> allPublishers = new ArrayList<>();
+		try {
+			for (int i = 0; i < this.allProducts.size(); i++) {
+				this.openProductDetailsPageFromProductList(i);
+				ProductDetailsPage product = new ProductDetailsPage(driver);
+				allPublishers.add(product.getProductPublisher());
+				product.backToProductList();
+			}
+
+			return allPublishers;
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if displayed book are by this publisher: " + e.getMessage());
+			return null;
+		}
+	}
+
+	public List<String> getAllProductsISBNs(){
+		List<String> allISBNs = new ArrayList<>();
+		try {
+			for (int i = 0; i < this.allProducts.size(); i++) {
+				this.openProductDetailsPageFromProductList(i);
+				ProductDetailsPage product = new ProductDetailsPage(driver);
+				allISBNs.add(product.getProductISBN());
+				product.backToProductList();
+			}
+
+			return allISBNs;
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if displayed book are by this publisher: " + e.getMessage());
+			return null;
+		}
+	}
+
+	/*
+	Actions in this page
+	 */
 	public BooksPage enterAuthor(String author) {
 		authorTextbox.sendKeys(author);
 		return this;
@@ -93,110 +221,9 @@ public class BooksPage extends CategoryPage {
 		submitButton.click();
 	}
 
-	public String getSubmitButtonText(){
-		try {
-			if (this.submitButton.isDisplayed()){
-				return this.submitButton.getText();
-			}
-			else{
-				return "Can't find submit button";
-			}
-		}
-		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't find submit button";
-		}
-	}
-
-	public String getAuthorLabelText(){
-		try {
-			if (this.authorLabel.isDisplayed()){
-				return this.authorLabel.getText();
-			}
-			else{
-				return "Can't find Author text box";
-			}
-		}
-		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't find Author text box";
-		}
-	}
-
-	public String getTitleLabelText(){
-		try {
-			if (this.titleLable.isDisplayed()){
-				return this.titleLable.getText();
-			}
-			else{
-				return "Can't find title text box";
-			}
-		}
-		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't find title text box";
-		}
-	}
-
-	public String getPublisherLabelText(){
-		try {
-			if (this.publisherLabel.isDisplayed()){
-				return this.publisherLabel.getText();
-			}
-			else{
-				return "Can't find publisher text box";
-			}
-		}
-		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't find publisher text box";
-		}
-	}
-
-	public String getIsbnLabelText(){
-		try {
-			if (this.isbnLable.isDisplayed()){
-				return this.isbnLable.getText();
-			}
-			else{
-				return "Can't find ISBN text box";
-			}
-		}
-		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't find ISBN text box";
-		}
-	}
-
-	public List<String> getSearchBarFieldsLabels(){
-		List<String> searchBarFieldsLabels = new ArrayList<>();
-		searchBarFieldsLabels.add(this.getAuthorLabelText());
-		searchBarFieldsLabels.add(this.getTitleLabelText());
-		searchBarFieldsLabels.add(this.getPublisherLabelText());
-		searchBarFieldsLabels.add(this.getIsbnLabelText());
-
-		return searchBarFieldsLabels;
-	}
-
-	//To be deleted or refactored
-
-	public List<String> getAllProductsPublishers(){
-		List<String> allPublishers = new ArrayList<>();
-		try {
-			for (int i = 0; i < this.allProducts.size(); i++) {
-				this.openProductDetailsPageFromProductList(i);
-				ProductDetailsPage product = new ProductDetailsPage(driver);
-				allPublishers.add(product.getProductPublisher());
-				driver.navigate().back();
-			}
-
-			return allPublishers;
-		} catch (Throwable e) {
-			System.out.println("Problem while checking if displayed book are by this publisher: " + e.getMessage());
-			return null;
-		}
-	}
-
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
 	public boolean areAllBooksPublishedBySearchedPublisher(String publisher) {
 		boolean result = false;
 		String publisherLowCase = publisher.toLowerCase();
@@ -217,23 +244,6 @@ public class BooksPage extends CategoryPage {
 			System.out.println("Problem while checking if displayed book are by this publisher: " + e.getMessage());
 		}
 		return result;
-	}
-
-	public List<String> getAllProductsISBNs(){
-		List<String> allISBNs = new ArrayList<>();
-		try {
-			for (int i = 0; i < this.allProducts.size(); i++) {
-				this.openProductDetailsPageFromProductList(i);
-				ProductDetailsPage product = new ProductDetailsPage(driver);
-				allISBNs.add(product.getProductISBN());
-				driver.navigate().back();
-			}
-
-			return allISBNs;
-		} catch (Throwable e) {
-			System.out.println("Problem while checking if displayed book are by this publisher: " + e.getMessage());
-			return null;
-		}
 	}
 
 	public boolean doesAllProductsContainSearchedISBN(String ISBN) {
@@ -284,4 +294,7 @@ public class BooksPage extends CategoryPage {
 		return result;
 	}
 
+	/*
+	Helper functions
+	 */
 }

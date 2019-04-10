@@ -42,13 +42,11 @@ public class Steps {
 	public void I_am_not_logged_in_the_system(){
 		String pageTitle = pageObjectManager.getLoginPage().getPageTitle();
 		assertThat(pageTitle).as("Expected title: Login. Actual title: %s .", pageTitle).isEqualTo("Login");
-		//Assert.assertTrue("Home page is not on focus", pageObjectManager.getLoginPage().isOpen());
 	}
 
 	@Then("^An error message is displayed$")
 	public void An_error_message_is_displayed(){
-		assertThat(pageObjectManager.getLoginPage().getErrorTime()).as("Error message timer is not displayed.").doesNotContain("Can't find");
-		//Assert.assertTrue("Timer is not displayed", pageObjectManager.getLoginPage().timerIsDisplayed());
+		assertThat(pageObjectManager.getLoginPage().getErrorTime()).as("Error message timer is not displayed.").isNotNull();
 	}
 
 	@Given("^I am logged in with credentials \"([^\"]*)\" and \"([^\"]*)\"$")
@@ -72,7 +70,7 @@ public class Steps {
 		assertThat(homePage.getLoginButtonText()).as("Expected login button text: Login. Actual: %s.", homePage.getLoginButtonText())
 				.isEqualTo("Login");
 		assertThat(homePage.getLogoutButtonText()).as("Expected logout button to be not present. Actual: button is present with text %s.", homePage.getLogoutButtonText())
-				.contains("Can't find");
+				.isNull();
 		assertThat(homePage.getRegisterButtonText()).as("Expected register button text: Register. Actual: %s.", homePage.getRegisterButtonText())
 				.isEqualTo("Register");
 	}
@@ -125,32 +123,6 @@ public class Steps {
 																									.contains("Author", "Title", "Publisher", "ISBN");
 		softly.assertThat(booksPage.getMainMenuLinksText()).as("Main menu is empty.").isNotEmpty();
 		softly.assertAll();
-
-		/*
-		Assert.assertTrue("Logo is not displayed on the page", pageObjectManager.getBooksPage().isLogoDisplayed());
-		Assert.assertTrue("Main Menu is not displayed on the page",
-				pageObjectManager.getBooksPage().isMainMenuDisplayed());
-		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksPage().isHomeButtonDisplayed());
-		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksPage().isBooksButtonDisplayed());
-		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksPage().isCdsButtonDisplayed());
-		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksPage().isBasketButtonDisplayed());
-		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksPage().isRegisterButtonDisplayed());
-		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksPage().isLoginButtonDisplayed());
-		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksPage().isViewBasketDisplayed());
-		Assert.assertTrue("Side Menu is not displayed on the page",
-				pageObjectManager.getBooksPage().isSideMenuDisplayed());
-		Assert.assertTrue("The Books Product list is not displayed on the page",
-				pageObjectManager.getBooksPage().isProductListDisplayed());
-		Assert.assertTrue("Search Form is not displayed on the page",
-				pageObjectManager.getBooksPage().isSearchFormDisplayed());
-				*/
 	}
 
 	@Then("^I should see all book filtering options$")
@@ -182,11 +154,6 @@ public class Steps {
 		for(int i = 0; i<listAllAuthors.size(); i++){
 			assertThat(listAllAuthors.get(i).toLowerCase()).as("Found products not matching search criteria (author).").contains(authorLowCase);
 		}
-
-		/*
-		Assert.assertTrue("Displayed books are not written by this author",
-				pageObjectManager.getBooksPage().areAllProductsWrittenBySearchedAuthorOrArtist(author));
-				*/
 	}
 
 	@When("^I search for a certain Book by its title \"([^\"]*)\"$")
@@ -202,10 +169,6 @@ public class Steps {
 		for(int i =0; i<listAllTitles.size(); i++){
 			assertThat(listAllTitles.get(i).toLowerCase()).as("Found products not matching search criteria (title).").contains(titleLowCase);
 		}
-		/*
-		Assert.assertTrue("Displayed book does not have the same title",
-				pageObjectManager.getBooksPage().doesAllProductsContainSearchedTitle(title));
-				*/
 	}
 
 	@When("^I search for a certain publisher \"([^\"]*)\"$")
@@ -221,11 +184,6 @@ public class Steps {
 		for(int i =0; i<listAllPublishers.size(); i++){
 			assertThat(listAllPublishers.get(i).toLowerCase()).as("Found products not matching search criteria (publisher).").contains(publisherLowCase);
 		}
-
-		/*
-		Assert.assertTrue("Displayed books are not written by this publisher",
-				pageObjectManager.getBooksPage().areAllBooksPublishedBySearchedPublisher(publisher));
-				*/
 	}
 
 	@When("^I search for a certain ISBN \"([^\"]*)\"$")
@@ -241,10 +199,6 @@ public class Steps {
 		for(int i =0; i<listAllIsbns.size(); i++){
 			assertThat(listAllIsbns.get(i).toLowerCase()).as("Found products not matching search criteria (ISBN).").contains(isbnLowCase);
 		}
-		/*
-		Assert.assertTrue("Displayed books are not with this number",
-				pageObjectManager.getBooksPage().doesAllProductsContainSearchedISBN(ISBN));
-				*/
 	}
 
 	@When("^I search for more than one of the search criteria at the same time \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
@@ -295,10 +249,6 @@ public class Steps {
 		}
 
 		softly.assertAll();
-		/*
-		Assert.assertTrue("Displayed books are not answering the respective criteria",
-				pageObjectManager.getBooksPage().isTheResultAnsweringRespectiveSearchCriteria(author, title, publisher, ISBN));
-				*/
 	}
 
 	@When("^I search with invalid criteria \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
@@ -315,7 +265,6 @@ public class Steps {
 	public void an_error_message_is_displayed_stating_that_there_are_no_such_books_in_the_system(){
 		String errorMsg = pageObjectManager.getBooksPage().getErrorMsgText();
 		assertThat(errorMsg).as("Expected error message for books, received: \"%s\" ", errorMsg).isEqualTo("There are no Books matching the search criteria...");
-		//Assert.assertTrue("Books are displayed", pageObjectManager.getBooksPage().isErrorMessageDisplayed());
 	}
 
 	@Then("^I should see the home page$")
@@ -329,48 +278,20 @@ public class Steps {
 		softly.assertThat(homePage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", homePage.getViewBasketButtonText()).isEqualTo("Basket");
 		softly.assertThat(homePage.getRegisterButtonText()).as("Expected: Register button text \"Register\". Actual: Register button text \"%s\" ", homePage.getRegisterButtonText()).isEqualTo("Register");
 		softly.assertThat(homePage.getLoginButtonText()).as("Expected: Login button text \"Login\". Actual: Login button text \"%s\" ", homePage.getLoginButtonText()).isEqualTo("Login");
-		softly.assertThat(homePage.getBasketIconText()).as("Missing basket icon.", homePage.getBooksButtonText()).doesNotContain("Can't find");
+		softly.assertThat(homePage.getBasketIconText()).as("Missing basket icon.", homePage.getBooksButtonText()).isNotNull();
+
 		softly.assertAll();
-
-		/*
-		Assert.assertTrue("Problems while verifying that Home Page is displayed",
-				pageObjectManager.getHomePage().isOpen());
-		Assert.assertTrue("Logo is not displayed on the page", pageObjectManager.getHomePage().isLogoDisplayed());
-		Assert.assertTrue("Main Menu is not displayed on the page",
-				pageObjectManager.getHomePage().isMainMenuDisplayed());
-		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
-				pageObjectManager.getHomePage().isHomeButtonDisplayed());
-		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
-				pageObjectManager.getHomePage().isBooksButtonDisplayed());
-		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
-				pageObjectManager.getHomePage().isCdsButtonDisplayed());
-		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
-				pageObjectManager.getHomePage().isBasketButtonDisplayed());
-		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
-				pageObjectManager.getHomePage().isRegisterButtonDisplayed());
-		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
-				pageObjectManager.getHomePage().isLoginButtonDisplayed());
-		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
-				pageObjectManager.getHomePage().isViewBasketDisplayed());
-				*/
-
 	}
 
 	@Then("^I should see Books and CDs categories$")
 	public void i_should_see_Books_and_CDs_categories(){
 		HomePage homePage = pageObjectManager.getHomePage();
 		SoftAssertions softly = new SoftAssertions();
-		softly.assertThat(homePage.getBooksButtonText()).as("Can't find books button.").doesNotContain("Can't find");
-		softly.assertThat(homePage.getCDsButtonText()).as("Can't find cds button.").doesNotContain("Can't find");
+		softly.assertThat(homePage.getBooksButtonText()).as("Can't find books button.").isNotNull();
+		softly.assertThat(homePage.getCDsButtonText()).as("Can't find cds button.").isNotNull();
 		softly.assertThat(homePage.getBooksButtonText()).as("Expected: Books button text  \"Books\". Actual: button text: \"%s\" ", homePage.getBooksButtonText()).isEqualTo("Books");
 		softly.assertThat(homePage.getCDsButtonText()).as("Expected: CDs button text  \"CDs\". Actual: button text: \"%s\" ", homePage.getCDsButtonText()).isEqualTo("CDs");
 		softly.assertAll();
-		/*
-		Assert.assertTrue("Books category button is not displayed on the page",
-				pageObjectManager.getHomePage().isBooksCategoryButtonDisplayed());
-		Assert.assertTrue("CDs category button is not displayed on the page",
-				pageObjectManager.getHomePage().isCdsCategoryButtonDisplayed());
-				*/
 	}
 
 	@When("^I redirect to cds page$")
@@ -394,27 +315,6 @@ public class Steps {
 		softly.assertThat(cdsPage.getMainMenuLinksText()).as("Main menu is empty.").isNotEmpty();
 		softly.assertAll();
 
-		/*
-		Assert.assertTrue("Problems while verifying that Cds Page is displayed",
-				pageObjectManager.getCdsPage().isOpen());
-		Assert.assertTrue("Logo is not displayed on the page", pageObjectManager.getCdsPage().isLogoDisplayed());
-		Assert.assertTrue("Main Menu is not displayed on the page",
-				pageObjectManager.getCdsPage().isMainMenuDisplayed());
-		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsPage().isHomeButtonDisplayed());
-		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsPage().isBooksButtonDisplayed());
-		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsPage().isCdsButtonDisplayed());
-		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsPage().isBasketButtonDisplayed());
-		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsPage().isRegisterButtonDisplayed());
-		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsPage().isLoginButtonDisplayed());
-		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsPage().isViewBasketDisplayed());
-				*/
 	}
 
 	@Then("^I should see all cds filtering options$")
@@ -430,75 +330,12 @@ public class Steps {
 		softly.assertThat(cdsPage.getComposerLabelText()).as("Wrong label for Composer textbox.").isEqualTo("Composer");
 		softly.assertThat(cdsPage.getLabelLabelText()).as("Wrong label for Label textbox.").isEqualTo("Label");
 		softly.assertThat(cdsPage.getTitleLabelText()).as("Wrong label for Title textbox.").isEqualTo("Title");
-		/*
-		Assert.assertTrue("Author textbox in the Search Form is not displayed on the page",
-				pageObjectManager.getCdsPage().isArtistTextboxDisplayed());
-		Assert.assertTrue("Title textbox in the Search Form is not displayed on the page",
-				pageObjectManager.getCdsPage().isTitleTextboxDisplayed());
-		Assert.assertTrue("Publisher textbox in the Search Form is not displayed on the page",
-				pageObjectManager.getCdsPage().isLabelTextboxDisplayed());
-		Assert.assertTrue("ISBN textbox in the Search Form is not displayed on the page",
-				pageObjectManager.getCdsPage().isComposerTextboxDisplayed());
-				*/
 	}
 
 	@When("^I redirect to not empty \"([^\"]*)\" category of Books$")
-	public void i_redirect_to_not_empty_category_of_Books(String bookCategory){
+	public void i_redirect_to_not_empty_category_of_Books(String bookCategory) {
 
 		pageObjectManager.getBooksCategoryPage().openCategory(bookCategory);
-		/*
-		switch (bookCategory) {
-			case "Art": {
-				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(0);
-				break;
-			}
-			case "Biographies": {
-				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(1);
-				break;
-			}
-			case "Children’s books": {
-				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(2);
-				break;
-			}
-			case "Finance": {
-				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(3);
-				break;
-			}
-			case "Computers": {
-				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(4);
-				break;
-			}
-			case "Cooking, food & wine": {
-				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(5);
-				break;
-			}
-			case "Entertainment": {
-				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(6);
-				break;
-			}
-			case "Mind & body": {
-				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(7);
-				break;
-			}
-			case "Hobbies": {
-				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(9);
-				break;
-			}
-			case "Home & garden": {
-				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(10);
-				break;
-			}
-			case "Science & nature": {
-				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(18);
-				break;
-			}
-			case "Science fiction": {
-				pageObjectManager.getBooksCategoryPage().openNotEmptyBookCategory(19);
-				break;
-			}
-		}
-		*/
-
 	}
 
 	@Then("^I should see the book category page$")
@@ -506,7 +343,7 @@ public class Steps {
 		BooksPage booksPage = pageObjectManager.getBooksPage();
 		SoftAssertions softly = new SoftAssertions();
 
-		softly.assertThat(booksPage.getEmptyErrorMsg()).as("Error msg is displayed").isEmpty();
+		softly.assertThat(booksPage.getEmptyErrorMsg()).as("Error msg is displayed").isNull();
 		softly.assertThat(booksPage.getPageTitle()).as("You are not redirected to a book category page.", booksPage.getPageTitle()).matches("Books (.*)");
 		softly.assertThat(booksPage.getSideMenuTitle()).as("Expected: Side Menu title should be \"Books\" Actual: Side menu title is \"%s\".").isEqualTo("Books");
 		softly.assertThat(booksPage.getHomeButtonText()).as("Expected: Home button text \"Home\". Actual: Home button text \"%s\" ", booksPage.getHomeButtonText()).isEqualTo("Home");
@@ -518,34 +355,6 @@ public class Steps {
 
 		softly.assertAll();
 
-		/*
-		Assert.assertTrue(
-				this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle() + " page is not displayed",
-				this.pageObjectManager.getBooksCategoryPage().isSelectedCategoryOpen(
-						this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle()));
-		Assert.assertTrue("Logo is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isLogoDisplayed());
-		Assert.assertTrue("Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isMainMenuDisplayed());
-		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isHomeButtonDisplayed());
-		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isBooksButtonDisplayed());
-		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isCdsButtonDisplayed());
-		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isBasketButtonDisplayed());
-		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isRegisterButtonDisplayed());
-		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isLoginButtonDisplayed());
-		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isViewBasketDisplayed());
-		Assert.assertTrue("Side Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isSideMenuDisplayed());
-		Assert.assertTrue("Product List is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isProductListDisplayed());
-		*/
 	}
 
 	@Then("^I should see all books' elements in the category page$")
@@ -560,18 +369,6 @@ public class Steps {
 		softly.assertThat(booksCategoryPage.areTheProductsImagesDisplayed()).as("Some product images are not displayed.").isTrue();
 
 		softly.assertAll();
-		/*
-		Assert.assertTrue("Not all book images are displayed per category",
-				pageObjectManager.getBooksCategoryPage().areTheProductsImagesDisplayed());
-		Assert.assertTrue("Not all book titles are dispayed per category",
-				pageObjectManager.getBooksCategoryPage().areTheProductsTitlesDisplayed());
-		Assert.assertTrue("Not all book authors are displayed per category",
-				pageObjectManager.getBooksCategoryPage().areTheProductsAuthorsDisplayed());
-		Assert.assertTrue("Not all book prices are displayed per category",
-				pageObjectManager.getBooksCategoryPage().areTheProductsPricesDisplayed());
-		Assert.assertTrue("Not all book add to basket buttons are displayed per category",
-				pageObjectManager.getBooksCategoryPage().areTheProductsAddToBasketButtonsDisplayed());
-				*/
 
 	}
 
@@ -579,51 +376,6 @@ public class Steps {
 	public void i_redirect_to_not_empty_category_of_CDs(String cdsCategory){
 
 		pageObjectManager.getCdsCategoryPage().openCategory(cdsCategory);
-		/*
-		switch (cdsCategory) {
-			case "Alternative": {
-				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(0);
-				break;
-			}
-			case "Blues": {
-				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(1);
-				break;
-			}
-			case "Children’s music": {
-				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(2);
-				break;
-			}
-			case "Classical": {
-				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(3);
-				break;
-			}
-			case "Country": {
-				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(4);
-				break;
-			}
-			case "Dance & DJ": {
-				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(5);
-				break;
-			}
-			case "Folk": {
-				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(6);
-				break;
-			}
-			case "New age": {
-				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(11);
-				break;
-			}
-			case "Pop": {
-				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(13);
-				break;
-			}
-			case "Soul": {
-				pageObjectManager.getCdsCategoryPage().openNotEmptyCdsCategory(16);
-				break;
-			}
-		}
-		*/
-
 	}
 
 	@Then("^I should see the cd category page$")
@@ -631,9 +383,9 @@ public class Steps {
 		CdsPage cdsPage = pageObjectManager.getCdsPage();
 		SoftAssertions softly = new SoftAssertions();
 
-		softly.assertThat(cdsPage.getEmptyErrorMsg()).as("Error msg is displayed").contains("Can't find");
-		softly.assertThat(cdsPage.getPageTitle()).as("You are not redirected to a book category page.", cdsPage.getPageTitle()).matches("Books (.*)");
-		softly.assertThat(cdsPage.getSideMenuTitle()).as("Expected: Side Menu title should be \"Books\" Actual: Side menu title is \"%s\".").isEqualTo("Books");
+		softly.assertThat(cdsPage.getEmptyErrorMsg()).as("Error msg is displayed").isNull();
+		softly.assertThat(cdsPage.getPageTitle()).as("You are not redirected to a Cds category page.", cdsPage.getPageTitle()).matches("CDs (.*)");
+		softly.assertThat(cdsPage.getSideMenuTitle()).as("Expected: Side Menu title should be \"CDs\" Actual: Side menu title is \"%s\".", cdsPage.getSideMenuTitle()).isEqualTo("CDs");
 		softly.assertThat(cdsPage.getHomeButtonText()).as("Expected: Home button text \"Home\". Actual: Home button text \"%s\" ", cdsPage.getHomeButtonText()).isEqualTo("Home");
 		softly.assertThat(cdsPage.getBooksButtonText()).as("Expected: Books button text \"Books\". Actual: Books button text \"%s\" ", cdsPage.getBooksButtonText()).isEqualTo("Books");
 		softly.assertThat(cdsPage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", cdsPage.getCDsButtonText()).isEqualTo("CDs");
@@ -642,34 +394,7 @@ public class Steps {
 		softly.assertThat(cdsPage.getMainMenuLinksText()).as("Main menu is empty.").isNotEmpty();
 
 		softly.assertAll();
-		/*
-		Assert.assertTrue(
-				this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle() + " page is not displayed",
-				this.pageObjectManager.getCdsCategoryPage().isSelectedCategoryOpen(
-						this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle()));
-		Assert.assertTrue("Logo is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isLogoDisplayed());
-		Assert.assertTrue("Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isMainMenuDisplayed());
-		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isHomeButtonDisplayed());
-		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isBooksButtonDisplayed());
-		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isCdsButtonDisplayed());
-		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isBasketButtonDisplayed());
-		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isRegisterButtonDisplayed());
-		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isLoginButtonDisplayed());
-		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isViewBasketDisplayed());
-		Assert.assertTrue("Side Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isSideMenuDisplayed());
-		Assert.assertTrue("Product List is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isProductListDisplayed());
-				*/
+
 	}
 
 	@Then("^I should see all cds' elements in the category page$")
@@ -681,68 +406,13 @@ public class Steps {
 		assertThat(cdsCategoryPage.getAllProductsPrices()).as("Some product prices are not displayed").isNotEmpty();
 		assertThat(cdsCategoryPage.areTheProductsAddToBasketButtonsDisplayed()).as("Some add to basket buttons are not displayed.").isTrue();
 		assertThat(cdsCategoryPage.areTheProductsImagesDisplayed()).as("Some product images are not displayed.").isTrue();
-		/*
-		Assert.assertTrue("Not all CD images are displayed per category",
-				pageObjectManager.getCdsCategoryPage().areTheProductsImagesDisplayed());
-		Assert.assertTrue("Not all CD titles are dispayed per category",
-				pageObjectManager.getCdsCategoryPage().areTheProductsTitlesDisplayed());
-		Assert.assertTrue("Not all CD authors are displayed per category",
-				pageObjectManager.getCdsCategoryPage().areTheProductsAuthorsDisplayed());
-		Assert.assertTrue("Not all CD prices are displayed per category",
-				pageObjectManager.getCdsCategoryPage().areTheProductsPricesDisplayed());
-		Assert.assertTrue("Not all CD add to basket buttons are displayed per category",
-				pageObjectManager.getCdsCategoryPage().areTheProductsAddToBasketButtonsDisplayed());
-				*/
+
 	}
 
 	@When("^I redirect to empty \"([^\"]*)\" category of Books$")
 	public void i_redirect_to_empty_category_of_Books(String bookCategory){
 
 		pageObjectManager.getBooksCategoryPage().openCategory(bookCategory);
-		/*
-		switch (bookCategory) {
-			case "History": {
-				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(8);
-				break;
-			}
-			case "Horror": {
-				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(11);
-				break;
-			}
-			case "Literature & fiction": {
-				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(12);
-				break;
-			}
-			case "Mystery & thrillers": {
-				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(13);
-				break;
-			}
-			case "Non-fiction": {
-				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(14);
-				break;
-			}
-			case "Professional & technical": {
-				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(15);
-				break;
-			}
-			case "Reference": {
-				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(16);
-				break;
-			}
-			case "Religion & spirituality": {
-				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(17);
-				break;
-			}
-			case "Sports & outdoors": {
-				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(20);
-				break;
-			}
-			case "Travel": {
-				pageObjectManager.getBooksCategoryPage().openEmptyBookCategory(21);
-				break;
-			}
-		}
-		*/
 
 	}
 
@@ -760,89 +430,13 @@ public class Steps {
 		softly.assertThat(booksPage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", booksPage.getCDsButtonText()).isEqualTo("CDs");
 		softly.assertThat(booksPage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", booksPage.getViewBasketButtonText()).isEqualTo("Basket");
 		softly.assertThat(booksPage.getSideMenuButtonsText()).as("Side menu is empty.").isNotEmpty();
-		softly.assertThat(booksPage.getMainMenuLinksText()).as("Main menu is empty.").isNotEmpty();
 
 		softly.assertAll();
-		/*
-		Assert.assertTrue(
-				this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle() + " page is not displayed",
-				this.pageObjectManager.getBooksCategoryPage().isSelectedCategoryOpen(
-						this.pageObjectManager.getBooksCategoryPage().getSelectedCategoryTitle()));
-		Assert.assertTrue("Logo is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isLogoDisplayed());
-		Assert.assertTrue("Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isMainMenuDisplayed());
-		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isHomeButtonDisplayed());
-		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isBooksButtonDisplayed());
-		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isCdsButtonDisplayed());
-		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isBasketButtonDisplayed());
-		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isRegisterButtonDisplayed());
-		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isLoginButtonDisplayed());
-		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isViewBasketDisplayed());
-		Assert.assertTrue("Side Menu is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isSideMenuDisplayed());
-		Assert.assertTrue("Product List is not displayed on the page",
-				pageObjectManager.getBooksCategoryPage().isProductListDisplayed());
-		Assert.assertTrue("The Book category is not empty", pageObjectManager.getBooksCategoryPage().isCategoryEmpty());
-		*/
 	}
 
 	@When("^I redirect to empty \"([^\"]*)\" category of CDs$")
 	public void i_redirect_to_empty_category_of_CDs(String cdsCategory){
-
 		pageObjectManager.getCdsCategoryPage().openCategory(cdsCategory);
-		/*
-		switch (cdsCategory) {
-			case "Emerging artists": {
-				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(7);
-				break;
-			}
-
-			case "International": {
-				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(8);
-				break;
-			}
-			case "Jazz": {
-				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(9);
-				break;
-			}
-			case "Miscellaneous": {
-				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(10);
-				break;
-			}
-			case "Opera & vocal": {
-				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(12);
-				break;
-			}
-			case "Rap & hip-hop": {
-				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(14);
-				break;
-			}
-			case "R&B": {
-				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(15);
-				break;
-			}
-			case "Soundtracks": {
-				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(17);
-				break;
-			}
-			case "Vocalists & Broadway": {
-				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(18);
-				break;
-			}
-			case "World": {
-				pageObjectManager.getCdsCategoryPage().openEmptyCdsCategory(19);
-				break;
-			}
-		}
-		*/
 
 	}
 
@@ -851,48 +445,18 @@ public class Steps {
 		CdsPage cdsPage = pageObjectManager.getCdsPage();
 		SoftAssertions softly = new SoftAssertions();
 
-		softly.assertThat(cdsPage.getEmptyErrorMsg()).as("Error msg is not displayed").isNotEmpty();
+		softly.assertThat(cdsPage.getEmptyErrorMsg()).as("Error msg is not displayed").isNotNull();
 		softly.assertThat(cdsPage.getEmptyErrorMsg()).as("Error msg is not displayed").isEqualTo("There are no products in the category");
-		softly.assertThat(cdsPage.getEmptyErrorMsg()).as("Error msg is displayed").contains("Can't find");
-		softly.assertThat(cdsPage.getPageTitle()).as("You are not redirected to a book category page.", cdsPage.getPageTitle()).matches("Books (.*)");
-		softly.assertThat(cdsPage.getSideMenuTitle()).as("Expected: Side Menu title should be \"Books\" Actual: Side menu title is \"%s\".").isEqualTo("Books");
+		softly.assertThat(cdsPage.getPageTitle()).as("You are not redirected to a book category page.", cdsPage.getPageTitle()).matches("CDs (.*)");
+		softly.assertThat(cdsPage.getSideMenuTitle()).as("Expected: Side Menu title should be \"Books\" Actual: Side menu title is \"%s\".").isEqualTo("CDs");
 		softly.assertThat(cdsPage.getHomeButtonText()).as("Expected: Home button text \"Home\". Actual: Home button text \"%s\" ", cdsPage.getHomeButtonText()).isEqualTo("Home");
 		softly.assertThat(cdsPage.getBooksButtonText()).as("Expected: Books button text \"Books\". Actual: Books button text \"%s\" ", cdsPage.getBooksButtonText()).isEqualTo("Books");
 		softly.assertThat(cdsPage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", cdsPage.getCDsButtonText()).isEqualTo("CDs");
 		softly.assertThat(cdsPage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", cdsPage.getViewBasketButtonText()).isEqualTo("Basket");
 		softly.assertThat(cdsPage.getSideMenuButtonsText()).as("Side menu is empty.").isNotEmpty();
-		softly.assertThat(cdsPage.getMainMenuLinksText()).as("Main menu is empty.").isNotEmpty();
 
 		softly.assertAll();
-		/*
-		Assert.assertTrue(
-				this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle() + " page is not displayed",
-				this.pageObjectManager.getCdsCategoryPage().isSelectedCategoryOpen(
-						this.pageObjectManager.getCdsCategoryPage().getSelectedCategoryTitle()));
-		Assert.assertTrue("Logo is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isLogoDisplayed());
-		Assert.assertTrue("Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isMainMenuDisplayed());
-		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isHomeButtonDisplayed());
-		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isBooksButtonDisplayed());
-		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isCdsButtonDisplayed());
-		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isBasketButtonDisplayed());
-		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isRegisterButtonDisplayed());
-		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isLoginButtonDisplayed());
-		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isViewBasketDisplayed());
-		Assert.assertTrue("Side Menu is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isSideMenuDisplayed());
-		Assert.assertTrue("Product List is not displayed on the page",
-				pageObjectManager.getCdsCategoryPage().isProductListDisplayed());
-		Assert.assertTrue("The Book category is not empty", pageObjectManager.getCdsCategoryPage().isCategoryEmpty());
-		*/
+
 	}
 
 	@When("^I am on a product details page with \"([^\"]*)\" url$")
@@ -902,6 +466,21 @@ public class Steps {
 
 	@Then("^I can see the product details page for \"([^\"]*)\" book/cd$")
 	public void i_can_see_the_product_details_page_for_book_cd(String product){
+		ProductDetailsPage productPage = pageObjectManager.getProductDetailsPage();
+		SoftAssertions softly = new SoftAssertions();
+
+		softly.assertThat(productPage.getEmptyErrorMsg()).as("Error msg is displayed").isNull();
+		//softly.assertThat(productPage.getPageTitle()).as("You are not redirected to a book category page.", productPage.getPageTitle()).matches("(Books (.*))||(CDs (.*))");
+		softly.assertThat(productPage.getSideMenuTitle()).as("Expected: Side Menu title should be \"Books\" Actual: Side menu title is \"%s\".", productPage.getSideMenuTitle()).isNotNull();
+		softly.assertThat(productPage.getHomeButtonText()).as("Expected: Home button text \"Home\". Actual: Home button text \"%s\" ", productPage.getHomeButtonText()).isEqualTo("Home");
+		softly.assertThat(productPage.getBooksButtonText()).as("Expected: Books button text \"Books\". Actual: Books button text \"%s\" ", productPage.getBooksButtonText()).isEqualTo("Books");
+		softly.assertThat(productPage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", productPage.getCDsButtonText()).isEqualTo("CDs");
+		softly.assertThat(productPage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", productPage.getViewBasketButtonText()).isEqualTo("Basket");
+		softly.assertThat(productPage.getSideMenuButtonsText()).as("Side menu is empty.").isNotEmpty();
+
+		softly.assertAll();
+
+		/*
 		Assert.assertTrue("Problems while verifying that Book Details page is open",
 				this.pageObjectManager.getProductDetailsPage().isProductDetailsPageOpen(product));
 		Assert.assertTrue("Logo is not displayed on the page",
@@ -924,10 +503,29 @@ public class Steps {
 				pageObjectManager.getProductDetailsPage().isViewBasketDisplayed());
 		Assert.assertTrue("Side Menu is not displayed on the page",
 				pageObjectManager.getProductDetailsPage().isSideMenuDisplayed());
+				*/
 	}
 
 	@Then("^I can see the book details$")
 	public void i_can_see_the_book_details(){
+		ProductDetailsPage productPage = pageObjectManager.getProductDetailsPage();
+		SoftAssertions softly = new SoftAssertions();
+
+		softly.assertThat(productPage.getProductTitle()).as("Missing product name").isNotNull()
+				.isNotEqualTo("");
+		softly.assertThat(productPage.getProductISBN()).as("Missing product ISBN").isNotNull()
+				.isNotEqualTo("");
+		softly.assertThat(productPage.getProductAuthor()).as("Missing product author").isNotNull()
+				.isNotEqualTo("");
+		softly.assertThat(productPage.getProductPublisher()).as("Missing product publisher").isNotNull()
+				.isNotEqualTo("");
+		softly.assertThat(productPage.getProductPrice()).as("Missing product price").isNotNull()
+				.isNotEqualTo("");
+		softly.assertThat(productPage.isProductImageDisplayed()).as("Missing product picture.").isTrue();
+		softly.assertThat(productPage.isAddToBasketButtonDisplayed()).as("Missing \"add to basket\" button").isTrue();
+
+		softly.assertAll();
+		/*
 		Assert.assertTrue("The image is not displayed on the book details page",
 				this.pageObjectManager.getProductDetailsPage().isProductImageDisplayed());
 		Assert.assertTrue("The author is not displayed on the book details page",
@@ -942,10 +540,27 @@ public class Steps {
 				this.pageObjectManager.getProductDetailsPage().isAddToBasketButtonDisplayed());
 		Assert.assertTrue("The back to prodcut details link is not displayed on the book details page",
 				this.pageObjectManager.getProductDetailsPage().isBackToProductListLinkDisplayed());
+				*/
 	}
 
 	@Then("^I can see the CD details$")
 	public void i_can_see_the_CD_details(){
+		ProductDetailsPage productPage = pageObjectManager.getProductDetailsPage();
+		SoftAssertions softly = new SoftAssertions();
+
+		softly.assertThat(productPage.getProductTitle()).as("Missing product name").isNotNull()
+				.isNotEqualTo("");
+		softly.assertThat(productPage.getProductArtist()).as("Missing product Artist").isNotNull()
+				.isNotEqualTo("");
+		softly.assertThat(productPage.getProductLabel()).as("Missing product label").isNotNull()
+				.isNotEqualTo("");
+		softly.assertThat(productPage.getProductPrice()).as("Missing product price").isNotNull()
+				.isNotEqualTo("");
+		softly.assertThat(productPage.isProductImageDisplayed()).as("Missing product picture.").isTrue();
+		softly.assertThat(productPage.isAddToBasketButtonDisplayed()).as("Missing \"add to basket\" button").isTrue();
+
+		softly.assertAll();
+		/*
 		Assert.assertTrue("The image is not displayed on the CD details page",
 				this.pageObjectManager.getProductDetailsPage().isProductImageDisplayed());
 		Assert.assertTrue("The Artist is not displayed on the CD details page",
@@ -958,6 +573,7 @@ public class Steps {
 				this.pageObjectManager.getProductDetailsPage().isAddToBasketButtonDisplayed());
 		Assert.assertTrue("The back to prodcut details link is not displayed on the CD details page",
 				this.pageObjectManager.getProductDetailsPage().isBackToProductListLinkDisplayed());
+				*/
 	}
 
 	@When("^I'm on empty shopping basket page$")
@@ -967,32 +583,27 @@ public class Steps {
 
 	@Then("^I can see the shopping basket page$")
 	public void i_can_see_the_shopping_basket_page(){
-		Assert.assertTrue("Problems while verifying that Shopping Basket Page is open",
-				this.pageObjectManager.getBasketPage().isOpen());
-		Assert.assertTrue("Logo is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isLogoDisplayed());
-		Assert.assertTrue("Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isMainMenuDisplayed());
-		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isHomeButtonDisplayed());
-		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isBooksButtonDisplayed());
-		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isCdsButtonDisplayed());
-		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isBasketButtonDisplayed());
-		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isRegisterButtonDisplayed());
-		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isLoginButtonDisplayed());
-		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isViewBasketDisplayed());
+		BasketPage basketPage = pageObjectManager.getBasketPage();
+		SoftAssertions softly = new SoftAssertions();
+
+		softly.assertThat(basketPage.getPageTitle()).as("You are on wrong page.").isEqualTo("Shopping Basket");
+		softly.assertThat(basketPage.getHomeButtonText()).as("Expected: Home button text \"Home\". Actual: Home button text \"%s\" ", basketPage.getHomeButtonText()).isEqualTo("Home");
+		softly.assertThat(basketPage.getBooksButtonText()).as("Expected: Books button text \"Books\". Actual: Books button text \"%s\" ", basketPage.getBooksButtonText()).isEqualTo("Books");
+		softly.assertThat(basketPage.getCDsButtonText()).as("Expected: Cds button text \"Cds\". Actual: Cds button text \"%s\" ", basketPage.getCDsButtonText()).isEqualTo("CDs");
+		softly.assertThat(basketPage.getViewBasketButtonText()).as("Expected: Basket button text \"Basket\". Actual: Basket button text \"%s\" ", basketPage.getViewBasketButtonText()).isEqualTo("Basket");
+
+		softly.assertAll();
 	}
 
 	@Then("^I can see the following text displayed : \"([^\"]*)\"$")
 	public void i_can_see_the_following_text_displayed(String arg1){
-		Assert.assertTrue("Problems while verifying that shopping basket is empty",
-				this.pageObjectManager.getBasketPage().isEmtpyBasketDisplayed());
+		BasketPage basketPage = pageObjectManager.getBasketPage();
+		SoftAssertions softly = new SoftAssertions();
+
+		softly.assertThat(basketPage.getPageTitle()).as("You are on wrong page.").isEqualTo("Shopping Basket");
+		softly.assertThat(basketPage.getEmptyBasketErrorMsg()).as("Error message not displayed.").isNotNull();
+		softly.assertThat(basketPage.getEmptyBasketErrorMsg()).as("Wrong error message.").isEqualTo(arg1);
+		softly.assertAll();
 
 	}
 
@@ -1021,6 +632,14 @@ public class Steps {
 
 	@Then("^I should see the shopping basket page$")
 	public void i_should_see_the_shopping_basket_page(){
+		BasketPage basketPage = pageObjectManager.getBasketPage();
+		SoftAssertions softly = new SoftAssertions();
+
+		softly.assertThat(basketPage.getPageTitle()).as("You are on wrong page.").isEqualTo("Shopping Basket");
+		softly.assertThat(basketPage.getEmptyBasketErrorMsg()).as("Error message is displayed.").isNull();
+		softly.assertAll();
+
+		/*
 		this.pageObjectManager.getBasketPage().isOpen();
 		Assert.assertTrue("Logo is not displayed on the page",
 				pageObjectManager.getProductDetailsPage().isLogoDisplayed());
@@ -1040,34 +659,31 @@ public class Steps {
 				pageObjectManager.getProductDetailsPage().isLoginButtonDisplayed());
 		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
 				pageObjectManager.getProductDetailsPage().isViewBasketDisplayed());
+				*/
 	}
 
 	@Then("^I should see all (\\d+) added products$")
 	public void i_should_see_all_added_products(int number){
+		// To be changed
 		Assert.assertTrue("Not all added products are displayed in the Basket",
 				this.pageObjectManager.getBasketPage().areAllAddedProductsDisplayed(number));
 	}
 
 	@Then("^I should see all shopping basket information and buttons$")
 	public void i_should_see_all_shopping_basket_information_and_buttons(){
-		Assert.assertTrue("Basket Header is not displayed",
-				this.pageObjectManager.getBasketPage().isBasketHeaderDisplayed());
-		Assert.assertTrue("Remove Product button is not displayed for the products added in the basket",
-				this.pageObjectManager.getBasketPage().isRemoveProductButtonDisplayed());
-		Assert.assertTrue("Remove One Product button is not displayed for the products added in the basket",
-				this.pageObjectManager.getBasketPage().isRemoveOneProductButtonDisplayed());
-		Assert.assertTrue("Add One Product button is not displayed for the products added in the basket",
-				this.pageObjectManager.getBasketPage().isAddOneProductButtonDisplayed());
-		Assert.assertTrue("Product Count button is not displayed for the products added in the basket",
-				this.pageObjectManager.getBasketPage().isProductCountDisplayed());
-		Assert.assertTrue("Product Price is not displayed for the products added in the basket",
-				this.pageObjectManager.getBasketPage().isProductPriceDisplayed());
-		Assert.assertTrue("Product Subtotal is not displayed for the products added in the basket or is not correct",
-				this.pageObjectManager.getBasketPage().isProductSubtotalDisplayed());
-		Assert.assertTrue("Basket Total is not displayed for the products added in the basket or is not correct",
-				this.pageObjectManager.getBasketPage().isBasketTotalDisplayed());
-		Assert.assertTrue("Basket Total is not displayed for the products added in the basket or is not correct",
-				this.pageObjectManager.getBasketPage().isCheckoutButtonDisplayed());
+		BasketPage basketPage = pageObjectManager.getBasketPage();
+		SoftAssertions softly = new SoftAssertions();
+
+		softly.assertThat(basketPage.getPageTitle()).as("You are on wrong page.").isEqualTo("Shopping Basket");
+		softly.assertThat(basketPage.getEmptyBasketErrorMsg()).as("Error message is displayed.").isNull();
+		softly.assertThat(basketPage.getProductsCount()).as("The basket is empty").isGreaterThan(0);
+		softly.assertThat(basketPage.getProductPrice(0)).as("There is no price for the product.").isGreaterThan(0);
+		softly.assertThat(basketPage.getProductSubtotal(0)).as("There is no subtotal for the product").isGreaterThan(0);
+		softly.assertThat(basketPage.isAddOneProductButtonDisplayed()).as("+ button is missing").isTrue();
+		softly.assertThat(basketPage.isRemoveOneProductButtonDisplayed()).as("- button is missing").isTrue();
+		softly.assertThat(basketPage.isRemoveProductButtonDisplayed()).as("Remove product button is missing").isTrue();
+		softly.assertThat(basketPage.isCheckoutButtonDisplayed()).as("Checkout button is missing").isTrue();
+		softly.assertAll();
 	}
 
 	@Before

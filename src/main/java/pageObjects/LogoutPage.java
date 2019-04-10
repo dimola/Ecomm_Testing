@@ -14,7 +14,9 @@ public class LogoutPage extends GeneralPage {
 		super(driver);
 	}
 
-	//Methods
+	/*
+	Implementation from Home page abstract methods
+	 */
 	@Override
 	public LogoutPage open() {
 		this.driver.get(this.configFileReader.getHost() + PAGE_URL);
@@ -35,5 +37,23 @@ public class LogoutPage extends GeneralPage {
 		}
 		return result;
 	}
+	/*
+	Text getters from Web Elements
+	 */
+
+
+	/*
+	Actions in this page
+	 */
+
+
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
+
+
+	/*
+	Helper functions
+	 */
 
 }

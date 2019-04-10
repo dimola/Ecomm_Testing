@@ -23,13 +23,45 @@ public class LoginPage extends GeneralPage {
 		super(driver);
 	}
 
-	//Methods
+	/*
+	Implementation from Home page abstract methods
+	 */
 	@Override
 	public LoginPage open() {
 		this.driver.get(this.configFileReader.getHost() + PAGE_URL);
 		return this;
 	}
 
+	@Override
+	public boolean isOpen() {
+		boolean result = false;
+		try {
+			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Login");
+		} catch (Throwable e) {
+			System.err.println("Problem while checking if Login Page Heading is displayed: " + e.getMessage());
+		}
+		return result;
+	}
+
+	/*
+	Text getters from Web Elements
+	 */
+	public String getErrorTime(){
+		try {
+			if(timerMessage.isDisplayed()){
+				return timerMessage.getText();
+			}
+			else{
+				return null;
+			}
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+
+	/*
+	Actions in this page
+	 */
 	public void clickLogIn() {
 		buttonLogin.click();
 	}
@@ -50,30 +82,9 @@ public class LoginPage extends GeneralPage {
 		return this;
 	}
 
-	public String getErrorTime(){
-		try {
-			if(timerMessage.isDisplayed()){
-				return timerMessage.getText();
-			}
-			else{
-				return "Can't find error message timer.";
-			}
-		} catch (Throwable e) {
-			return "Can't find error message timer.";
-		}
-	}
-
-	@Override
-	public boolean isOpen() {
-		boolean result = false;
-		try {
-			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Login");
-		} catch (Throwable e) {
-			System.err.println("Problem while checking if Login Page Heading is displayed: " + e.getMessage());
-		}
-		return result;
-	}
-
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
 	public boolean timerIsDisplayed() {
 		boolean result = false;
 		try {
@@ -83,4 +94,5 @@ public class LoginPage extends GeneralPage {
 		}
 		return result;
 	}
+
 }
