@@ -57,26 +57,20 @@ public abstract class GeneralPage {
 		configFileReader = new ConfigFileReader();
 	}
 
-	public abstract GeneralPage open();
-
-	public abstract boolean isOpen();
-
-	public void clickLogOut() {
-		logoutMenuElement.click();
-	}
-
+	/*
+	Text getters from Web Elements
+	 */
 	public String getPageTitle(){
 		try {
 			if (this.pageHeadingTitle.isDisplayed()){
 				return this.pageHeadingTitle.getText();
 			}
 			else{
-				return "Can't find page title";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't load page title.";
+			return null;
 		}
 	}
 
@@ -86,27 +80,25 @@ public abstract class GeneralPage {
 				return this.homeMenuElement.getText();
 			}
 			else{
-				return "Can't find Home button";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't load Home button.";
+			return null;
 		}
 	}
 
 	public String getBooksButtonText(){
 		try {
-			if (this.homeMenuElement.isDisplayed()){
-				return this.homeMenuElement.getText();
+			if (this.booksMenuElement.isDisplayed()){
+				return this.booksMenuElement.getText();
 			}
 			else{
-				return "Can't find Books button";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't load Books button.";
+			return null;
 		}
 	}
 
@@ -116,27 +108,25 @@ public abstract class GeneralPage {
 				return this.cdsMenuElement.getText();
 			}
 			else{
-				return "Can't find Cds button";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't load Cds button.";
+			return null;
 		}
 	}
 
 	public String getViewBasketButtonText(){
 		try {
-			if (this.viewBasketMenuElement.isDisplayed()){
-				return this.viewBasketMenuElement.getText();
+			if (this.basketMenuElement.isDisplayed()){
+				return this.basketMenuElement.getText();
 			}
 			else{
-				return "Can't find Basket button";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't load Basket button.";
+			return null;
 		}
 	}
 
@@ -146,12 +136,11 @@ public abstract class GeneralPage {
 				return this.registerMenuElement.getText();
 			}
 			else{
-				return "Can't find Register button";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't load Register button.";
+			return null;
 		}
 	}
 
@@ -161,15 +150,56 @@ public abstract class GeneralPage {
 				return this.basketMenuElement.getText();
 			}
 			else{
-				return "Can't find basket icon";
+				return null;
 			}
 		}
 		catch (NoSuchElementException e) {
-			//result remain empty string
-			return "Can't load basket icon.";
+			return null;
 		}
 	}
 
+	public String getLoginButtonText(){
+		try {
+			if (this.loginMenuElement.isDisplayed()){
+				return this.loginMenuElement.getText();
+			}
+			else{
+				return null;
+			}
+		}
+		catch (NoSuchElementException e) {
+			return null;
+		}
+	}
+
+	public String getLogoutButtonText(){
+		try {
+			if (this.logoutMenuElement.isDisplayed()){
+				return this.logoutMenuElement.getText();
+			}
+			else{
+				return null;
+			}
+		}
+		catch (NoSuchElementException e) {
+			return null;
+		}
+	}
+
+	/*
+	Actions in this page
+	 */
+	public abstract GeneralPage open();
+
+	public abstract boolean isOpen();
+
+	public void clickLogOut() {
+		logoutMenuElement.click();
+	}
+
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
 	@SuppressWarnings("finally")
 	public boolean isMainMenuDisplayed() {
 		boolean result = false;

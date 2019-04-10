@@ -1,8 +1,12 @@
 package pageObjects;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BooksPage extends CategoryPage {
 
@@ -23,18 +27,36 @@ public class BooksPage extends CategoryPage {
 	@FindBy(css = "#product-details > div > h3")
 	private WebElement bookHeadingTitle;
 
+	@FindBy(xpath = "//tbody/tr[1]/td[1]")
+	private WebElement authorLabel;
+
+	@FindBy(xpath = "//tbody/tr[2]/td[1]")
+	private WebElement titleLable;
+
+	@FindBy(xpath = "//tbody/tr[3]/td[1]")
+	private WebElement publisherLabel;
+
+	@FindBy(xpath = "//tbody/tr[4]/td[1]")
+	private WebElement isbnLable;
+
+	@FindBy(className = "formbtn")
+	private WebElement submitButton;
+
 	public BooksPage(WebDriver driver) {
 		super(driver);
 	}
 
+	/*
+	Implementation from Home page abstract methods
+	 */
 	@Override
-	public BooksPage open() {
+	public BooksPage open(){
 		this.driver.get(configFileReader.getHost() + PAGE_URL);
 		return this;
 	}
 
 	@Override
-	public boolean isOpen() {
+	public boolean isOpen(){
 		boolean result = false;
 		try {
 			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("Books")
@@ -46,46 +68,131 @@ public class BooksPage extends CategoryPage {
 		return result;
 	}
 
-	public boolean isAuthorTextboxDisplayed() {
-		boolean result = false;
+	/*
+	Text getters from Web Elements
+	 */
+	public String getSubmitButtonText(){
 		try {
-			result = this.authorTextbox.isDisplayed();
-		} catch (Throwable e) {
-			System.err.println("Problem while checking if authorTextbox is displayed: " + e.getMessage());
+			if (this.submitButton.isDisplayed()){
+				return this.submitButton.getText();
+			}
+			else{
+				return null;
+			}
 		}
-		return result;
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return null;
+		}
 	}
 
-	public boolean isTitleTextboxDisplayed() {
-		boolean result = false;
+	public String getAuthorLabelText(){
 		try {
-			result = this.titleTextbox.isDisplayed();
-		} catch (Throwable e) {
-			System.err.println("Problem while checking if titleTextbox is displayed: " + e.getMessage());
+			if (this.authorLabel.isDisplayed()){
+				return this.authorLabel.getText();
+			}
+			else{
+				return null;
+			}
 		}
-		return result;
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return null;
+		}
 	}
 
-	public boolean isPublisherTextboxDisplayed() {
-		boolean result = false;
+	public String getTitleLabelText(){
 		try {
-			result = this.publisherTextbox.isDisplayed();
-		} catch (Throwable e) {
-			System.err.println("Problem while checking if publisherTextbox is displayed: " + e.getMessage());
+			if (this.titleLable.isDisplayed()){
+				return this.titleLable.getText();
+			}
+			else{
+				return null;
+			}
 		}
-		return result;
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return null;
+		}
 	}
 
-	public boolean isIsbnTextboxDisplayed() {
-		boolean result = false;
+	public String getPublisherLabelText(){
 		try {
-			result = this.isbnTextbox.isDisplayed();
-		} catch (Throwable e) {
-			System.err.println("Problem while checking if isbnTextbox is displayed: " + e.getMessage());
+			if (this.publisherLabel.isDisplayed()){
+				return this.publisherLabel.getText();
+			}
+			else{
+				return null;
+			}
 		}
-		return result;
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return null;
+		}
 	}
 
+	public String getIsbnLabelText(){
+		try {
+			if (this.isbnLable.isDisplayed()){
+				return this.isbnLable.getText();
+			}
+			else{
+				return null;
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return null;
+		}
+	}
+
+	public List<String> getSearchBarFieldsLabels(){
+		List<String> searchBarFieldsLabels = new ArrayList<>();
+		searchBarFieldsLabels.add(this.getAuthorLabelText());
+		searchBarFieldsLabels.add(this.getTitleLabelText());
+		searchBarFieldsLabels.add(this.getPublisherLabelText());
+		searchBarFieldsLabels.add(this.getIsbnLabelText());
+
+		return searchBarFieldsLabels;
+	}
+
+	public List<String> getAllProductsPublishers(){
+		List<String> allPublishers = new ArrayList<>();
+		try {
+			for (int i = 0; i < this.allProducts.size(); i++) {
+				this.openProductDetailsPageFromProductList(i);
+				ProductDetailsPage product = new ProductDetailsPage(driver);
+				allPublishers.add(product.getProductPublisher());
+				product.backToProductList();
+			}
+
+			return allPublishers;
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if displayed book are by this publisher: " + e.getMessage());
+			return null;
+		}
+	}
+
+	public List<String> getAllProductsISBNs(){
+		List<String> allISBNs = new ArrayList<>();
+		try {
+			for (int i = 0; i < this.allProducts.size(); i++) {
+				this.openProductDetailsPageFromProductList(i);
+				ProductDetailsPage product = new ProductDetailsPage(driver);
+				allISBNs.add(product.getProductISBN());
+				product.backToProductList();
+			}
+
+			return allISBNs;
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if displayed book are by this publisher: " + e.getMessage());
+			return null;
+		}
+	}
+
+	/*
+	Actions in this page
+	 */
 	public BooksPage enterAuthor(String author) {
 		authorTextbox.sendKeys(author);
 		return this;
@@ -106,6 +213,17 @@ public class BooksPage extends CategoryPage {
 		return this;
 	}
 
+	public void Submit(String author, String title, String publisher, String isbn){
+		authorTextbox.sendKeys(author);
+		titleTextbox.sendKeys(title);
+		publisherTextbox.sendKeys(publisher);
+		isbnTextbox.sendKeys(isbn);
+		submitButton.click();
+	}
+
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
 	public boolean areAllBooksPublishedBySearchedPublisher(String publisher) {
 		boolean result = false;
 		String publisherLowCase = publisher.toLowerCase();
@@ -175,4 +293,8 @@ public class BooksPage extends CategoryPage {
 		}
 		return result;
 	}
+
+	/*
+	Helper functions
+	 */
 }

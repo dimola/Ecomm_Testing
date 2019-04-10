@@ -1,8 +1,12 @@
 package pageObjects;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CdsPage extends CategoryPage {
 	private static final String PAGE_URL = "/index.php?page=cds";
@@ -18,20 +22,35 @@ public class CdsPage extends CategoryPage {
 	
 	@FindBy(name = "Composer")
 	private WebElement composerTextbox;
+
+	@FindBy(xpath = "//tbody/tr[1]/td[1]")
+	private WebElement artistLabel;
+
+	@FindBy(xpath = "//tbody/tr[2]/td[1]")
+	private WebElement titleLable;
+
+	@FindBy(xpath = "//tbody/tr[3]/td[1]")
+	private WebElement labelLabel;
+
+	@FindBy(xpath = "//tbody/tr[4]/td[1]")
+	private WebElement composerLabel;
 	
 
 	public CdsPage(WebDriver driver) {
 		super(driver);
 	}
 
+	/*
+	Implementation from Home page abstract methods
+	 */
 	@Override
-	public CdsPage open() {
+	public CdsPage open(){
 		this.driver.get(configFileReader.getHost() + PAGE_URL);
 		return this;
 	}
 
 	@Override
-	public boolean isOpen() {
+	public boolean isOpen(){
 		boolean result = false;
 		try {
 			result = this.pageHeadingTitle.isDisplayed() && this.pageHeadingTitle.getText().equals("CDs")
@@ -43,7 +62,84 @@ public class CdsPage extends CategoryPage {
 		return result;
 	}
 
-	public boolean isArtistTextboxDisplayed() {
+	/*
+	Text getters from Web Elements
+	 */
+	public String getArtistLabelText(){
+		try {
+			if (this.artistLabel.isDisplayed()){
+				return this.artistLabel.getText();
+			}
+			else{
+				return null;
+			}
+		}
+		catch (NoSuchElementException e) {
+			return null;
+		}
+	}
+
+	public String getTitleLabelText(){
+		try {
+			if (this.titleLable.isDisplayed()){
+				return this.titleLable.getText();
+			}
+			else{
+				return null;
+			}
+		}
+		catch (NoSuchElementException e) {
+			return null;
+		}
+	}
+
+	public String getLabelLabelText(){
+		try {
+			if (this.labelLabel.isDisplayed()){
+				return this.labelLabel.getText();
+			}
+			else{
+				return null;
+			}
+		}
+		catch (NoSuchElementException e) {
+			return null;
+		}
+	}
+
+	public String getComposerLabelText(){
+		try {
+			if (this.composerLabel.isDisplayed()){
+				return this.composerLabel.getText();
+			}
+			else{
+				return null;
+			}
+		}
+		catch (NoSuchElementException e) {
+			return null;
+		}
+	}
+
+	public List<String> getSearchBarFieldsLabels(){
+		List<String> searchBarFieldsLabels = new ArrayList<>();
+		searchBarFieldsLabels.add(this.getArtistLabelText());
+		searchBarFieldsLabels.add(this.getTitleLabelText());
+		searchBarFieldsLabels.add(this.getLabelLabelText());
+		searchBarFieldsLabels.add(this.getComposerLabelText());
+
+		return searchBarFieldsLabels;
+	}
+
+	/*
+	Actions in this page
+	 */
+
+
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
+	public boolean isArtistTextboxDisplayed(){
 		boolean result = false;
 		try {
 			result = this.artistTextbox.isDisplayed();
@@ -53,7 +149,7 @@ public class CdsPage extends CategoryPage {
 		return result;
 	}
 
-	public boolean isTitleTextboxDisplayed() {
+	public boolean isTitleTextboxDisplayed(){
 		boolean result = false;
 		try {
 			result = this.titleTextbox.isDisplayed();
@@ -63,7 +159,7 @@ public class CdsPage extends CategoryPage {
 		return result;
 	}
 
-	public boolean isLabelTextboxDisplayed() {
+	public boolean isLabelTextboxDisplayed(){
 		boolean result = false;
 		try {
 			result = this.labelTextbox.isDisplayed();
@@ -73,7 +169,7 @@ public class CdsPage extends CategoryPage {
 		return result;
 	}
 
-	public boolean isComposerTextboxDisplayed() {
+	public boolean isComposerTextboxDisplayed(){
 		boolean result = false;
 		try {
 			result = this.composerTextbox.isDisplayed();
@@ -82,5 +178,9 @@ public class CdsPage extends CategoryPage {
 		}
 		return result;
 	}
+
+	/*
+	Helper functions
+	 */
 
 }

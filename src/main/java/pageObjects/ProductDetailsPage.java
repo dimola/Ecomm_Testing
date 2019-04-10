@@ -2,6 +2,7 @@ package pageObjects;
 
 import java.util.List;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -34,6 +35,9 @@ public class ProductDetailsPage extends CategoryPage {
 		super(driver);
 	}
 
+	/*
+	Implementation from Home page abstract methods
+	 */
 	@Override
 	public ProductDetailsPage open() {
 		this.driver.get(configFileReader.getHost() + AUTUMN_COLORS_BOOK_DETAIS_URL);
@@ -51,19 +55,21 @@ public class ProductDetailsPage extends CategoryPage {
 		return result;
 	}
 
-	public ProductDetailsPage openProductDetailsPage(String detailsPageURL) {
-		this.driver.get(configFileReader.getHost() + detailsPageURL);
-		return this;
-	}
-
-	public boolean isProductDetailsPageOpen(String productName) {
-		boolean result = false;
+	/*
+	Text getters from Web Elements
+	 */
+	public String getProductTitle(){
 		try {
-			result = this.productTitle.isDisplayed() && this.productTitle.getText().equals(productName);
-		} catch (Throwable e) {
-			System.err.println("Problem while checking if Books/CDs Category Page Heading(Book/CD title) is displayed: " + e.getMessage());
+			if (this.productTitle.isDisplayed()){
+				return this.productTitle.getText();
+			}
+			else{
+				return null;
+			}
 		}
-		return result;
+		catch (NoSuchElementException e) {
+			return null;
+		}
 	}
 
 	public String getProductAuthor() {
@@ -88,10 +94,10 @@ public class ProductDetailsPage extends CategoryPage {
 
 		return helpArray3[1].replaceAll("\\r\\n|\\r|\\n", "");
 	}
-	
+
 	public String getProductPrice() {
 		String[] helpArray1 = this.productPrice.getText().split(" ");
-		
+
 		return helpArray1[0].replaceAll("\\r\\n|\\r|\\n", "");
 	}
 
@@ -101,14 +107,39 @@ public class ProductDetailsPage extends CategoryPage {
 
 		return helpArray2[0].replaceAll("\\r\\n|\\r|\\n", "");
 	}
-	
+
 	public String getProductLabel() {
 		String[] helpArray1 = this.productInfo.getText().split("Artist: ");
 		String[] helpArray2 = helpArray1[1].split("Label: ");
-		
+
 		return helpArray2[1].replaceAll("\\r\\n|\\r|\\n", "");
 	}
-	
+
+	/*
+	Actions in this page
+	 */
+	public void backToProductList(){
+		backToProductListLink.click();
+	}
+
+	public ProductDetailsPage openProductDetailsPage(String detailsPageURL) {
+		this.driver.get(configFileReader.getHost() + detailsPageURL);
+		return this;
+	}
+
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
+	public boolean isProductDetailsPageOpen(String productName) {
+		boolean result = false;
+		try {
+			result = this.productTitle.isDisplayed() && this.productTitle.getText().equals(productName);
+		} catch (Throwable e) {
+			System.err.println("Problem while checking if Books/CDs Category Page Heading(Book/CD title) is displayed: " + e.getMessage());
+		}
+		return result;
+	}
+
 	public boolean isProductAuthorDisplayed() {
 		boolean result = false;
 		try {
@@ -141,7 +172,7 @@ public class ProductDetailsPage extends CategoryPage {
 		}
 		return result;
 	}
-	
+
 	public boolean isProductArtistDisplayed() {
 		boolean result = false;
 		try {
@@ -152,7 +183,7 @@ public class ProductDetailsPage extends CategoryPage {
 		}
 		return result;
 	}
-	
+
 	public boolean isProductLabelDisplayed() {
 		boolean result = false;
 		try {
@@ -203,5 +234,5 @@ public class ProductDetailsPage extends CategoryPage {
 			System.err.println("Problem while checking if Product Image is displayed: " + e.getMessage());
 		}
 		return result;
-	}	
+	}
 }

@@ -1,5 +1,6 @@
 package pageObjects;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
@@ -23,6 +24,9 @@ public abstract class CategoryPage extends GeneralPage {
 
 	@FindBy(css = "#side-menu > a")
 	List<WebElement> sideBarButtons;
+
+	@FindBy(css = "#product-list a")
+	private List<WebElement> allCategoriesMainMenu;
 
 	@FindBy(css = "#product-list div.item")
 	private List<WebElement> allProductsPerCategory;
@@ -63,27 +67,157 @@ public abstract class CategoryPage extends GeneralPage {
 	@FindBy(css = "#main-big-col > b.err")
 	private WebElement errorMessage;
 
+
 	public CategoryPage(WebDriver driver) {
 		super(driver);
 	}
 
+	/*
+	Implementation from Home page abstract methods
+	 */
+
+	/*
+	Text getters from Web Elements
+	 */
+	public String getSelectedCategoryTitle() {
+		return this.selectedCategory.getText();
+	}
 	public List<WebElement> getSideBarButtons() {
 		return sideBarButtons;
 	}
 
-	public String getSelectedCategoryTitle() {
-		return this.selectedCategory.getText();
-	}
-	
 	public String getProductAuthorFromProductListPerCategory(int productNumber) {
 		String removeTitleText = this.allProductsTitlesPerCategory.get(productNumber).getText();
 		String removePricesText = this.allProductsPrisesPerCategory.get(productNumber).getText();
 		String removeButtonAddToBasketText = this.allProductsAddToBasketButtonsPerCategory.get(productNumber).getText();
 		return (this.allProductsPerCategory.get(productNumber).getText().replace(removeTitleText, "")
-				.replace(removePricesText, "").replace(removeButtonAddToBasketText, "").replaceAll(" ", "")
+				.replace(removePricesText, "").replace(removeButtonAddToBasketText, "")
 				.replaceAll("\\r\\n|\\r|\\n", ""));
 	}
-  
+
+	public String getProductsAuthorOrArtistFromProductList(int productNumber) {
+		String removeTitleText = this.allProductsTitles.get(productNumber).getText();
+		String removePricesText = this.allProductsPrices.get(productNumber).getText();
+		String removeButtonAddToBasketText = this.allProductsAddToBasketButtons.get(productNumber).getText();
+		return (this.allProducts.get(productNumber).getText().replace(removeTitleText, "").replace(removePricesText, "")
+				.replace(removeButtonAddToBasketText, "").replaceAll("\\r\\n|\\r|\\n", ""));
+	}
+
+	public String getAllProductsTitles(int productNumber) {
+		return (this.allProductsTitles.get(productNumber).getText());
+	}
+
+	public String getErrorMsgText(){
+		try {
+			if (this.errorMessage.getText() != null) {
+				return this.errorMessage.getText();
+			} else {
+				return null;
+			}
+		} catch (Throwable e) {
+			//System.out.println("Problem while checking if error message is displayed: " + e.getMessage());
+			return null;
+		}
+	}
+
+	public String getEmptyErrorMsg(){
+		try {
+			if (this.emptyCategoryErr.getText() != null) {
+				return this.emptyCategoryErr.getText();
+			} else {
+				return null;
+			}
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+
+	public List<String> getSideMenuButtonsText(){
+		List listSideMenuTitles = new ArrayList<>();
+		try {
+			for (int i = 0; i < this.sideBarButtons.size(); i++) {
+				listSideMenuTitles.add(this.sideBarButtons.get(i).getText());
+			}
+		} catch (Throwable e) {
+			System.out.println(
+					"Problem while checking if displayed books are written by the same author: " + e.getMessage());
+		}
+
+		return listSideMenuTitles;
+	}
+
+	public List<String> getMainMenuLinksText(){
+		List listMainMenuCategories = new ArrayList<>();
+
+		for (int i = 0; i < this.allCategoriesMainMenu.size(); i++) {
+			listMainMenuCategories.add(this.allCategoriesMainMenu.get(i).getText());
+		}
+
+		return listMainMenuCategories;
+	}
+
+	public String getSideMenuTitle(){
+		try {
+			if (this.sideMenuTitle.getText() != null && this.sideMenuTitle.isDisplayed()) {
+				return this.sideMenuTitle.getText();
+			} else {
+				return null;
+			}
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+
+	public List<String> getAllProductTitles(){
+		try {
+			List<String> productsTitlesList = new ArrayList<>();
+			for (int i = 0; i < this.allProductsPerCategory.size(); i++) {
+				productsTitlesList.add(this.allProductsTitlesPerCategory.get(i).getText());
+			}
+			return productsTitlesList;
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+
+	public List<String> getAllProductsAuthors(){
+		try {
+			List<String> productsAuthorsList = new ArrayList<>();
+			for (int i = 0; i < this.allProductsPerCategory.size(); i++) {
+				productsAuthorsList.add(this.getProductAuthorFromProductListPerCategory(i));
+			}
+			return productsAuthorsList;
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+
+	public List<String> getAllProductsPrices(){
+		try {
+			List<String> productPricesList = new ArrayList<>();
+			for (int i = 0; i < this.allProductsPerCategory.size(); i++) {
+				productPricesList.add(this.allProductsPrisesPerCategory.get(i).getText());
+			}
+			return productPricesList;
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+
+	/*
+	Actions in this page
+	 */
+	public void clickSubmit() {
+		buttonSubmit.click();
+	}
+
+	public void openProductDetailsPageFromProductList(int productNumber) {
+		this.allProductsTitles.get(productNumber).click();
+	}
+
+	/*
+	Checks for certain images, buttons if they are displayed
+	 */
 	public boolean isSideMenuDisplayed() {
 		boolean result = false;
 		try {
@@ -115,19 +249,7 @@ public abstract class CategoryPage extends GeneralPage {
 		}
 		return result;
 	}
-  
-	public void clickSubmit() {
-		buttonSubmit.click();
-	}
-	
-	public String getProductsAuthorOrArtistFromProductList(int productNumber) {
-		String removeTitleText = this.allProductsTitles.get(productNumber).getText();
-		String removePricesText = this.allProductsPrices.get(productNumber).getText();
-		String removeButtonAddToBasketText = this.allProductsAddToBasketButtons.get(productNumber).getText();
-		return (this.allProducts.get(productNumber).getText().replace(removeTitleText, "").replace(removePricesText, "")
-				.replace(removeButtonAddToBasketText, "").replaceAll("\\r\\n|\\r|\\n", ""));
-	}
-	
+
 	public boolean areAllProductsWrittenBySearchedAuthorOrArtist(String name) {
 		boolean result = false;
 		String nameLowCase = name.toLowerCase();
@@ -146,11 +268,7 @@ public abstract class CategoryPage extends GeneralPage {
 		}
 		return result;
 	}
-	
-	public String getAllProductsTitles(int productNumber) {
-		return (this.allProductsTitles.get(productNumber).getText());
-	}
-	
+
 	public boolean doesAllProductsContainSearchedTitle(String title) {
 		boolean result = false;
 		String titleLowCase = title.toLowerCase();
@@ -167,10 +285,6 @@ public abstract class CategoryPage extends GeneralPage {
 			System.out.println("Problem while checking if displayed book is with the same title: " + e.getMessage());
 		}
 		return result;
-	}
-	
-	public void openProductDetailsPageFromProductList(int productNumber) {
-		this.allProductsTitles.get(productNumber).click();
 	}
 
 	public boolean areTheProductsImagesDisplayed() {
@@ -257,11 +371,6 @@ public abstract class CategoryPage extends GeneralPage {
 		}
 		return result;
 	}
-	
-	public void addRandomProductToBasketFromProductList() {
-		int rnd = (int) (Math.random() * this.allProductsAddToBasketButtonsPerCategory.size());
-		this.allProductsAddToBasketButtonsPerCategory.get(rnd).click();
-	}
 
 	public boolean isErrorMessageDisplayed() {
 		boolean result = false;
@@ -277,4 +386,11 @@ public abstract class CategoryPage extends GeneralPage {
 		return result;
 	}
 
+	/*
+	Helper functions
+	 */
+	public void addRandomProductToBasketFromProductList() {
+		int rnd = (int) (Math.random() * this.allProductsAddToBasketButtonsPerCategory.size());
+		this.allProductsAddToBasketButtonsPerCategory.get(rnd).click();
+	}
 }
