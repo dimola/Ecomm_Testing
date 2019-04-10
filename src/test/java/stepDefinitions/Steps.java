@@ -664,9 +664,12 @@ public class Steps {
 
 	@Then("^I should see all (\\d+) added products$")
 	public void i_should_see_all_added_products(int number){
-		// To be changed
+		BasketPage basketPage = pageObjectManager.getBasketPage();
+		assertThat(basketPage.getProductsCount()).as("Not all products are added to basket").isEqualTo(number);
+		/*
 		Assert.assertTrue("Not all added products are displayed in the Basket",
 				this.pageObjectManager.getBasketPage().areAllAddedProductsDisplayed(number));
+				*/
 	}
 
 	@Then("^I should see all shopping basket information and buttons$")
