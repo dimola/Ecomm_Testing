@@ -18,6 +18,9 @@ public class Steps {
 
 	PageObjectManager pageObjectManager;
 
+	//Variable used in some tests
+	int productQuantity = 0;
+
 	@Given("^Login page is loaded$")
 	public void Login_page_is_loaded(){
 		pageObjectManager.getLoginPage().open();
@@ -625,6 +628,7 @@ public class Steps {
 		}
 	}
 
+	@Given("^I am on the shopping basket page$")
 	@When("^I open the shopping basket$")
 	public void i_open_the_shopping_basket(){
 		this.pageObjectManager.getBasketPage().open();
@@ -672,6 +676,22 @@ public class Steps {
 				*/
 	}
 
+	@Given("^One product is already added in the basket$")
+	public void one_product_is_already_added_in_the_basket(){
+		if (this.pageObjectManager.getHomePage().getRandomCategoryName() == "Books") {
+			this.pageObjectManager.getBooksPage().open();
+			this.pageObjectManager.getBooksCategoryPage().getSideBarButtons()
+					.get(this.pageObjectManager.getBooksCategoryPage().getRandomNotEmptyBookCategoryNumbers())
+					.click();
+			this.pageObjectManager.getBooksCategoryPage().addRandomProductToBasketFromProductList();
+		} else {
+			this.pageObjectManager.getCdsPage().open();
+			this.pageObjectManager.getCdsCategoryPage().getSideBarButtons()
+					.get(this.pageObjectManager.getCdsCategoryPage().getRandomNotEmptyCdCategoryNumbers()).click();
+			this.pageObjectManager.getCdsCategoryPage().addRandomProductToBasketFromProductList();
+		}
+	}
+
 	@Then("^I should see all shopping basket information and buttons$")
 	public void i_should_see_all_shopping_basket_information_and_buttons(){
 		BasketPage basketPage = pageObjectManager.getBasketPage();
@@ -689,6 +709,71 @@ public class Steps {
 		softly.assertAll();
 	}
 
+	@When("^I tap (-?\\d+) times on add one button in counter$")
+	public void i_tap_on_add_one_button_in_counter(int tapTimes){
+		productQuantity = pageObjectManager.getBasketPage().getProductCount(1);
+		while(tapTimes != 0){
+			pageObjectManager.getBasketPage().addOneQuantity(1);
+			tapTimes -= 1;
+		}
+	}
+
+	@When("^I tap (-?\\d+) times on remove one button in counter$")
+	public void i_tap_on_remove_one_button_in_counter(int tapTimes){
+		productQuantity = pageObjectManager.getBasketPage().getProductCount(1);
+		while(tapTimes != 0){
+			pageObjectManager.getBasketPage().removeOneQuantity(1);
+			tapTimes -= 1;
+		}
+	}
+
+	@When("^I click on remove button for product number (-?\\d+)$")
+	public void i_click_on_remove_button_for_product_number(int productNumber){
+		productQuantity = pageObjectManager.getBasketPage().getProductsCount();
+		pageObjectManager.getBasketPage().removeProduct(productNumber);
+	}
+
+	@Then("^Product is removed and following text is displayed \"([^\"]*)\"$")
+	public void error_msg_is_displayed(String errorMsg){
+		assertThat(pageObjectManager.getBasketPage().getEmptyBasketErrorMsg())
+				.as("Wrong text or missing error msg.")
+				.isNotNull()
+				.isEqualTo(errorMsg);
+	}
+
+	@Then("^The number of copies for product number (-?\\d+) is increased by (-?\\d+)$")
+	public void the_number_of_copies_for_product_is_increased_by(int productNumberRow, int count){
+		int productCount = pageObjectManager.getBasketPage().getProductCount(productNumberRow);
+
+		assertThat(productCount)
+				.as("Actual result: product row %d should have quantity of %d. Actual: %d", productNumberRow, productQuantity + count, productCount)
+				.isEqualTo(productQuantity + count);
+
+	}
+
+	@Then("^The basket icon in header is displaying the same number of products as in the shopping basket$")
+	public void basket_icon_number_is_equal_to_actual_items(){
+		BasketPage basketPage = pageObjectManager.getBasketPage();
+		assertThat(basketPage.getProductsCount())
+				.as("Actual items is basket are not the same as the displayed ones on basket icon.")
+				.isEqualTo(basketPage.getBasketCounter());
+	}
+
+	@Then("^(-?\\d+) should be displayed in shopping basket icon$")
+	public void right_number_should_be_displayed_in_shopping_basket_icon(int itemsCount){
+		assertThat(pageObjectManager.getBasketPage().getBasketCounter())
+				.as("Actual items are not the same as expected ones.")
+				.isEqualTo(itemsCount);
+	}
+
+	@Then("^(-?\\d+) product is removed$")
+	public void product_is_removed(int productNumber){
+		BasketPage basketPage = pageObjectManager.getBasketPage();
+		assertThat(basketPage.getProductsCount())
+				.as("Product is not removed")
+				.isEqualTo(productQuantity-1);
+	}
+
 	@Before
 	public void init() {
 		PageObjectManager.init();
@@ -697,6 +782,7 @@ public class Steps {
 
 	@After
 	public void cleanUp() {
+		productQuantity = 0;
 		pageObjectManager.quit();
 	}
 
