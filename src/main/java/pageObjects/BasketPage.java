@@ -95,6 +95,12 @@ public class BasketPage extends GeneralPage {
 	public int getProductsCount() {
 		int productsCount = 0;
 		List<WebElement> productRows = new ArrayList<WebElement>();
+		try{
+			this.basketTableRows.isEmpty();
+		}
+		catch (Throwable e){
+			return 0;
+		}
 		// creates list of WebElements with all product rows excluding the first and the
 		// last rows that are not representations of products in the basket
 		for (int i = 1; i < this.basketTableRows.size() - 1; i++) {
@@ -123,12 +129,39 @@ public class BasketPage extends GeneralPage {
 	/*
 	Actions in this page
 	 */
+	public void addOneQuantity(int productNumberRow){
+		int addButtonRow = productNumberRow*3 - 1;
+		System.out.println(this.productAddRemoveButtons.get(addButtonRow).getText());
+		WebElement addButton = this.productAddRemoveButtons.get(addButtonRow);
+		addButton.click();
+	}
 
+	public void removeOneQuantity(int productNumberRow){
+		int addButtonRow = productNumberRow*3 - 2;
+		System.out.println(this.productAddRemoveButtons.get(addButtonRow).getText());
+		WebElement addButton = this.productAddRemoveButtons.get(addButtonRow);
+		addButton.click();
+	}
+
+	public void removeProduct(int productNumberRow){
+		int addButtonRow = productNumberRow*3 - 3;
+		System.out.println(this.productAddRemoveButtons.get(addButtonRow).getText());
+		WebElement addButton = this.productAddRemoveButtons.get(addButtonRow);
+		addButton.click();
+	}
+
+	public void checkoutBasket(){
+		this.checkoutButton.click();
+		driver.switchTo().alert().accept();
+	}
+
+	public void acceptAlert(){
+		driver.switchTo().alert().accept();
+	}
 
 	/*
 	Checks for certain images, buttons if they are displayed
 	 */
-
 	public boolean areAllAddedProductsDisplayed(int number) {
 		boolean result = false;
 		try {

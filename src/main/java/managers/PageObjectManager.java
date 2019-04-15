@@ -6,15 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import dataProviders.ConfigFileReader;
-import pageObjects.BasketPage;
-import pageObjects.BooksCategoryPage;
-import pageObjects.BooksPage;
-import pageObjects.CdsCategoryPage;
-import pageObjects.CdsPage;
-import pageObjects.HomePage;
-import pageObjects.LoginPage;
-import pageObjects.LogoutPage;
-import pageObjects.ProductDetailsPage;
+import pageObjects.*;
 
 public class PageObjectManager {
 
@@ -28,6 +20,7 @@ public class PageObjectManager {
 	private CdsCategoryPage cdsCategoryPage;
 	private ProductDetailsPage productDetailsPage;
 	private BasketPage basketPage;
+	private CheckoutPage checkoutPage;
 
 	private static PageObjectManager pageObjectManager;
 
@@ -87,6 +80,10 @@ public class PageObjectManager {
 	
 	public BasketPage getBasketPage() {
 		return (basketPage == null) ? basketPage = new BasketPage(driver) : basketPage;
+	}
+
+	public CheckoutPage getCheckoutPage() {
+		return (checkoutPage == null) ? checkoutPage = new CheckoutPage(driver) : checkoutPage;
 	}
 	
 	public void quit() {

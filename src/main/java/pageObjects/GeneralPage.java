@@ -186,6 +186,21 @@ public abstract class GeneralPage {
 		}
 	}
 
+	public int getBasketCounter(){
+		try {
+			if (this.viewBasketMenuElement.isDisplayed()){
+				String basketCounter = this.viewBasketMenuElement.getText().replaceAll("\\s+","");
+				return Integer.parseInt(basketCounter);
+			}
+			else{
+				return 0;
+			}
+		}
+		catch (Throwable e) {
+			return 0;
+		}
+	}
+
 	/*
 	Actions in this page
 	 */
