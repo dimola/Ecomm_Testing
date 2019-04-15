@@ -150,6 +150,15 @@ public class BasketPage extends GeneralPage {
 		addButton.click();
 	}
 
+	public void checkoutBasket(){
+		this.checkoutButton.click();
+		driver.switchTo().alert().accept();
+	}
+
+	public void acceptAlert(){
+		driver.switchTo().alert().accept();
+	}
+
 	/*
 	Checks for certain images, buttons if they are displayed
 	 */

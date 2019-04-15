@@ -1,5 +1,6 @@
 Feature: Shopping basket
 
+#TC-54
 Scenario Outline: Increasing product count
     Given One product is already added in the basket
     And I am on the shopping basket page
@@ -10,6 +11,7 @@ Scenario Outline: Increasing product count
     |productNumberRow|counter|tapTimes|
     |1               |1      |1       |
 
+#TC-55
 Scenario Outline: Decrease products count from the basket
     Given One product is already added in the basket
     And I am on the shopping basket page
@@ -20,6 +22,7 @@ Scenario Outline: Decrease products count from the basket
     |errorMsg                     |tapTimes|number|
     |The Shopping Basket is empty!|1       |0     |
 
+#TC-56
 Scenario Outline: Removing products from the basket
     Given One product is already added in the basket
     And I am on the shopping basket page
@@ -29,3 +32,21 @@ Scenario Outline: Removing products from the basket
     Examples: Main Categories
     |productNumberRow|
     |1               |
+
+#TC-57
+Scenario: User is able to proceed to checkout page
+    Given I am logged in
+    And One product is already added in the basket
+    And I am on the shopping basket page
+    When I click on checkout button
+    Then I am redirected on Checkout page
+
+#TC-58
+Scenario: Verify that user is able to proceed to checkout page
+    Given I am not logged in
+    And One product is already added in the basket
+    And I am on the shopping basket page
+    When I click on checkout button
+    Then I am redirectied to checkout login menu
+    When I log in
+    Then I am redirected on Checkout page

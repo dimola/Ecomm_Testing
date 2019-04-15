@@ -1,5 +1,6 @@
 package pageObjects;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,6 +10,9 @@ public class LogoutPage extends GeneralPage {
 
 	@FindBy(css = "a[href^='index.php?ses_logout=1']")
 	private WebElement buttonConfirmLogout;
+
+	@FindBy(className = "cntblock")
+	private WebElement logoutText;
 
 	public LogoutPage(WebDriver driver) {
 		super(driver);
@@ -23,9 +27,6 @@ public class LogoutPage extends GeneralPage {
 		return this;
 	}
 
-	public void clickConfirmLogOut() {
-		buttonConfirmLogout.click();
-	}
 
 	@Override
 	public boolean isOpen() {
@@ -37,15 +38,31 @@ public class LogoutPage extends GeneralPage {
 		}
 		return result;
 	}
+
 	/*
 	Text getters from Web Elements
 	 */
-
+	public String getLogoutText(){
+		try {
+			if (this.logoutText.isDisplayed()){
+				return this.logoutText.getText();
+			}
+			else{
+				return null;
+			}
+		}
+		catch (NoSuchElementException e) {
+			//result remain empty string
+			return null;
+		}
+	}
 
 	/*
 	Actions in this page
 	 */
-
+	public void logout(){
+		this.buttonConfirmLogout.click();
+	}
 
 	/*
 	Checks for certain images, buttons if they are displayed

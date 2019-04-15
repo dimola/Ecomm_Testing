@@ -1,7 +1,6 @@
 package stepDefinitions;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Assert;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -61,7 +60,7 @@ public class Steps {
 	@When("^I logout$")
 	public void I_click_on_Logout(){
 		pageObjectManager.getHomePage().clickLogOut();
-		pageObjectManager.getLogoutPage().clickConfirmLogOut();
+		pageObjectManager.getLogoutPage().logout();
 	}
 
 	@Then("^I am successfully logged out$")
@@ -628,6 +627,23 @@ public class Steps {
 		}
 	}
 
+	@Given("^I am not logged in$")
+	public void i_am_not_logged_in(){
+		pageObjectManager.getHomePage().open();
+		if (pageObjectManager.getHomePage().isLogoutButtonDisplayed()){
+			pageObjectManager.getLogoutPage().logout();
+		}
+	}
+
+	@Given("^I am logged in$")
+	public void i_am_logged_in(){
+		pageObjectManager.getHomePage().open();
+		if (pageObjectManager.getHomePage().isLoginButtonDisplayed()){
+			pageObjectManager.getLoginPage().open();
+			pageObjectManager.getLoginPage().login("student1", "stpass1");
+		}
+	}
+
 	@Given("^I am on the shopping basket page$")
 	@When("^I open the shopping basket$")
 	public void i_open_the_shopping_basket(){
@@ -641,6 +657,7 @@ public class Steps {
 
 		softly.assertThat(basketPage.getPageTitle()).as("You are on wrong page.").isEqualTo("Shopping Basket");
 		softly.assertThat(basketPage.getEmptyBasketErrorMsg()).as("Error message is displayed.").isNull();
+
 		softly.assertAll();
 
 		/*
@@ -706,6 +723,7 @@ public class Steps {
 		softly.assertThat(basketPage.isRemoveOneProductButtonDisplayed()).as("- button is missing").isTrue();
 		softly.assertThat(basketPage.isRemoveProductButtonDisplayed()).as("Remove product button is missing").isTrue();
 		softly.assertThat(basketPage.isCheckoutButtonDisplayed()).as("Checkout button is missing").isTrue();
+
 		softly.assertAll();
 	}
 
@@ -733,6 +751,19 @@ public class Steps {
 		pageObjectManager.getBasketPage().removeProduct(productNumber);
 	}
 
+	@When("^I click on checkout button$")
+	public void i_click_on_checkout_button(){
+		assertThat(pageObjectManager.getBasketPage().isCheckoutButtonDisplayed())
+				.as("Checkout button is not displayed!")
+				.isTrue();
+		pageObjectManager.getBasketPage().checkoutBasket();
+	}
+
+	@When("^I log in$")
+	public void i_log_in(){
+		pageObjectManager.getCheckoutPage().login("student1", "stpass1");
+	}
+
 	@Then("^Product is removed and following text is displayed \"([^\"]*)\"$")
 	public void error_msg_is_displayed(String errorMsg){
 		assertThat(pageObjectManager.getBasketPage().getEmptyBasketErrorMsg())
@@ -746,7 +777,7 @@ public class Steps {
 		int productCount = pageObjectManager.getBasketPage().getProductCount(productNumberRow);
 
 		assertThat(productCount)
-				.as("Actual result: product row %d should have quantity of %d. Actual: %d", productNumberRow, productQuantity + count, productCount)
+				.as("Expected result: product row %d should have quantity of %d. Actual: %d", productNumberRow, productQuantity + count, productCount)
 				.isEqualTo(productQuantity + count);
 
 	}
@@ -755,7 +786,7 @@ public class Steps {
 	public void basket_icon_number_is_equal_to_actual_items(){
 		BasketPage basketPage = pageObjectManager.getBasketPage();
 		assertThat(basketPage.getProductsCount())
-				.as("Actual items is basket are not the same as the displayed ones on basket icon.")
+				.as("Actual items in basket are not the same as the displayed ones on basket icon.")
 				.isEqualTo(basketPage.getBasketCounter());
 	}
 
@@ -774,6 +805,48 @@ public class Steps {
 				.isEqualTo(productQuantity-1);
 	}
 
+	@Then("^I am redirected on Checkout page$")
+	public void i_am_redirected_to_checkout_page(){
+		CheckoutPage checkoutPage = pageObjectManager.getCheckoutPage();
+		SoftAssertions softly = new SoftAssertions();
+
+		softly.assertThat(checkoutPage.isOpen())
+				.as("You are not on CheckoutPage")
+				.isTrue();
+		softly.assertThat(checkoutPage.isProductImageDisplayed(1)) //At least one product is displayed
+				.as("Checkout login text is not visible or it has wrong text.")
+				.isNotNull();
+		softly.assertThat(checkoutPage.isCancelButtonDisplayed())
+				.as("Cancel purchase button is not displayed.")
+				.isTrue();
+		softly.assertThat(checkoutPage.isCancelButtonDisplayed())
+				.as("Confirm purchase button is not displayed.")
+				.isTrue();
+
+		softly.assertAll();
+	}
+
+	@Then("^I am redirectied to checkout login menu$")
+	public void i_am_redirected_to_checkout_login_menu(){
+		CheckoutPage checkoutPage = pageObjectManager.getCheckoutPage();
+		SoftAssertions softly = new SoftAssertions();
+
+		softly.assertThat(checkoutPage.isOpen())
+				.as("You are not on CheckoutPage")
+				.isTrue();
+		softly.assertThat(checkoutPage.isLoginButtonDisplayed())
+				.as("Login button is not displayed.")
+				.isTrue();
+		softly.assertThat(checkoutPage.isUsernameFieldDisplayed())
+				.as("Username field is not displayed.")
+				.isTrue();
+		softly.assertThat(checkoutPage.isPasswordFieldDisplayed())
+				.as("Password field is not displayed.")
+				.isTrue();
+
+		softly.assertAll();
+	}
+
 	@Before
 	public void init() {
 		PageObjectManager.init();
@@ -785,6 +858,5 @@ public class Steps {
 		productQuantity = 0;
 		pageObjectManager.quit();
 	}
-
 
 }
