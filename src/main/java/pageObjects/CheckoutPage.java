@@ -20,8 +20,8 @@ public class CheckoutPage extends GeneralPage{
     @FindBy(name = "ses_login")
     private WebElement loginButton;
 
-    @FindBy(css = "#h3 > b")
-    private WebElement loginText;
+    @FindBy(css = "b")
+    private WebElement mainText;
 
     //elements for actual checkout page with products
     @FindBy(css = "a[href^='index.php?page=confirm-purchase']")
@@ -37,13 +37,18 @@ public class CheckoutPage extends GeneralPage{
     private List<WebElement> tableFrameElements; //Elements with names for rows etc.
 
     @FindBy(className = "basket-total")
-    private List<WebElement> basketTotalElements; //Elements with total prices, shipping etc.
+
+    private List<WebElement> basketTotalElements; //Elements with total prices, count etc.
 
     @FindBy(className = "basket-caption")
     private List<WebElement> productsTitles;
 
     @FindBy(className = "basket-pic")
     private List<WebElement> productsPictures;
+
+    //Only after purchase completeion
+    @FindBy(className = "big-btn")
+    private WebElement goToHomeButton;
 
     public CheckoutPage(WebDriver driver){
         super(driver);
@@ -102,12 +107,12 @@ public class CheckoutPage extends GeneralPage{
                 return Double.parseDouble(this.productsElements.get((productNumber-1)*4 + 1).getText());
             }
             else{
-                return 0;
+                return -1;
             }
         }
         catch (NoSuchElementException e) {
             //result remain empty string
-            return 0;
+            return -1;
         }
     }
 
@@ -121,12 +126,12 @@ public class CheckoutPage extends GeneralPage{
                 return Double.parseDouble(this.productsElements.get((productNumber-1)*4 + 2).getText());
             }
             else{
-                return 0;
+                return -1;
             }
         }
         catch (NoSuchElementException e) {
             //result remain empty string
-            return 0;
+            return -1;
         }
     }
 
@@ -140,11 +145,11 @@ public class CheckoutPage extends GeneralPage{
                 return Double.parseDouble(this.productsElements.get((productNumber-1)*4 + 3).getText());
             }
             else{
-                return 0;
+                return -1;
             }
         }
         catch (NoSuchElementException e) {
-            return 0;
+            return -1;
         }
     }
 
@@ -154,11 +159,11 @@ public class CheckoutPage extends GeneralPage{
                 return Double.parseDouble(this.basketTotalElements.get(0).getText());
             }
             else{
-                return 0;
+                return -1;
             }
         }
         catch (NoSuchElementException e) {
-            return 0;
+            return -1;
         }
     }
 
@@ -168,32 +173,32 @@ public class CheckoutPage extends GeneralPage{
                 return Double.parseDouble(this.basketTotalElements.get(1).getText());
             }
             else{
-                return 0;
+                return -1;
             }
         }
         catch (NoSuchElementException e) {
-            return 0;
+            return -1;
         }
     }
 
-    public double getTotalSum(){
+    public double getTotalSumField(){
         try {
             if (this.basketTotalElements.get(2).isDisplayed()){
                 return Double.parseDouble(this.basketTotalElements.get(2).getText());
             }
             else{
-                return 0;
+                return 1;
             }
         }
         catch (NoSuchElementException e) {
-            return 0;
+            return 1;
         }
     }
 
-    public String getLoginText(){
+    public String getMainText(){
         try {
-            if (this.loginText.isDisplayed()){
-                return this.loginText.getText();
+            if (this.mainText.isDisplayed()){
+                return this.mainText.getText();
             }
             else{
                 return null;
@@ -203,6 +208,31 @@ public class CheckoutPage extends GeneralPage{
             //result remain empty string
             return null;
         }
+    }
+
+    public String getGoToHomeButtonText(){
+        try {
+            if (this.goToHomeButton.isDisplayed()){
+                return this.goToHomeButton.getText();
+            }
+            else{
+                return null;
+            }
+        }
+        catch (NoSuchElementException e) {
+            //result remain empty string
+            return null;
+        }
+    }
+
+    public double getAllBasketProductsCostSum(){
+        double temp = getProductsCountInBasket();
+        double sum = 0;
+        for (int i = 1; i<=temp; i++){
+            sum += this.getProductPrice(i);
+        }
+
+        return sum;
     }
 
     /*
@@ -223,6 +253,10 @@ public class CheckoutPage extends GeneralPage{
     public void cancelPurchase(){
         this.cancelPurchaseButton.click();
         driver.switchTo().alert().accept();
+    }
+
+    public void clickGoToHomeButton(){
+        this.goToHomeButton.click();
     }
 
     /*
@@ -319,4 +353,24 @@ public class CheckoutPage extends GeneralPage{
 	/*
 	Helper functions
 	 */
+    public boolean isGoToHomeButtonDisplayed(){
+        try {
+            if (this.goToHomeButton.isDisplayed()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+	/*
+	Helper functions
+	 */
+
+	public int getProductsCountInBasket(){
+	    return (this.basketTotalElements.size() / 4) + 1;
+    }
 }

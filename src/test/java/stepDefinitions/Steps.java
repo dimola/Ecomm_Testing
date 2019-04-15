@@ -751,6 +751,12 @@ public class Steps {
 		pageObjectManager.getBasketPage().removeProduct(productNumber);
 	}
 
+	@Given("^I am on the Checkout page$")
+	public void i_am_on_the_checkout_page(){
+		pageObjectManager.getBasketPage().open();
+		pageObjectManager.getBasketPage().checkoutBasket();
+	}
+
 	@When("^I click on checkout button$")
 	public void i_click_on_checkout_button(){
 		assertThat(pageObjectManager.getBasketPage().isCheckoutButtonDisplayed())
@@ -762,6 +768,97 @@ public class Steps {
 	@When("^I log in$")
 	public void i_log_in(){
 		pageObjectManager.getCheckoutPage().login("student1", "stpass1");
+	}
+
+	@When("^I confirm purchase$")
+	public void i_confirm_purchase(){
+		pageObjectManager.getCheckoutPage().confirmPurchase();
+	}
+
+	@When("^I cancel purchase$")
+	public void i_cancel_purchase(){
+		pageObjectManager.getCheckoutPage().cancelPurchase();
+	}
+
+	@Then("^Confirmation for purchase message is displayed$")
+	public void confirmation_for_purchase_message_is_displayed(){
+		CheckoutPage checkoutPage = pageObjectManager.getCheckoutPage();
+		SoftAssertions softly = new SoftAssertions();
+
+		softly.assertThat(checkoutPage.getPageTitle())
+				.as("You are on the wrong page.")
+				.isNotNull()
+				.isEqualTo("Confirm purchase");
+		softly.assertThat(checkoutPage.isGoToHomeButtonDisplayed())
+				.as("Go To home button is not displayed.")
+				.isTrue();
+		softly.assertThat(checkoutPage.getMainText())
+				.as("Main paragraph has wrong text.")
+				.isNotNull()
+				.contains("Your order is accepted!");
+
+		softly.assertAll();
+	}
+
+	@Then("^Message for canceld purchase is displayed$")
+	public void message_for_canceld_purchase_is_displayed(){
+		CheckoutPage checkoutPage = pageObjectManager.getCheckoutPage();
+		SoftAssertions softly = new SoftAssertions();
+
+		softly.assertThat(checkoutPage.getPageTitle())
+				.as("You are on the wrong page.")
+				.isNotNull()
+				.isEqualTo("Cancel purchase");
+		softly.assertThat(checkoutPage.isGoToHomeButtonDisplayed())
+				.as("Go To home button is not displayed.")
+				.isTrue();
+		softly.assertThat(checkoutPage.getMainText())
+				.as("Main paragraph has wrong text.")
+				.isNotNull()
+				.contains("Purchase cancelled");
+
+		softly.assertAll();
+	}
+
+
+	@Then("^The shipping cost is displayed and it is added to the total sum$")
+	public void the_shipping_cost_is_displayed_and_it_is_added_to_the_total_sum(){
+		CheckoutPage checkoutPage = pageObjectManager.getCheckoutPage();
+
+		assertThat(checkoutPage.getTotalShipping())
+				.as("Shipping field is not displayed.")
+				.isNotEqualTo("-1");
+
+		double tax = checkoutPage.getTotalTax();
+		double shippingCost = checkoutPage.getTotalShipping();
+		double totalSum = checkoutPage.getTotalSumField();
+		double allProductsSum = checkoutPage.getAllBasketProductsCostSum();
+
+		assertThat(totalSum).as("Total sum is not correct. Shipping cost = " + shippingCost +
+				", all products sum without shipping = " + allProductsSum +
+				", tax = "+tax+
+				", total sum =" + totalSum + " .")
+				.isEqualTo(tax + shippingCost + allProductsSum);
+	}
+
+	@Then("^The tax field is displayed and it is added to the total sum$")
+	public void the_tax_field_is_displayed_and_it_is_added_to_the_total_sum(){
+		CheckoutPage checkoutPage = pageObjectManager.getCheckoutPage();
+
+		assertThat(checkoutPage.getTotalTax())
+				.as("Tax field is not displayed.")
+				.isNotEqualTo("-1");
+
+		double tax = checkoutPage.getTotalTax();
+		double shippingCost = checkoutPage.getTotalShipping();
+		double totalSum = checkoutPage.getTotalSumField();
+		double allProductsSum = checkoutPage.getAllBasketProductsCostSum();
+
+		assertThat(totalSum).as("Total sum is not correct. Shipping cost = " + shippingCost +
+				", all products sum without shipping = " + allProductsSum +
+				"tax = "+tax+
+				", total sum =" + totalSum + " .")
+				.isEqualTo(tax + shippingCost + allProductsSum);
 	}
 
 	@Then("^Product is removed and following text is displayed \"([^\"]*)\"$")
