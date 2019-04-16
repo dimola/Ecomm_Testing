@@ -481,31 +481,6 @@ public class Steps {
 		softly.assertThat(productPage.getSideMenuButtonsText()).as("Side menu is empty.").isNotEmpty();
 
 		softly.assertAll();
-
-		/*
-		Assert.assertTrue("Problems while verifying that Book Details page is open",
-				this.pageObjectManager.getProductDetailsPage().isProductDetailsPageOpen(product));
-		Assert.assertTrue("Logo is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isLogoDisplayed());
-		Assert.assertTrue("Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isMainMenuDisplayed());
-		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isHomeButtonDisplayed());
-		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isBooksButtonDisplayed());
-		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isCdsButtonDisplayed());
-		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isBasketButtonDisplayed());
-		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isRegisterButtonDisplayed());
-		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isLoginButtonDisplayed());
-		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isViewBasketDisplayed());
-		Assert.assertTrue("Side Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isSideMenuDisplayed());
-				*/
 	}
 
 	@Then("^I can see the book details$")
@@ -527,22 +502,6 @@ public class Steps {
 		softly.assertThat(productPage.isAddToBasketButtonDisplayed()).as("Missing \"add to basket\" button").isTrue();
 
 		softly.assertAll();
-		/*
-		Assert.assertTrue("The image is not displayed on the book details page",
-				this.pageObjectManager.getProductDetailsPage().isProductImageDisplayed());
-		Assert.assertTrue("The author is not displayed on the book details page",
-				this.pageObjectManager.getProductDetailsPage().isProductAuthorDisplayed());
-		Assert.assertTrue("The book publisher is not displayed on the book details page",
-				this.pageObjectManager.getProductDetailsPage().isProductPublisherDisplayed());
-		Assert.assertTrue("The book ISBN is not displayed on the book details page",
-				this.pageObjectManager.getProductDetailsPage().isProductISBNDisplayed());
-		Assert.assertTrue("The price is not displayed on the book details page",
-				this.pageObjectManager.getProductDetailsPage().isProductPriceDisplayed());
-		Assert.assertTrue("The add to basket button is not displayed on the book details page",
-				this.pageObjectManager.getProductDetailsPage().isAddToBasketButtonDisplayed());
-		Assert.assertTrue("The back to prodcut details link is not displayed on the book details page",
-				this.pageObjectManager.getProductDetailsPage().isBackToProductListLinkDisplayed());
-				*/
 	}
 
 	@Then("^I can see the CD details$")
@@ -562,20 +521,6 @@ public class Steps {
 		softly.assertThat(productPage.isAddToBasketButtonDisplayed()).as("Missing \"add to basket\" button").isTrue();
 
 		softly.assertAll();
-		/*
-		Assert.assertTrue("The image is not displayed on the CD details page",
-				this.pageObjectManager.getProductDetailsPage().isProductImageDisplayed());
-		Assert.assertTrue("The Artist is not displayed on the CD details page",
-				this.pageObjectManager.getProductDetailsPage().isProductArtistDisplayed());
-		Assert.assertTrue("The CD label is not displayed on the CD details page",
-				this.pageObjectManager.getProductDetailsPage().isProductLabelDisplayed());
-		Assert.assertTrue("The price is not displayed on the CD details page",
-				this.pageObjectManager.getProductDetailsPage().isProductPriceDisplayed());
-		Assert.assertTrue("The add to basket button is not displayed on the CD details page",
-				this.pageObjectManager.getProductDetailsPage().isAddToBasketButtonDisplayed());
-		Assert.assertTrue("The back to prodcut details link is not displayed on the CD details page",
-				this.pageObjectManager.getProductDetailsPage().isBackToProductListLinkDisplayed());
-				*/
 	}
 
 	@When("^I'm on empty shopping basket page$")
@@ -659,38 +604,12 @@ public class Steps {
 		softly.assertThat(basketPage.getEmptyBasketErrorMsg()).as("Error message is displayed.").isNull();
 
 		softly.assertAll();
-
-		/*
-		this.pageObjectManager.getBasketPage().isOpen();
-		Assert.assertTrue("Logo is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isLogoDisplayed());
-		Assert.assertTrue("Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isMainMenuDisplayed());
-		Assert.assertTrue("Home button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isHomeButtonDisplayed());
-		Assert.assertTrue("Books button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isBooksButtonDisplayed());
-		Assert.assertTrue("Cds button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isCdsButtonDisplayed());
-		Assert.assertTrue("Basket button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isBasketButtonDisplayed());
-		Assert.assertTrue("Register button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isRegisterButtonDisplayed());
-		Assert.assertTrue("Login button in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isLoginButtonDisplayed());
-		Assert.assertTrue("View Basket in the Main Menu is not displayed on the page",
-				pageObjectManager.getProductDetailsPage().isViewBasketDisplayed());
-				*/
 	}
 
 	@Then("^I should see all (\\d+) added products$")
 	public void i_should_see_all_added_products(int number){
 		BasketPage basketPage = pageObjectManager.getBasketPage();
 		assertThat(basketPage.getProductsCount()).as("Not all products are added to basket").isEqualTo(number);
-		/*
-		Assert.assertTrue("Not all added products are displayed in the Basket",
-				this.pageObjectManager.getBasketPage().areAllAddedProductsDisplayed(number));
-				*/
 	}
 
 	@Given("^One product is already added in the basket$")
@@ -751,6 +670,12 @@ public class Steps {
 		pageObjectManager.getBasketPage().removeProduct(productNumber);
 	}
 
+	@Given("^I am on the Checkout page$")
+	public void i_am_on_the_checkout_page(){
+		pageObjectManager.getBasketPage().open();
+		pageObjectManager.getBasketPage().checkoutBasket();
+	}
+
 	@When("^I click on checkout button$")
 	public void i_click_on_checkout_button(){
 		assertThat(pageObjectManager.getBasketPage().isCheckoutButtonDisplayed())
@@ -762,6 +687,97 @@ public class Steps {
 	@When("^I log in$")
 	public void i_log_in(){
 		pageObjectManager.getCheckoutPage().login("student1", "stpass1");
+	}
+
+	@When("^I confirm purchase$")
+	public void i_confirm_purchase(){
+		pageObjectManager.getCheckoutPage().confirmPurchase();
+	}
+
+	@When("^I cancel purchase$")
+	public void i_cancel_purchase(){
+		pageObjectManager.getCheckoutPage().cancelPurchase();
+	}
+
+	@Then("^Confirmation for purchase message is displayed$")
+	public void confirmation_for_purchase_message_is_displayed(){
+		CheckoutPage checkoutPage = pageObjectManager.getCheckoutPage();
+		SoftAssertions softly = new SoftAssertions();
+
+		softly.assertThat(checkoutPage.getPageTitle())
+				.as("You are on the wrong page.")
+				.isNotNull()
+				.isEqualTo("Confirm purchase");
+		softly.assertThat(checkoutPage.isGoToHomeButtonDisplayed())
+				.as("Go To home button is not displayed.")
+				.isTrue();
+		softly.assertThat(checkoutPage.getMainText())
+				.as("Main paragraph has wrong text.")
+				.isNotNull()
+				.contains("Your order is accepted!");
+
+		softly.assertAll();
+	}
+
+	@Then("^Message for canceld purchase is displayed$")
+	public void message_for_canceld_purchase_is_displayed(){
+		CheckoutPage checkoutPage = pageObjectManager.getCheckoutPage();
+		SoftAssertions softly = new SoftAssertions();
+
+		softly.assertThat(checkoutPage.getPageTitle())
+				.as("You are on the wrong page.")
+				.isNotNull()
+				.isEqualTo("Cancel purchase");
+		softly.assertThat(checkoutPage.isGoToHomeButtonDisplayed())
+				.as("Go To home button is not displayed.")
+				.isTrue();
+		softly.assertThat(checkoutPage.getMainText())
+				.as("Main paragraph has wrong text.")
+				.isNotNull()
+				.contains("Purchase cancelled");
+
+		softly.assertAll();
+	}
+
+
+	@Then("^The shipping cost is displayed and it is added to the total sum$")
+	public void the_shipping_cost_is_displayed_and_it_is_added_to_the_total_sum(){
+		CheckoutPage checkoutPage = pageObjectManager.getCheckoutPage();
+
+		assertThat(checkoutPage.getTotalShipping())
+				.as("Shipping field is not displayed.")
+				.isNotEqualTo("-1");
+
+		double tax = checkoutPage.getTotalTax();
+		double shippingCost = checkoutPage.getTotalShipping();
+		double totalSum = checkoutPage.getTotalSumField();
+		double allProductsSum = checkoutPage.getAllBasketProductsCostSum();
+
+		assertThat(totalSum).as("Total sum is not correct. Shipping cost = " + shippingCost +
+				", all products sum without shipping = " + allProductsSum +
+				", tax = "+tax+
+				", total sum =" + totalSum + " .")
+				.isEqualTo(tax + shippingCost + allProductsSum);
+	}
+
+	@Then("^The tax field is displayed and it is added to the total sum$")
+	public void the_tax_field_is_displayed_and_it_is_added_to_the_total_sum(){
+		CheckoutPage checkoutPage = pageObjectManager.getCheckoutPage();
+
+		assertThat(checkoutPage.getTotalTax())
+				.as("Tax field is not displayed.")
+				.isNotEqualTo("-1");
+
+		double tax = checkoutPage.getTotalTax();
+		double shippingCost = checkoutPage.getTotalShipping();
+		double totalSum = checkoutPage.getTotalSumField();
+		double allProductsSum = checkoutPage.getAllBasketProductsCostSum();
+
+		assertThat(totalSum).as("Total sum is not correct. Shipping cost = " + shippingCost +
+				", all products sum without shipping = " + allProductsSum +
+				"tax = "+tax+
+				", total sum =" + totalSum + " .")
+				.isEqualTo(tax + shippingCost + allProductsSum);
 	}
 
 	@Then("^Product is removed and following text is displayed \"([^\"]*)\"$")
