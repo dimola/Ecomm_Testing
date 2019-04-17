@@ -115,6 +115,14 @@ public class ProductDetailsPage extends CategoryPage {
 		return helpArray2[1].replaceAll("\\r\\n|\\r|\\n", "");
 	}
 
+	public String getProductComposer() {
+		String[] helpArray1 = this.productInfo.getText().split("Artist: ");
+		String[] helpArray2 = helpArray1[1].split("Label: ");
+		String[] helpArray3 = helpArray2[1].split("Composer: ");
+
+		return helpArray3[1].replaceAll("\\r\\n|\\r|\\n", "");
+	}
+
 	/*
 	Actions in this page
 	 */

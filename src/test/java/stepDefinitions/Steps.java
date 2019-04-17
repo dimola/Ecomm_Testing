@@ -45,6 +45,11 @@ public class Steps {
 		pageObjectManager.getBooksPage().open();
 	}
 
+	@Given("^I am on cds page$")
+	public void i_am_on_cds_page(){
+		pageObjectManager.getCdsPage().open();
+	}
+
 	@Given("^I am not logged in$")
 	public void i_am_not_logged_in(){
 		pageObjectManager.getHomePage().open();
@@ -88,6 +93,11 @@ public class Steps {
 	public void i_am_on_the_checkout_page(){
 		pageObjectManager.getBasketPage().open();
 		pageObjectManager.getBasketPage().checkoutBasket();
+	}
+
+	@Given("^I am on the cds page$")
+	public void i_am_on_the_cds_page(){
+		pageObjectManager.getCdsPage().open();
 	}
 
 	/*
@@ -261,6 +271,35 @@ public class Steps {
 		pageObjectManager.getCheckoutPage().cancelPurchase();
 	}
 
+	@When("^I search for certain artist \"([^\"]*)\"$")
+	public void i_search_for_certain_artist(String artist){
+		pageObjectManager.getCdsPage().enterArtist(artist);
+		pageObjectManager.getCdsPage().clickSubmit();
+	}
+
+	@When("^I search for a certain CD by its title \"([^\"]*)\"$")
+	public void i_search_for_certain_cd_by_its_title(String title){
+		pageObjectManager.getCdsPage().enterTitle(title);
+		pageObjectManager.getCdsPage().clickSubmit();
+	}
+
+	@When("^I search for a certain CD by its label \"([^\"]*)\"$")
+	public void i_search_for_certain_cd_by_its_label(String label){
+		pageObjectManager.getCdsPage().enterLabel(label);
+		pageObjectManager.getCdsPage().clickSubmit();
+	}
+
+	@When("^I search for a certain CD by its composer \"([^\"]*)\"$")
+	public void i_search_for_certain_cd_by_its_composer(String composer){
+		pageObjectManager.getCdsPage().enterComposer(composer);
+		pageObjectManager.getCdsPage().clickSubmit();
+	}
+
+	@When("^I search cds for more than one of the search criteria at the same time \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
+	public void i_search_for_certain_cd_by_more_than_one_criteria(String artist, String title, String label, String composer){
+		pageObjectManager.getCdsPage().submit(artist, title, label, composer);
+	}
+
 	/*
 		Then statements
 	 */
@@ -313,7 +352,6 @@ public class Steps {
 			assertThat(pageObjectManager.getCdsPage().isOpen()).as("CDs page is not open!").isTrue();
 			assertThat(pageObjectManager.getCdsPage().getPageTitle()).as("Expected to be on Cds page. Actual on page %s", pageObjectManager.getBooksPage().getPageTitle()).isEqualTo("CDs");
 		}
-
 	}
 
 	@Then("^I should see the books page$")
@@ -457,7 +495,7 @@ public class Steps {
 	}
 
 	@Then("^I should see the cds page$")
-	public void i_should_see_the_cds_page() {
+	public void i_should_see_the_cds_page(){
 		CdsPage cdsPage = pageObjectManager.getCdsPage();
 
 		SoftAssertions softly = new SoftAssertions();
@@ -471,7 +509,6 @@ public class Steps {
 		softly.assertThat(cdsPage.getSearchBarFieldsLabels()).as("Search bar is empty.").isNotEmpty();
 		softly.assertThat(cdsPage.getMainMenuLinksText()).as("Main menu is empty.").isNotEmpty();
 		softly.assertAll();
-
 	}
 
 	@Then("^I should see all cds filtering options$")
@@ -871,6 +908,98 @@ public class Steps {
 				.isTrue();
 
 		softly.assertAll();
+	}
+
+	@Then("^All cds from \"([^\"]*)\" are displayed$")
+	public void all_cds_from_artist_are_displayed(String artist){
+		List<String> listAllArtists = pageObjectManager.getCdsPage().getAllProductsArtists();
+		for(int i =0; i<listAllArtists.size(); i++){
+			assertThat(listAllArtists.get(i).toLowerCase())
+					.as("Found products not matching search criteria (artist).")
+					.contains(artist.toLowerCase());
+		}
+	}
+
+	@Then("^All cds with title \"([^\"]*)\" are displayed$")
+	public void all_cds_with_title_are_displayed(String title){
+		List<String> listAllTitles = pageObjectManager.getCdsPage().getAllProductsTitles();
+		for(int i =0; i<listAllTitles.size(); i++){
+			assertThat(listAllTitles.get(i).toLowerCase())
+					.as("Found products not matching search criteria (title).")
+					.contains(title.toLowerCase());
+		}
+	}
+
+	@Then("^All cds with label \"([^\"]*)\" are displayed$")
+	public void all_cds_with_label_are_displayed(String label){
+		List<String> listAllLabels = pageObjectManager.getCdsPage().getAllProductsLabels();
+		for(int i =0; i<listAllLabels.size(); i++){
+			assertThat(listAllLabels.get(i).toLowerCase())
+					.as("Found products not matching search criteria (title).")
+					.contains(label.toLowerCase());
+		}
+	}
+
+	@Then("^All cds with composer \"([^\"]*)\" are displayed$")
+	public void all_cds_with_composer_are_displayed(String composer){
+		List<String> listAllComposers = pageObjectManager.getCdsPage().getAllProductsComposers();
+		for(int i =0; i<listAllComposers.size(); i++){
+			assertThat(listAllComposers.get(i).toLowerCase())
+					.as("Found products not matching search criteria (title).")
+					.contains(composer.toLowerCase());
+		}
+	}
+
+	@Then("^The cd answering to the respective criteria is displayed \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
+	public void the_cd_answering_to_the_respective_criteria_is_displayed(String artist, String title,
+																					   String label, String composer){
+		SoftAssertions softly = new SoftAssertions();
+
+		if(artist != null && artist != ""){
+			List<String> listAllArtists = pageObjectManager.getCdsPage().getAllProductsArtists();
+			for(int i =0; i<listAllArtists.size(); i++){
+				softly.assertThat(listAllArtists.get(i).toLowerCase())
+						.as("Found products not matching search criteria (artist).")
+						.contains(artist.toLowerCase());
+			}
+		}
+
+		if(title != null && title != ""){
+			List<String> listAllTitles = pageObjectManager.getCdsPage().getAllProductsTitles();
+			for(int i =0; i<listAllTitles.size(); i++){
+				softly.assertThat(listAllTitles.get(i).toLowerCase())
+						.as("Found products not matching search criteria (titles).")
+						.contains(title.toLowerCase());
+			}
+		}
+
+		if(label != null && label != ""){
+			List<String> listAllLabels = pageObjectManager.getCdsPage().getAllProductsLabels();
+			for(int i =0; i<listAllLabels.size(); i++){
+				softly.assertThat(listAllLabels.get(i).toLowerCase())
+						.as("Found products not matching search criteria (label).")
+						.contains(label.toLowerCase());
+			}
+		}
+
+		if(composer != null && composer != ""){
+			List<String> listAllComposers = pageObjectManager.getCdsPage().getAllProductsComposers();
+			for(int i =0; i<listAllComposers.size(); i++){
+				softly.assertThat(listAllComposers.get(i).toLowerCase())
+						.as("Found products not matching search criteria (composer).")
+						.contains(composer.toLowerCase());
+			}
+		}
+
+		softly.assertAll();
+	}
+
+	@Then("^An error message is displayed, stating that there are no such cds in the system$")
+	public void an_error_message_is_displayed_stating_that_there_are_no_such_cds_in_the_system(){
+		String errorMsg = pageObjectManager.getCdsPage().getErrorMsgText();
+		assertThat(errorMsg)
+				.as("Expected error message for cds, received: \"%s\" ", errorMsg)
+				.isEqualTo("There are no CDs matching the search criteria...");
 	}
 
 	/*
