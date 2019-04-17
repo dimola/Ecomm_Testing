@@ -20,23 +20,262 @@ public class Steps {
 	//Variable used in some tests
 	int productQuantity = 0;
 
+	/*
+		Given statements
+	 */
 	@Given("^Login page is loaded$")
 	public void Login_page_is_loaded(){
 		pageObjectManager.getLoginPage().open();
 	}
 
+	@Given("^I am logged in with credentials \"([^\"]*)\" and \"([^\"]*)\"$")
+	@When("^I login with credentials \"([^\"]*)\" and \"([^\"]*)\"$")
+	public void I_am_logged_in_with_credentials_and(String username, String password){
+		pageObjectManager.getLoginPage().login(username, password);
+	}
+
+	@When("^I redirect to home page$")
+	@Given("^Home page is loaded$")
+	public void Home_page_is_loaded(){
+		pageObjectManager.getHomePage().open();
+	}
+
+	@Given("^Books page is loaded$")
+	public void books_page_is_loaded(){
+		pageObjectManager.getBooksPage().open();
+	}
+
+	@Given("^I am not logged in$")
+	public void i_am_not_logged_in(){
+		pageObjectManager.getHomePage().open();
+		if (pageObjectManager.getHomePage().isLogoutButtonDisplayed()){
+			pageObjectManager.getLogoutPage().logout();
+		}
+	}
+
+	@Given("^I am logged in$")
+	public void i_am_logged_in(){
+		pageObjectManager.getHomePage().open();
+		if (pageObjectManager.getHomePage().isLoginButtonDisplayed()){
+			pageObjectManager.getLoginPage().open();
+			pageObjectManager.getLoginPage().login("student1", "stpass1");
+		}
+	}
+
+	@Given("^I am on the shopping basket page$")
+	@When("^I open the shopping basket$")
+	public void i_open_the_shopping_basket(){
+		this.pageObjectManager.getBasketPage().open();
+	}
+
+	@Given("^One product is already added in the basket$")
+	public void one_product_is_already_added_in_the_basket(){
+		if (this.pageObjectManager.getHomePage().getRandomCategoryName() == "Books") {
+			this.pageObjectManager.getBooksPage().open();
+			this.pageObjectManager.getBooksCategoryPage().getSideBarButtons()
+					.get(this.pageObjectManager.getBooksCategoryPage().getRandomNotEmptyBookCategoryNumbers())
+					.click();
+			this.pageObjectManager.getBooksCategoryPage().addRandomProductToBasketFromProductList();
+		} else {
+			this.pageObjectManager.getCdsPage().open();
+			this.pageObjectManager.getCdsCategoryPage().getSideBarButtons()
+					.get(this.pageObjectManager.getCdsCategoryPage().getRandomNotEmptyCdCategoryNumbers()).click();
+			this.pageObjectManager.getCdsCategoryPage().addRandomProductToBasketFromProductList();
+		}
+	}
+
+	@Given("^I am on the Checkout page$")
+	public void i_am_on_the_checkout_page(){
+		pageObjectManager.getBasketPage().open();
+		pageObjectManager.getBasketPage().checkoutBasket();
+	}
+
+	/*
+		When statements
+	 */
+	@When("^I logout$")
+	public void I_click_on_Logout(){
+		pageObjectManager.getHomePage().clickLogOut();
+		pageObjectManager.getLogoutPage().logout();
+	}
+
+	@When("^I click on a certain category \"([^\"]*)\"$")
+	public void I_click_on_a_certain_category(String category){
+		if (category == "Books") {
+			pageObjectManager.getHomePage().selectBookCategory();
+		} else
+			pageObjectManager.getHomePage().selectCdsCategory();
+	}
+
+	@When("^I redirect to books page$")
+	public void I_redirect_to_books_page(){
+		pageObjectManager.getBooksPage().open();
+	}
+
+	@When("^I search for a certain author \"([^\"]*)\"$")
+	public void i_search_for_a_certain_author(String author){
+		pageObjectManager.getBooksPage().enterAuthor(author);
+		pageObjectManager.getBooksPage().clickSubmit();
+	}
+
+	@When("^I search for a certain Book by its title \"([^\"]*)\"$")
+	public void i_search_for_a_certain_Book_by_its_title(String title){
+		pageObjectManager.getBooksPage().enterTitle(title);
+		pageObjectManager.getBooksPage().clickSubmit();
+	}
+
+	@When("^I search for a certain publisher \"([^\"]*)\"$")
+	public void i_search_for_a_certain_publisher(String publisher){
+		pageObjectManager.getBooksPage().enterPublisher(publisher);
+		pageObjectManager.getBooksPage().clickSubmit();
+	}
+
+	@When("^I search for a certain ISBN \"([^\"]*)\"$")
+	public void i_search_for_a_certain_ISBN(String ISBN){
+		pageObjectManager.getBooksPage().enterIsbn(ISBN);
+		pageObjectManager.getBooksPage().clickSubmit();
+	}
+
+	@When("^I search for more than one of the search criteria at the same time \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
+	public void i_search_for_more_than_one_of_the_search_criteria_at_the_same_time_and_and_and(String author,
+																							   String title, String publisher, String ISBN){
+		pageObjectManager.getBooksPage().enterAuthor(author);
+		pageObjectManager.getBooksPage().enterTitle(title);
+		pageObjectManager.getBooksPage().enterPublisher(publisher);
+		pageObjectManager.getBooksPage().enterIsbn(ISBN);
+		pageObjectManager.getBooksPage().clickSubmit();
+	}
+
+	@When("^I search with invalid criteria \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
+	public void i_search_with_invalid_criteria_and_and_and(String invalidAuthor, String invalidTitle,
+														   String invalidPublisher, String invalidISBN){
+		pageObjectManager.getBooksPage().enterAuthor(invalidAuthor);
+		pageObjectManager.getBooksPage().enterTitle(invalidTitle);
+		pageObjectManager.getBooksPage().enterPublisher(invalidPublisher);
+		pageObjectManager.getBooksPage().enterIsbn(invalidISBN);
+		pageObjectManager.getBooksPage().clickSubmit();
+	}
+
+	@When("^I redirect to cds page$")
+	public void i_redirect_to_cds_page(){
+		pageObjectManager.getCdsPage().open();
+	}
+
+	@When("^I redirect to not empty \"([^\"]*)\" category of Books$")
+	public void i_redirect_to_not_empty_category_of_Books(String bookCategory) {
+
+		pageObjectManager.getBooksCategoryPage().openCategory(bookCategory);
+	}
+
+	@When("^I redirect to not empty \"([^\"]*)\" category of CDs$")
+	public void i_redirect_to_not_empty_category_of_CDs(String cdsCategory){
+
+		pageObjectManager.getCdsCategoryPage().openCategory(cdsCategory);
+	}
+
+	@When("^I redirect to empty \"([^\"]*)\" category of Books$")
+	public void i_redirect_to_empty_category_of_Books(String bookCategory){
+
+		pageObjectManager.getBooksCategoryPage().openCategory(bookCategory);
+
+	}
+
+	@When("^I redirect to empty \"([^\"]*)\" category of CDs$")
+	public void i_redirect_to_empty_category_of_CDs(String cdsCategory){
+		pageObjectManager.getCdsCategoryPage().openCategory(cdsCategory);
+
+	}
+
+	@When("^I am on a product details page with \"([^\"]*)\" url$")
+	public void i_am_on_a_product_details_page_with_url(String detailsPageURL){
+		this.pageObjectManager.getProductDetailsPage().openProductDetailsPage(detailsPageURL);
+	}
+
+	@When("^I'm on empty shopping basket page$")
+	public void i_m_on_empty_shopping_basket_page(){
+		this.pageObjectManager.getBasketPage().open();
+	}
+
+	@When("^(\\d+) products are added to the basket$")
+	public void products_are_added_to_the_basket(int number){
+		for (int i = 1; i <= number; i++) {
+			if (this.pageObjectManager.getHomePage().getRandomCategoryName() == "Books") {
+				this.pageObjectManager.getBooksPage().open();
+				this.pageObjectManager.getBooksCategoryPage().getSideBarButtons()
+						.get(this.pageObjectManager.getBooksCategoryPage().getRandomNotEmptyBookCategoryNumbers())
+						.click();
+				this.pageObjectManager.getBooksCategoryPage().addRandomProductToBasketFromProductList();
+			} else {
+				this.pageObjectManager.getCdsPage().open();
+				this.pageObjectManager.getCdsCategoryPage().getSideBarButtons()
+						.get(this.pageObjectManager.getCdsCategoryPage().getRandomNotEmptyCdCategoryNumbers()).click();
+				this.pageObjectManager.getCdsCategoryPage().addRandomProductToBasketFromProductList();
+			}
+		}
+	}
+
+	@When("^I tap (-?\\d+) times on add one button in counter$")
+	public void i_tap_on_add_one_button_in_counter(int tapTimes){
+		productQuantity = pageObjectManager.getBasketPage().getProductCount(1);
+		while(tapTimes != 0){
+			pageObjectManager.getBasketPage().addOneQuantity(1);
+			tapTimes -= 1;
+		}
+	}
+
+	@When("^I tap (-?\\d+) times on remove one button in counter$")
+	public void i_tap_on_remove_one_button_in_counter(int tapTimes){
+		productQuantity = pageObjectManager.getBasketPage().getProductCount(1);
+		while(tapTimes != 0){
+			pageObjectManager.getBasketPage().removeOneQuantity(1);
+			tapTimes -= 1;
+		}
+	}
+
+	@When("^I click on remove button for product number (-?\\d+)$")
+	public void i_click_on_remove_button_for_product_number(int productNumber){
+		productQuantity = pageObjectManager.getBasketPage().getProductsCount();
+		pageObjectManager.getBasketPage().removeProduct(productNumber);
+	}
+
+	@When("^I click on checkout button$")
+	public void i_click_on_checkout_button(){
+		assertThat(pageObjectManager.getBasketPage().isCheckoutButtonDisplayed())
+				.as("Checkout button is not displayed!")
+				.isTrue();
+		pageObjectManager.getBasketPage().checkoutBasket();
+	}
+
+	@When("^I log in$")
+	public void i_log_in(){
+		pageObjectManager.getCheckoutPage().login("student1", "stpass1");
+	}
+
+	@When("^I confirm purchase$")
+	public void i_confirm_purchase(){
+		pageObjectManager.getCheckoutPage().confirmPurchase();
+	}
+
+	@When("^I cancel purchase$")
+	public void i_cancel_purchase(){
+		pageObjectManager.getCheckoutPage().cancelPurchase();
+	}
+
+	/*
+		Then statements
+	 */
 	@Then("^I should be successfully logged in$")
 	public void I_should_be_successfully_logged_in(){
 		HomePage homePage = pageObjectManager.getHomePage();
 		assertThat(homePage.isOpen()).as("Home page is not open!").isTrue();
 		assertThat(homePage.getPageTitle()).as("Expected title: \"Home\". Actual title: %s.", homePage.getPageTitle())
-												.isEqualTo("Home");
+				.isEqualTo("Home");
 		assertThat(homePage.getLoginButtonText()).as("Expected: Login button not present. Actual: Login button present with text %s.", homePage.getLoginButtonText())
-												.contains("Can't find");
+				.contains("Can't find");
 		assertThat(homePage.getLogoutButtonText()).as("Expected logout button text: Logout. Actual: %s.", homePage.getLogoutButtonText())
-												.isEqualTo("Logout");
+				.isEqualTo("Logout");
 		assertThat(homePage.getRegisterButtonText()).as("Expected: Register button not present. Actual: Register button present with text %s.", homePage.getRegisterButtonText())
-												.contains("Can't find");
+				.contains("Can't find");
 
 	}
 
@@ -49,18 +288,6 @@ public class Steps {
 	@Then("^An error message is displayed$")
 	public void An_error_message_is_displayed(){
 		assertThat(pageObjectManager.getLoginPage().getErrorTime()).as("Error message timer is not displayed.").isNotNull();
-	}
-
-	@Given("^I am logged in with credentials \"([^\"]*)\" and \"([^\"]*)\"$")
-	@When("^I login with credentials \"([^\"]*)\" and \"([^\"]*)\"$")
-	public void I_am_logged_in_with_credentials_and(String username, String password){
-		pageObjectManager.getLoginPage().login(username, password);
-	}
-
-	@When("^I logout$")
-	public void I_click_on_Logout(){
-		pageObjectManager.getHomePage().clickLogOut();
-		pageObjectManager.getLogoutPage().logout();
 	}
 
 	@Then("^I am successfully logged out$")
@@ -77,20 +304,6 @@ public class Steps {
 				.isEqualTo("Register");
 	}
 
-	@When("^I redirect to home page$")
-	@Given("^Home page is loaded$")
-	public void Home_page_is_loaded(){
-		pageObjectManager.getHomePage().open();
-	}
-
-	@When("^I click on a certain category \"([^\"]*)\"$")
-	public void I_click_on_a_certain_category(String category){
-		if (category == "Books") {
-			pageObjectManager.getHomePage().selectBookCategory();
-		} else
-			pageObjectManager.getHomePage().selectCdsCategory();
-	}
-
 	@Then("^I am redirected to the respective category \"([^\"]*)\"$")
 	public void I_am_redirected_to_the_respective_category(String page){
 		if (page == "BooksPage") {
@@ -101,11 +314,6 @@ public class Steps {
 			assertThat(pageObjectManager.getCdsPage().getPageTitle()).as("Expected to be on Cds page. Actual on page %s", pageObjectManager.getBooksPage().getPageTitle()).isEqualTo("CDs");
 		}
 
-	}
-
-	@When("^I redirect to books page$")
-	public void I_redirect_to_books_page(){
-		pageObjectManager.getBooksPage().open();
 	}
 
 	@Then("^I should see the books page$")
@@ -131,22 +339,12 @@ public class Steps {
 	public void i_should_see_all_book_filtering_options(){
 		BooksPage booksPage = pageObjectManager.getBooksPage();
 
-		assertThat(booksPage.getSearchBarFieldsLabels()).as("Some of the filtering options is missing.").isNotEmpty()
-																													.contains("Author")
-																													.contains("Title")
-																													.contains("Publisher")
-																													.contains("ISBN");
-	}
-
-	@Given("^Books page is loaded$")
-	public void books_page_is_loaded(){
-		pageObjectManager.getBooksPage().open();
-	}
-
-	@When("^I search for a certain author \"([^\"]*)\"$")
-	public void i_search_for_a_certain_author(String author){
-		pageObjectManager.getBooksPage().enterAuthor(author);
-		pageObjectManager.getBooksPage().clickSubmit();
+		assertThat(booksPage.getSearchBarFieldsLabels())
+				.as("Some of the filtering options is missing.").isNotEmpty()
+				.contains("Author")
+				.contains("Title")
+				.contains("Publisher")
+				.contains("ISBN");
 	}
 
 	@Then("^All displayed books are written by this author \"([^\"]*)\"$")
@@ -158,12 +356,6 @@ public class Steps {
 		}
 	}
 
-	@When("^I search for a certain Book by its title \"([^\"]*)\"$")
-	public void i_search_for_a_certain_Book_by_its_title(String title){
-		pageObjectManager.getBooksPage().enterTitle(title);
-		pageObjectManager.getBooksPage().clickSubmit();
-	}
-
 	@Then("^The book is displayed \"([^\"]*)\"$")
 	public void the_book_is_displayed(String title){
 		List<String> listAllTitles = pageObjectManager.getBooksPage().getAllProductTitles();
@@ -171,12 +363,6 @@ public class Steps {
 		for(int i =0; i<listAllTitles.size(); i++){
 			assertThat(listAllTitles.get(i).toLowerCase()).as("Found products not matching search criteria (title).").contains(titleLowCase);
 		}
-	}
-
-	@When("^I search for a certain publisher \"([^\"]*)\"$")
-	public void i_search_for_a_certain_publisher(String publisher){
-		pageObjectManager.getBooksPage().enterPublisher(publisher);
-		pageObjectManager.getBooksPage().clickSubmit();
 	}
 
 	@Then("^All books from this publisher are displayed \"([^\"]*)\"$")
@@ -188,12 +374,6 @@ public class Steps {
 		}
 	}
 
-	@When("^I search for a certain ISBN \"([^\"]*)\"$")
-	public void i_search_for_a_certain_ISBN(String ISBN){
-		pageObjectManager.getBooksPage().enterIsbn(ISBN);
-		pageObjectManager.getBooksPage().clickSubmit();
-	}
-
 	@Then("^The book with that number is displayed \"([^\"]*)\"$")
 	public void the_book_with_that_number_is_displayed(String ISBN){
 		List<String> listAllIsbns = pageObjectManager.getBooksPage().getAllProductsISBNs();
@@ -201,16 +381,6 @@ public class Steps {
 		for(int i =0; i<listAllIsbns.size(); i++){
 			assertThat(listAllIsbns.get(i).toLowerCase()).as("Found products not matching search criteria (ISBN).").contains(isbnLowCase);
 		}
-	}
-
-	@When("^I search for more than one of the search criteria at the same time \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
-	public void i_search_for_more_than_one_of_the_search_criteria_at_the_same_time_and_and_and(String author,
-			String title, String publisher, String ISBN){
-		pageObjectManager.getBooksPage().enterAuthor(author);
-		pageObjectManager.getBooksPage().enterTitle(title);
-		pageObjectManager.getBooksPage().enterPublisher(publisher);
-		pageObjectManager.getBooksPage().enterIsbn(ISBN);
-		pageObjectManager.getBooksPage().clickSubmit();
 	}
 
 	@Then("^The book answering to the respective criteria is displayed \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
@@ -253,16 +423,6 @@ public class Steps {
 		softly.assertAll();
 	}
 
-	@When("^I search with invalid criteria \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
-	public void i_search_with_invalid_criteria_and_and_and(String invalidAuthor, String invalidTitle,
-			String invalidPublisher, String invalidISBN){
-		pageObjectManager.getBooksPage().enterAuthor(invalidAuthor);
-		pageObjectManager.getBooksPage().enterTitle(invalidTitle);
-		pageObjectManager.getBooksPage().enterPublisher(invalidPublisher);
-		pageObjectManager.getBooksPage().enterIsbn(invalidISBN);
-		pageObjectManager.getBooksPage().clickSubmit();
-	}
-
 	@Then("^An error message is displayed, stating that there are no such books in the system$")
 	public void an_error_message_is_displayed_stating_that_there_are_no_such_books_in_the_system(){
 		String errorMsg = pageObjectManager.getBooksPage().getErrorMsgText();
@@ -296,11 +456,6 @@ public class Steps {
 		softly.assertAll();
 	}
 
-	@When("^I redirect to cds page$")
-	public void i_redirect_to_cds_page(){
-		pageObjectManager.getCdsPage().open();
-	}
-
 	@Then("^I should see the cds page$")
 	public void i_should_see_the_cds_page() {
 		CdsPage cdsPage = pageObjectManager.getCdsPage();
@@ -332,12 +487,6 @@ public class Steps {
 		softly.assertThat(cdsPage.getComposerLabelText()).as("Wrong label for Composer textbox.").isEqualTo("Composer");
 		softly.assertThat(cdsPage.getLabelLabelText()).as("Wrong label for Label textbox.").isEqualTo("Label");
 		softly.assertThat(cdsPage.getTitleLabelText()).as("Wrong label for Title textbox.").isEqualTo("Title");
-	}
-
-	@When("^I redirect to not empty \"([^\"]*)\" category of Books$")
-	public void i_redirect_to_not_empty_category_of_Books(String bookCategory) {
-
-		pageObjectManager.getBooksCategoryPage().openCategory(bookCategory);
 	}
 
 	@Then("^I should see the book category page$")
@@ -374,12 +523,6 @@ public class Steps {
 
 	}
 
-	@When("^I redirect to not empty \"([^\"]*)\" category of CDs$")
-	public void i_redirect_to_not_empty_category_of_CDs(String cdsCategory){
-
-		pageObjectManager.getCdsCategoryPage().openCategory(cdsCategory);
-	}
-
 	@Then("^I should see the cd category page$")
 	public void i_should_see_the_cd_category_page(){
 		CdsPage cdsPage = pageObjectManager.getCdsPage();
@@ -411,13 +554,6 @@ public class Steps {
 
 	}
 
-	@When("^I redirect to empty \"([^\"]*)\" category of Books$")
-	public void i_redirect_to_empty_category_of_Books(String bookCategory){
-
-		pageObjectManager.getBooksCategoryPage().openCategory(bookCategory);
-
-	}
-
 	@Then("^I should see the empty book category page$")
 	public void i_should_see_the_empty_book_category_page(){
 		BooksPage booksPage = pageObjectManager.getBooksPage();
@@ -434,12 +570,6 @@ public class Steps {
 		softly.assertThat(booksPage.getSideMenuButtonsText()).as("Side menu is empty.").isNotEmpty();
 
 		softly.assertAll();
-	}
-
-	@When("^I redirect to empty \"([^\"]*)\" category of CDs$")
-	public void i_redirect_to_empty_category_of_CDs(String cdsCategory){
-		pageObjectManager.getCdsCategoryPage().openCategory(cdsCategory);
-
 	}
 
 	@Then("^I should see the empty CDs category page$")
@@ -459,11 +589,6 @@ public class Steps {
 
 		softly.assertAll();
 
-	}
-
-	@When("^I am on a product details page with \"([^\"]*)\" url$")
-	public void i_am_on_a_product_details_page_with_url(String detailsPageURL){
-		this.pageObjectManager.getProductDetailsPage().openProductDetailsPage(detailsPageURL);
 	}
 
 	@Then("^I can see the product details page for \"([^\"]*)\" book/cd$")
@@ -523,11 +648,6 @@ public class Steps {
 		softly.assertAll();
 	}
 
-	@When("^I'm on empty shopping basket page$")
-	public void i_m_on_empty_shopping_basket_page(){
-		this.pageObjectManager.getBasketPage().open();
-	}
-
 	@Then("^I can see the shopping basket page$")
 	public void i_can_see_the_shopping_basket_page(){
 		BasketPage basketPage = pageObjectManager.getBasketPage();
@@ -554,47 +674,6 @@ public class Steps {
 
 	}
 
-	@When("^(\\d+) products are added to the basket$")
-	public void products_are_added_to_the_basket(int number){
-		for (int i = 1; i <= number; i++) {
-			if (this.pageObjectManager.getHomePage().getRandomCategoryName() == "Books") {
-				this.pageObjectManager.getBooksPage().open();
-				this.pageObjectManager.getBooksCategoryPage().getSideBarButtons()
-						.get(this.pageObjectManager.getBooksCategoryPage().getRandomNotEmptyBookCategoryNumbers())
-						.click();
-				this.pageObjectManager.getBooksCategoryPage().addRandomProductToBasketFromProductList();
-			} else {
-				this.pageObjectManager.getCdsPage().open();
-				this.pageObjectManager.getCdsCategoryPage().getSideBarButtons()
-						.get(this.pageObjectManager.getCdsCategoryPage().getRandomNotEmptyCdCategoryNumbers()).click();
-				this.pageObjectManager.getCdsCategoryPage().addRandomProductToBasketFromProductList();
-			}
-		}
-	}
-
-	@Given("^I am not logged in$")
-	public void i_am_not_logged_in(){
-		pageObjectManager.getHomePage().open();
-		if (pageObjectManager.getHomePage().isLogoutButtonDisplayed()){
-			pageObjectManager.getLogoutPage().logout();
-		}
-	}
-
-	@Given("^I am logged in$")
-	public void i_am_logged_in(){
-		pageObjectManager.getHomePage().open();
-		if (pageObjectManager.getHomePage().isLoginButtonDisplayed()){
-			pageObjectManager.getLoginPage().open();
-			pageObjectManager.getLoginPage().login("student1", "stpass1");
-		}
-	}
-
-	@Given("^I am on the shopping basket page$")
-	@When("^I open the shopping basket$")
-	public void i_open_the_shopping_basket(){
-		this.pageObjectManager.getBasketPage().open();
-	}
-
 	@Then("^I should see the shopping basket page$")
 	public void i_should_see_the_shopping_basket_page(){
 		BasketPage basketPage = pageObjectManager.getBasketPage();
@@ -610,22 +689,6 @@ public class Steps {
 	public void i_should_see_all_added_products(int number){
 		BasketPage basketPage = pageObjectManager.getBasketPage();
 		assertThat(basketPage.getProductsCount()).as("Not all products are added to basket").isEqualTo(number);
-	}
-
-	@Given("^One product is already added in the basket$")
-	public void one_product_is_already_added_in_the_basket(){
-		if (this.pageObjectManager.getHomePage().getRandomCategoryName() == "Books") {
-			this.pageObjectManager.getBooksPage().open();
-			this.pageObjectManager.getBooksCategoryPage().getSideBarButtons()
-					.get(this.pageObjectManager.getBooksCategoryPage().getRandomNotEmptyBookCategoryNumbers())
-					.click();
-			this.pageObjectManager.getBooksCategoryPage().addRandomProductToBasketFromProductList();
-		} else {
-			this.pageObjectManager.getCdsPage().open();
-			this.pageObjectManager.getCdsCategoryPage().getSideBarButtons()
-					.get(this.pageObjectManager.getCdsCategoryPage().getRandomNotEmptyCdCategoryNumbers()).click();
-			this.pageObjectManager.getCdsCategoryPage().addRandomProductToBasketFromProductList();
-		}
 	}
 
 	@Then("^I should see all shopping basket information and buttons$")
@@ -644,59 +707,6 @@ public class Steps {
 		softly.assertThat(basketPage.isCheckoutButtonDisplayed()).as("Checkout button is missing").isTrue();
 
 		softly.assertAll();
-	}
-
-	@When("^I tap (-?\\d+) times on add one button in counter$")
-	public void i_tap_on_add_one_button_in_counter(int tapTimes){
-		productQuantity = pageObjectManager.getBasketPage().getProductCount(1);
-		while(tapTimes != 0){
-			pageObjectManager.getBasketPage().addOneQuantity(1);
-			tapTimes -= 1;
-		}
-	}
-
-	@When("^I tap (-?\\d+) times on remove one button in counter$")
-	public void i_tap_on_remove_one_button_in_counter(int tapTimes){
-		productQuantity = pageObjectManager.getBasketPage().getProductCount(1);
-		while(tapTimes != 0){
-			pageObjectManager.getBasketPage().removeOneQuantity(1);
-			tapTimes -= 1;
-		}
-	}
-
-	@When("^I click on remove button for product number (-?\\d+)$")
-	public void i_click_on_remove_button_for_product_number(int productNumber){
-		productQuantity = pageObjectManager.getBasketPage().getProductsCount();
-		pageObjectManager.getBasketPage().removeProduct(productNumber);
-	}
-
-	@Given("^I am on the Checkout page$")
-	public void i_am_on_the_checkout_page(){
-		pageObjectManager.getBasketPage().open();
-		pageObjectManager.getBasketPage().checkoutBasket();
-	}
-
-	@When("^I click on checkout button$")
-	public void i_click_on_checkout_button(){
-		assertThat(pageObjectManager.getBasketPage().isCheckoutButtonDisplayed())
-				.as("Checkout button is not displayed!")
-				.isTrue();
-		pageObjectManager.getBasketPage().checkoutBasket();
-	}
-
-	@When("^I log in$")
-	public void i_log_in(){
-		pageObjectManager.getCheckoutPage().login("student1", "stpass1");
-	}
-
-	@When("^I confirm purchase$")
-	public void i_confirm_purchase(){
-		pageObjectManager.getCheckoutPage().confirmPurchase();
-	}
-
-	@When("^I cancel purchase$")
-	public void i_cancel_purchase(){
-		pageObjectManager.getCheckoutPage().cancelPurchase();
 	}
 
 	@Then("^Confirmation for purchase message is displayed$")
@@ -863,6 +873,9 @@ public class Steps {
 		softly.assertAll();
 	}
 
+	/*
+		Before and after statements
+	 */
 	@Before
 	public void init() {
 		PageObjectManager.init();
