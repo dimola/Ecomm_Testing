@@ -1,5 +1,5 @@
 node{
-    stage (‘SCM checkout’){
+    stage ("SCM_checkout"){
         git “https://github.com/dimola/Ecomm_Testing”
     }
     stage("Execute tests"){
