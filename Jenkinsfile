@@ -1,5 +1,11 @@
 node{
-    stage("Build"){
-        echo "Testing jenkins pipelines with Jenkinsfile"
+    stage("Execute tests"){
+        echo "Executing tests"
+        sh 'mvn test'
+        echo "End of test execution"
+    }
+
+    stage("Create report"){
+        echo "Create report"
     }
 }
