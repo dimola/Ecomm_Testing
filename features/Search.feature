@@ -62,6 +62,75 @@ Scenario Outline:
 		|             |ffffff      |                |           |
 		|             |            |aa3333          |           |
 		|             |            |                |sabg3      |
+
+Scenario Outline: Search cds by artist
+    Given I am on cds page
+    When I search for certain artist "<artist>"
+    Then All cds from "<artist>" are displayed
+    Examples:
+    |artist         |
+    |Moonsteppers   |
+    |Moon           |
+    |Mono           |
+    |Donna Masterson|
+    |Donna          |
+
+Scenario Outline: Search cds by title
+    Given I am on the cds page
+    When I search for a certain CD by its title "<title>"
+    Then All cds with title "<title>" are displayed
+    Examples:
+    |title|
+    |Paris|
+    |Night|
+    |2014 |
+    |Green|
+
+Scenario Outline: Search cds by label
+    Given I am on the cds page
+    When I search for a certain CD by its label "<label>"
+    Then All cds with label "<label>" are displayed
+    Examples:
+    |label  |
+    |Country|
+    |Club   |
+    |Folk   |
+    |World  |
+
+Scenario Outline: Search cd by composer
+    Given I am on the cds page
+    When I search for a certain CD by its composer "<composer>"
+    Then All cds with composer "<composer>" are displayed
+    Examples:
+    |composer|
+    |Bach|
+    |Beethoven|
+
+Scenario Outline: Combined searching for cd
+    Given I am on the cds page
+    When I search cds for more than one of the search criteria at the same time "<artist>" and "<title>" and "<label>" and "<composer>"
+    Then The cd answering to the respective criteria is displayed "<artist>" and "<title>" and "<label>" and "<composer>"
+    Examples:
+    |artist|title|label    |composer |
+    |Donna |     |a        |         |
+    |Blues |Blue |         |         |
+    |John  |0    |Notepad  |Beethoven|
+    |Berlin|     |         |Bach     |
+    |      |Pick |Soundware|         |
+    |      |9    |         |Beethoven|
+
+Scenario Outline: Combined searching for cd negative
+    Given I am on the cds page
+    When I search cds for more than one of the search criteria at the same time "<artist>" and "<title>" and "<label>" and "<composer>"
+    Then An error message is displayed, stating that there are no such cds in the system
+    Examples:
+    |artist|title|label    |composer |
+    |haha  |     |a        |zz       |
+    |zzzzz |lele |         |nn       |
+    |John  |1234 |Notepad  |Beethoven|
+    |Berlin|     |something|Bach     |
+    |      |Pick |Soundware|1234     |
+    |      |9    |Soundware|Beethoven|
 		
 		
 		

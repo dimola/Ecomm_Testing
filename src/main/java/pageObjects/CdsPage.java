@@ -34,6 +34,9 @@ public class CdsPage extends CategoryPage {
 
 	@FindBy(xpath = "//tbody/tr[4]/td[1]")
 	private WebElement composerLabel;
+
+	@FindBy(className = "formbtn")
+	private WebElement submitButton;
 	
 
 	public CdsPage(WebDriver driver) {
@@ -134,7 +137,94 @@ public class CdsPage extends CategoryPage {
 	/*
 	Actions in this page
 	 */
+	public void enterArtist(String artist) {
+		artistTextbox.sendKeys(artist);
+	}
 
+	public void enterTitle(String title) {
+		titleTextbox.sendKeys(title);
+	}
+
+	public void enterLabel(String label) {
+		labelTextbox.sendKeys(label);
+	}
+
+	public void enterComposer(String composer) {
+		composerTextbox.sendKeys(composer);
+	}
+
+	public void submit(String artist, String title, String label, String composer){
+		enterArtist(artist);
+		enterTitle(title);
+		enterLabel(label);
+		enterComposer(composer);
+		this.submitButton.click();
+	}
+
+	public List<String> getAllProductsArtists(){
+		List<String> allArtists = new ArrayList<>();
+		try {
+			for (int i = 0; i < this.allProducts.size(); i++) {
+				this.openProductDetailsPageFromProductList(i);
+				ProductDetailsPage product = new ProductDetailsPage(driver);
+				allArtists.add(product.getProductArtist());
+				product.backToProductList();
+			}
+
+			return allArtists;
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+
+	public List<String> getAllProductsTitles(){
+		List<String> allTitles = new ArrayList<>();
+		try {
+			for (int i = 0; i < this.allProducts.size(); i++) {
+				this.openProductDetailsPageFromProductList(i);
+				ProductDetailsPage product = new ProductDetailsPage(driver);
+				allTitles.add(product.getProductTitle());
+				product.backToProductList();
+			}
+
+			return allTitles;
+		} catch (Throwable e) {
+			System.out.println("Problem while checking if displayed book are by this publisher: " + e.getMessage());
+			return null;
+		}
+	}
+
+	public List<String> getAllProductsLabels(){
+		List<String> allLabels = new ArrayList<>();
+		try {
+			for (int i = 0; i < this.allProducts.size(); i++) {
+				this.openProductDetailsPageFromProductList(i);
+				ProductDetailsPage product = new ProductDetailsPage(driver);
+				allLabels.add(product.getProductLabel());
+				product.backToProductList();
+			}
+
+			return allLabels;
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+
+	public List<String> getAllProductsComposers(){
+		List<String> allComposers = new ArrayList<>();
+		try {
+			for (int i = 0; i < this.allProducts.size(); i++) {
+				this.openProductDetailsPageFromProductList(i);
+				ProductDetailsPage product = new ProductDetailsPage(driver);
+				allComposers.add(product.getProductComposer());
+				product.backToProductList();
+			}
+
+			return allComposers;
+		} catch (Throwable e) {
+			return null;
+		}
+	}
 
 	/*
 	Checks for certain images, buttons if they are displayed
