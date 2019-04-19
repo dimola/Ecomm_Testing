@@ -2,6 +2,7 @@ package managers;
 
 import java.util.concurrent.TimeUnit;
 
+import com.sun.deploy.util.SystemUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -27,7 +28,13 @@ public class PageObjectManager {
 	public static void init() {
 		if (pageObjectManager == null || pageObjectManager.driver == null) {
 			ConfigFileReader configFileReader = new ConfigFileReader();
-			System.setProperty("webdriver.chrome.driver", "drivers//chromedriver.exe");
+			if (System.getProperty("os.name").contains("Windows")){
+				System.setProperty("webdriver.chrome.driver", "drivers//chromedriver.exe");
+			}
+			else {
+				System.setProperty("webdriver.chrome.driver", "drivers//chromedriver_unix");
+			}
+
 			WebDriver driver = new ChromeDriver();
 			driver.manage().window().maximize();
 			driver.manage().timeouts().implicitlyWait(configFileReader.getImplicitlyWait(), TimeUnit.SECONDS);
