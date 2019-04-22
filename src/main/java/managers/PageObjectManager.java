@@ -26,9 +26,11 @@ public class PageObjectManager {
 		if (pageObjectManager == null || pageObjectManager.driver == null) {
 			ConfigFileReader configFileReader = new ConfigFileReader();
 			if (System.getProperty("os.name").contains("Windows")){
+				System.out.println("Using the chromedriver.exe file");
 				System.setProperty("webdriver.chrome.driver", "drivers//chromedriver.exe");
 			}
 			else {
+				System.out.println("Using the chromedriver_unix file");
 				System.setProperty("webdriver.chrome.driver", "drivers//chromedriver_unix");
 			}
 
@@ -43,8 +45,6 @@ public class PageObjectManager {
 	public static PageObjectManager getManager() {
 		return pageObjectManager;
 	}
-
-
 
 	private PageObjectManager(WebDriver driver) {
 		this.driver = driver;
