@@ -10,6 +10,9 @@ Scenario Outline: Books can be added to basket
     Examples:
     |book_category|number_book|
     |Computers    |1          |
+    |Art          |3          |
+    |Finance      |1          |
+    |Biographies  |2          |
 
 #TC-43
 Scenario Outline: Cds can be added to basket
@@ -20,7 +23,9 @@ Scenario Outline: Cds can be added to basket
     And To basket product count is added 1
     Examples:
     |cd_category|number_cd|
-    |Classical  |1        |
+    |Classical  |2        |
+    |Alternative|4        |
+    |Blues      |1        |
 
 #TC-54
 Scenario Outline: Increasing product count
