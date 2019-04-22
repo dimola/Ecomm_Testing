@@ -1,5 +1,27 @@
 Feature: Shopping basket
 
+#TC-42
+Scenario Outline: Books can be added to basket
+    Given Book category "<book_category>" page is loaded
+    And Book category page is not empty
+    When I click on "Add to basket" of book number <number_book>
+    Then Book number <number_book> is added in the basket
+    And To basket product count is added 1
+    Examples:
+    |book_category|number_book|
+    |Computers    |1          |
+
+#TC-43
+Scenario Outline: Cds can be added to basket
+    Given Cds category "<cd_category>" page is loaded
+    And CD category page is not empty
+    When I click on "Add to basket" of cds number <number_cd>
+    Then CD number <number_cd> is added in the basket
+    And To basket product count is added 1
+    Examples:
+    |cd_category|number_cd|
+    |Classical  |1        |
+
 #TC-54
 Scenario Outline: Increasing product count
     Given One product is already added in the basket
