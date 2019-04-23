@@ -204,6 +204,10 @@ public abstract class CategoryPage extends GeneralPage {
 		}
 	}
 
+	public String getOneProductTitle(int product_number){
+		return this.getAllProductTitles().get(product_number - 1);
+	}
+
 	/*
 	Actions in this page
 	 */
@@ -213,6 +217,12 @@ public abstract class CategoryPage extends GeneralPage {
 
 	public void openProductDetailsPageFromProductList(int productNumber) {
 		this.allProductsTitles.get(productNumber).click();
+	}
+
+	public void addProductToBasket(int product_number){
+		List<WebElement> allAddToBasketButtons = this.allProductsAddToBasketButtons;
+		allAddToBasketButtons.get(product_number - 1).click();
+		//Product number - 1 is to make the counting from user perspective
 	}
 
 	/*

@@ -1,5 +1,55 @@
 Feature: Shopping basket
 
+#TC-42
+Scenario Outline: Books can be added to basket
+    Given Book category "<book_category>" page is loaded
+    And Book category page is not empty
+    When I click on "Add to basket" of book number <number_book>
+    Then Book number <number_book> is added in the basket
+    And To basket product count is added 1
+    Examples:
+    |book_category|number_book|
+    |Computers    |1          |
+    |Art          |3          |
+    |Finance      |1          |
+    |Biographies  |2          |
+
+#TC-43
+Scenario Outline: Cds can be added to basket
+    Given Cds category "<cd_category>" page is loaded
+    And CD category page is not empty
+    When I click on "Add to basket" of cds number <number_cd>
+    Then CD number <number_cd> is added in the basket
+    And To basket product count is added 1
+    Examples:
+    |cd_category|number_cd|
+    |Classical  |2        |
+    |Alternative|4        |
+    |Blues      |1        |
+
+#TC-47, 48
+Scenario Outline: Product "Back to Product list" link is working
+    When I am on a product details page with "<url>" url
+    When I click on "Back to Product list" link
+    Then I am redirected to Product catalog
+    Examples:
+    |url                                                          |
+    |/index.php?page=books&category=books-entertainment&product=15|
+    |/index.php?page=books&category=books-home-garden&product=9   |
+    |/index.php?page=cds&category=cds-childrens-music&product=20  |
+
+#TC-49, 50
+Scenario Outline: Products can be added to basket
+    When I am on a product details page with "<url>" url
+    When I click on "add to basket" button
+    And I go to basket page
+    Then The basket icon in header is displaying the same number of products as in the shopping basket
+    Examples:
+    |url                                                          |
+    |/index.php?page=books&category=books-entertainment&product=15|
+    |/index.php?page=books&category=books-home-garden&product=9   |
+    |/index.php?page=cds&category=cds-childrens-music&product=20  |
+
 #TC-54
 Scenario Outline: Increasing product count
     Given One product is already added in the basket

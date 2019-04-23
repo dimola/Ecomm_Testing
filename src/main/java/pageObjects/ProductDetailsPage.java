@@ -25,7 +25,7 @@ public class ProductDetailsPage extends CategoryPage {
 	@FindBy(css = "#product-details .buy-btn-big")
 	private WebElement addToBasketButton;
 
-	@FindBy(css = "#product-details li")
+	@FindBy(linkText = "Back to Product List")
 	private WebElement backToProductListLink;
 
 	@FindBy(css = "#product-details img")
@@ -133,6 +133,10 @@ public class ProductDetailsPage extends CategoryPage {
 	public ProductDetailsPage openProductDetailsPage(String detailsPageURL) {
 		this.driver.get(configFileReader.getHost() + detailsPageURL);
 		return this;
+	}
+
+	public void buyProduct(){
+		this.addToBasketButton.click();
 	}
 
 	/*

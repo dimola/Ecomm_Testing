@@ -100,6 +100,30 @@ public class Steps {
 		pageObjectManager.getCdsPage().open();
 	}
 
+	@Given("^Book category \"([^\"]*)\" page is loaded$")
+	public void book_category_page_is_loaded(String book_category){
+		pageObjectManager.getBooksCategoryPage().openCategory(book_category);
+	}
+
+	@Given("^Cds category \"([^\"]*)\" page is loaded$")
+	public void cd_category_page_is_loaded(String cd_category){
+		pageObjectManager.getCdsCategoryPage().openCategory(cd_category);
+	}
+
+	@Given("^Book category page is not empty$")
+	public void  book_category_page_is_not_empty(){
+		assertThat(pageObjectManager.getBooksCategoryPage().isCategoryEmpty())
+				.as("Book category \"%s\" is empty.", pageObjectManager.getBooksCategoryPage().getPageTitle())
+				.isFalse();
+	}
+
+	@Given("^CD category page is not empty$")
+	public void  cd_category_page_is_not_empty(){
+		assertThat(pageObjectManager.getCdsCategoryPage().isCategoryEmpty())
+				.as("CD category \"%s\" is empty.", pageObjectManager.getCdsCategoryPage().getPageTitle())
+				.isFalse();
+	}
+
 	/*
 		When statements
 	 */
@@ -298,6 +322,33 @@ public class Steps {
 	@When("^I search cds for more than one of the search criteria at the same time \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\" and \"([^\"]*)\"$")
 	public void i_search_for_certain_cd_by_more_than_one_criteria(String artist, String title, String label, String composer){
 		pageObjectManager.getCdsPage().submit(artist, title, label, composer);
+	}
+
+	@When("^I click on \"Add to basket\" of cds number (-?\\d+)$")
+	public void i_click_on_add_to_basket_button_of_cds_number(int cd_number){
+		productQuantity = pageObjectManager.getCdsCategoryPage().getBasketCounter();
+		pageObjectManager.getCdsCategoryPage().addProductToBasket(cd_number);
+	}
+
+	@When("^I click on \"Add to basket\" of book number (-?\\d+)$")
+	public void i_click_on_add_to_basket_button_of_book_number(int book_number){
+		productQuantity = pageObjectManager.getBooksCategoryPage().getBasketCounter();
+		pageObjectManager.getBooksCategoryPage().addProductToBasket(book_number);
+	}
+
+	@When("^I click on \"Back to Product list\" link$")
+	public void i_click_on_back_to_product_list_link(){
+		pageObjectManager.getProductDetailsPage().backToProductList();
+	}
+
+	@When("^I click on \"add to basket\" button$")
+	public void i_click_on_add_to_basket_button(){
+		pageObjectManager.getProductDetailsPage().buyProduct();
+	}
+
+	@When("^I go to basket page$")
+	public void i_go_to_basket_page(){
+		pageObjectManager.getBasketPage().open();
 	}
 
 	/*
@@ -1002,17 +1053,69 @@ public class Steps {
 				.isEqualTo("There are no CDs matching the search criteria...");
 	}
 
+	@Then("^To basket product count is added 1$")
+	public void to_basket_product_count_is_added_one(){
+		assertThat(pageObjectManager.getHomePage().getBasketCounter())
+				.as("Previous ")
+				.isEqualTo(productQuantity + 1);
+	}
+
+	@Then("^Book number (-?\\d+) is added in the basket$")
+	public void book_number_is_added_in_the_basket(int book_number){
+		boolean basketHasProduct = false;
+		String productName = pageObjectManager.getBooksCategoryPage().getOneProductTitle(book_number);
+		pageObjectManager.getBasketPage().open();
+		int productCount = pageObjectManager.getBasketPage().getProductsCount();
+		for (int i = 1; i <= productCount; i++){
+			String  basketProductTitle = pageObjectManager.getBasketPage().getBasketProductTitle(i);
+			if (basketProductTitle.equals(productName)){
+				basketHasProduct = true;
+			}
+		}
+		assertThat(basketHasProduct)
+				.as("Basket doesn't contain book number %d", book_number)
+				.isTrue();
+	}
+
+	@Then("^CD number (-?\\d+) is added in the basket$")
+	public void cd_number_is_added_in_the_basket(int cd_number){
+		boolean basketHasProduct = false;
+		String productName = pageObjectManager.getCdsCategoryPage().getOneProductTitle(cd_number);
+		pageObjectManager.getBasketPage().open();
+		int productCount = pageObjectManager.getBasketPage().getProductsCount();
+		for (int i = 1; i <= productCount; i++){
+			String  basketProductTitle = pageObjectManager.getBasketPage().getBasketProductTitle(i);
+			if (basketProductTitle.equals(productName)){
+				basketHasProduct = true;
+			}
+		}
+		assertThat(basketHasProduct)
+				.as("Basket doesn't contain cd number %d", cd_number)
+				.isTrue();
+	}
+
+	@Then("^I am redirected to Product catalog$")
+	public void i_am_redirected_to_product_catalog(){
+		assertThat(pageObjectManager.getBooksCategoryPage().getAllProductTitles())
+				.as("There are no products on this page.")
+				.isNotNull()
+				.isNotEmpty();
+		assertThat(pageObjectManager.getBooksCategoryPage().getPageTitle())
+				.as("You are not on category page")
+				.matches("(Books|CDs).*");
+	}
+
 	/*
 		Before and after statements
 	 */
 	@Before
-	public void init() {
+	public void init(){
 		PageObjectManager.init();
 		pageObjectManager = PageObjectManager.getManager();
 	}
 
 	@After
-	public void cleanUp() {
+	public void cleanUp(){
 		productQuantity = 0;
 		pageObjectManager.quit();
 	}

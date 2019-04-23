@@ -33,6 +33,9 @@ public class BasketPage extends GeneralPage {
 	@FindBy(css = "#main-big-col .big-btn")
 	private WebElement checkoutButton;
 
+	@FindBy(className ="basket-caption")
+	private List<WebElement> allBasketProductTitles;
+
 	public BasketPage(WebDriver driver) {
 		super(driver);
 	}
@@ -126,6 +129,29 @@ public class BasketPage extends GeneralPage {
 			return 0;
 		}
 	}
+
+	public String getBasketProductTitle(int product_number){
+		try{
+			String productName = this.allBasketProductTitles.get(product_number - 1).getText();
+			return productName;
+		} catch (Throwable e){
+			System.out.println("No products in basket");
+			return null;
+		}
+	}
+
+	public List<String> getBasketAllProductTitles(){
+		try{
+			List<String> allProductTitles = new ArrayList<>();
+			for(int i = 0; i < this.allBasketProductTitles.size(); i++){
+				allProductTitles.add(allBasketProductTitles.get(i).getText());
+			}
+			return allProductTitles;
+		} catch (Throwable e){
+			return null;
+		}
+	}
+
 	/*
 	Actions in this page
 	 */
