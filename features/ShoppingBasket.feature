@@ -27,6 +27,28 @@ Scenario Outline: Cds can be added to basket
     |Alternative|4        |
     |Blues      |1        |
 
+#TC-47, 48
+Scenario Outline: Product "Back to Product list" link is working
+    When I am on a product details page with "<url>" url
+    When I click on "Back to Product list" link
+    Then I am redirected to Product catalog
+    Examples:
+    |url                                                          |
+    |/index.php?page=books&category=books-entertainment&product=15|
+    |/index.php?page=books&category=books-home-garden&product=9   |
+    |/index.php?page=cds&category=cds-childrens-music&product=20  |
+
+#TC-49, 50
+Scenario Outline: Products can be added to basket
+    When I am on a product details page with "<url>" url
+    When I click on "add to basket" button
+    Then The basket icon in header is displaying the same number of products as in the shopping basket
+    Examples:
+    |url                                                          |
+    |/index.php?page=books&category=books-entertainment&product=15|
+    |/index.php?page=books&category=books-home-garden&product=9   |
+    |/index.php?page=cds&category=cds-childrens-music&product=20  |
+
 #TC-54
 Scenario Outline: Increasing product count
     Given One product is already added in the basket

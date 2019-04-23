@@ -336,6 +336,16 @@ public class Steps {
 		pageObjectManager.getBooksCategoryPage().addProductToBasket(book_number);
 	}
 
+	@When("^I click on \"Back to Product list\" link$")
+	public void i_click_on_back_to_product_list_link(){
+		pageObjectManager.getProductDetailsPage().backToProductList();
+	}
+
+	@When("^I click on \"add to basket\" button$")
+	public void i_click_on_add_to_basket_button(){
+		pageObjectManager.getProductDetailsPage().buyProduct();
+	}
+
 	/*
 		Then statements
 	 */
@@ -1079,17 +1089,28 @@ public class Steps {
 				.isTrue();
 	}
 
+	@Then("^I am redirected to Product catalog$")
+	public void i_am_redirected_to_product_catalog(){
+		assertThat(pageObjectManager.getBooksCategoryPage().getAllProductTitles())
+				.as("There are no products on this page.")
+				.isNotNull()
+				.isNotEmpty();
+		assertThat(pageObjectManager.getBooksCategoryPage().getPageTitle())
+				.as("You are not on category page")
+				.matches("(Books|CDs).*");
+	}
+
 	/*
 		Before and after statements
 	 */
 	@Before
-	public void init() {
+	public void init(){
 		PageObjectManager.init();
 		pageObjectManager = PageObjectManager.getManager();
 	}
 
 	@After
-	public void cleanUp() {
+	public void cleanUp(){
 		productQuantity = 0;
 		pageObjectManager.quit();
 	}
