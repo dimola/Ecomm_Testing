@@ -346,6 +346,11 @@ public class Steps {
 		pageObjectManager.getProductDetailsPage().buyProduct();
 	}
 
+	@When("^I go to basket page$")
+	public void i_go_to_basket_page(){
+		pageObjectManager.getBasketPage().open();
+	}
+
 	/*
 		Then statements
 	 */

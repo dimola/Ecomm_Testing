@@ -42,6 +42,7 @@ Scenario Outline: Product "Back to Product list" link is working
 Scenario Outline: Products can be added to basket
     When I am on a product details page with "<url>" url
     When I click on "add to basket" button
+    And I go to basket page
     Then The basket icon in header is displaying the same number of products as in the shopping basket
     Examples:
     |url                                                          |
