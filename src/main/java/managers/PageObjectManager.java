@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import dataProviders.ConfigFileReader;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import pageObjects.*;
 
 public class PageObjectManager {
@@ -25,6 +26,7 @@ public class PageObjectManager {
 	public static void init() {
 		if (pageObjectManager == null || pageObjectManager.driver == null) {
 			ConfigFileReader configFileReader = new ConfigFileReader();
+			/*
 			if (System.getProperty("os.name").contains("Windows")){
 				System.out.println("Using the chromedriver.exe file");
 				System.setProperty("webdriver.chrome.driver", "drivers//chromedriver.exe");
@@ -33,8 +35,10 @@ public class PageObjectManager {
 				System.out.println("Using the chromedriver_unix file");
 				System.setProperty("webdriver.chrome.driver", "drivers//chromedriver_unix");
 			}
+			 */
 
-			WebDriver driver = new ChromeDriver();
+			//System.setProperty("webdriver.chrome.driver", "drivers//chromedriver.exe");
+			WebDriver driver = new HtmlUnitDriver();
 			driver.manage().window().maximize();
 			driver.manage().timeouts().implicitlyWait(configFileReader.getImplicitlyWait(), TimeUnit.SECONDS);
 
