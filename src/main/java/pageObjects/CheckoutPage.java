@@ -242,12 +242,16 @@ public class CheckoutPage extends GeneralPage{
 
     public void confirmPurchase(){
         this.confirmPurchaseButton.click();
-        driver.switchTo().alert().accept();
+        if (System.getProperty("os.name").contains("Windows")){
+            driver.switchTo().alert().accept();
+        }
     }
 
     public void cancelPurchase(){
         this.cancelPurchaseButton.click();
-        driver.switchTo().alert().accept();
+        if (System.getProperty("os.name").contains("Windows")){
+            driver.switchTo().alert().accept();
+        }
     }
 
     public void clickGoToHomeButton(){
