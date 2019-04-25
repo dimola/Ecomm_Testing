@@ -27,6 +27,6 @@ node{
         sh '''cd target/site
         mkdir artifacts
         tar -zcvf artifacts/JunitReport.tar.gz --exclude=./artifacts .'''
-        archive 'target/site/JunitReport.tar.gz'
+        archive 'target/site/artifacts/JunitReport.tar.gz'
     }
 }
