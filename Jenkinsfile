@@ -17,6 +17,16 @@ node{
         echo "End of test execution"
     }
     stage("Create report"){
-        echo "Create report TBD"
+        echo "Create report"
+        sh 'mvn surefire-report:report-only'
+        sh 'mvn site -DgenerateReports=false'
+    }
+
+    stage("Archive artifacts"){
+        echo "Creating the archive files"
+        sh 'cd target/site
+        mkdir artifacts
+        tar -zcvf artifacts/JunitReport_${BUILD_NUMBER}.tar.gz --exclude=./artifacts .'
+        archive 'target/site/JunitReport_${BUILD_NUMBER}.tar.gz'
     }
 }
