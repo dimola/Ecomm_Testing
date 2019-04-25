@@ -26,7 +26,7 @@ node{
         echo "Creating the archive files"
         sh '''cd target/site
         mkdir artifacts
-        tar -zcvf artifacts/JunitReport_${BUILD_NUMBER}.tar.gz --exclude=./artifacts .'
-        archive 'target/site/JunitReport_${BUILD_NUMBER}.tar.gz'''
+        tar -zcvf artifacts/JunitReport_${BUILD_NUMBER}.tar.gz --exclude=./artifacts .'''
+        archive 'target/site/JunitReport_${BUILD_NUMBER}.tar.gz'
     }
 }
