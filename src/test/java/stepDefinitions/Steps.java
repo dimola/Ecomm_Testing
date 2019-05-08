@@ -111,17 +111,22 @@ public class Steps {
 	}
 
 	@Given("^Book category page is not empty$")
-	public void  book_category_page_is_not_empty(){
+	public void book_category_page_is_not_empty(){
 		assertThat(pageObjectManager.getBooksCategoryPage().isCategoryEmpty())
 				.as("Book category \"%s\" is empty.", pageObjectManager.getBooksCategoryPage().getPageTitle())
 				.isFalse();
 	}
 
 	@Given("^CD category page is not empty$")
-	public void  cd_category_page_is_not_empty(){
+	public void cd_category_page_is_not_empty(){
 		assertThat(pageObjectManager.getCdsCategoryPage().isCategoryEmpty())
 				.as("CD category \"%s\" is empty.", pageObjectManager.getCdsCategoryPage().getPageTitle())
 				.isFalse();
+	}
+
+	@Given("^I am on the Edit Profile page$")
+	public void i_am_on_edit_profile_page(){
+		pageObjectManager.getEditProfilePage().open();
 	}
 
 	/*
@@ -349,6 +354,54 @@ public class Steps {
 	@When("^I go to basket page$")
 	public void i_go_to_basket_page(){
 		pageObjectManager.getBasketPage().open();
+	}
+
+	@When("^I fill in all form fields with random valid data$")
+	public void i_fill_in_all_form_fields_with_random_valid_data(){
+		String email = pageObjectManager.getEditProfilePage().createRandomValidEmail();
+		String name = pageObjectManager.getEditProfilePage().createRandomValidName();
+		String phone = pageObjectManager.getEditProfilePage().createRandomValidPhone();
+		String address = pageObjectManager.getEditProfilePage().createRandomValidAddress();
+
+		pageObjectManager.getEditProfilePage().enterEmail(email);
+		pageObjectManager.getEditProfilePage().enterName(name);
+		pageObjectManager.getEditProfilePage().enterPhone(phone);
+		pageObjectManager.getEditProfilePage().enterAddress(address);
+	}
+
+	@When("^I fill in all form fields without \"([^\"]*)\" field$")
+	public void i_fill_in_all_form_fields_without_one_field(String emptyFieldName){
+		String email = "";
+		String name = "";
+		String phone = "";
+		String address = "";
+
+		if (!emptyFieldName.equals("email")){
+			email = email.concat(pageObjectManager.getEditProfilePage().createRandomValidEmail());
+		}
+
+		if (!emptyFieldName.equals("name")){
+			name = name.concat(pageObjectManager.getEditProfilePage().createRandomValidName());
+		}
+
+		if (!emptyFieldName.equals("phone")){
+			phone = phone.concat(pageObjectManager.getEditProfilePage().createRandomValidPhone());
+		}
+
+		if (!emptyFieldName.equals("name")){
+			address = address.concat(pageObjectManager.getEditProfilePage().createRandomValidAddress());
+		}
+
+		pageObjectManager.getEditProfilePage().enterEmail(email);
+		pageObjectManager.getEditProfilePage().enterName(name);
+		pageObjectManager.getEditProfilePage().enterPhone(phone);
+		pageObjectManager.getEditProfilePage().enterAddress(address);
+
+	}
+
+	@When("^I submit the edit profile form$")
+	public void i_submit_the_edit_profile_form(){
+		pageObjectManager.getEditProfilePage().clickSubmitButton();
 	}
 
 	/*
@@ -1103,6 +1156,25 @@ public class Steps {
 		assertThat(pageObjectManager.getBooksCategoryPage().getPageTitle())
 				.as("You are not on category page")
 				.matches("(Books|CDs).*");
+	}
+
+	@Then("^I am redirected to page with confirmation message \"([^\"]*)\"$")
+	public void i_am_redirected_to_page_with_confirmation_message(String successMsg){
+		assertThat(pageObjectManager.getEditProfilePage().getPageTitle())
+				.as("You are on the wrong page")
+				.isEqualTo("Edit Profile");
+
+		assertThat(pageObjectManager.getEditProfilePage().getSuccessMessage())
+				.as("Message not correct.")
+				.isNotNull()
+				.isEqualTo(successMsg);
+	}
+
+	@Then("^An error message with following text is displayed: \"([^\"]*)\"$")
+	public void an_error_message_with_following_text_is_displayed(String errorMsg){
+		assertThat(pageObjectManager.getEditProfilePage().getErrorMessage())
+				.as("Wrong error message")
+				.contains(errorMsg);
 	}
 
 	/*

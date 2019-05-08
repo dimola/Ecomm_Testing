@@ -20,6 +20,7 @@ public class PageObjectManager {
 	private ProductDetailsPage productDetailsPage;
 	private BasketPage basketPage;
 	private CheckoutPage checkoutPage;
+	private EditProfilePage editProfilePage;
 
 	private static PageObjectManager pageObjectManager;
 
@@ -91,6 +92,10 @@ public class PageObjectManager {
 
 	public CheckoutPage getCheckoutPage() {
 		return (checkoutPage == null) ? checkoutPage = new CheckoutPage(driver) : checkoutPage;
+	}
+
+	public EditProfilePage getEditProfilePage(){
+		return (editProfilePage == null) ? editProfilePage = new EditProfilePage(driver) : editProfilePage;
 	}
 	
 	public void quit() {
